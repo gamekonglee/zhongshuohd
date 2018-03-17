@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:background="@mipmap/bg_home"
+    tools:context="bc.juhaohd.com.ui.activity.MainNewActivity">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+<LinearLayout
+    android:background="#10ffffff"
+    android:layout_width="@dimen/xx339"
+    android:gravity="center_horizontal"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_title"
+        android:text="空间"
+        android:visibility="gone"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss48"
+        android:layout_marginTop="@dimen/xx41"
+        android:layout_marginBottom="@dimen/xx18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <RelativeLayout
+        android:id="@+id/rl_search"
+        android:layout_width="@dimen/xx200"
+        android:layout_margin="15dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/xx5"
+        android:background="@drawable/bg_corner_white_10"
+        android:layout_height="@dimen/xx60">
+        <TextView
+            android:textColor="#fff"
+            android:textSize="@dimen/ss36"
+            android:id="@+id/et_search"
+            android:background="@null"
+            android:hint="搜索"
+            android:gravity="center"
+            android:textColorHint="#ffffff"
+            android:paddingLeft="@dimen/xx30"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/xx54"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/iv_search"
+            android:src="@mipmap/icon_search"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/xx38"
+            android:layout_height="@dimen/xx38" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="@dimen/xx200"
+        android:layout_margin="15dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="@dimen/xx5"
+        android:background="@drawable/bg_corner_white_10"
+        android:layout_height="@dimen/xx60">
+        <ImageView
+            android:src="@mipmap/icon_filter"
+            android:layout_centerVertical="true"
+            android:layout_width="@dimen/xx38"
+            android:layout_height="@dimen/xx38" />
+    <TextView
+        android:id="@+id/tv_select_choose"
+        android:text="筛选"
+        android:textSize="@dimen/ss36"
+        android:paddingLeft="@dimen/xx30"
+        android:textColor="#ffffff"
+        android:layout_marginLeft="@dimen/xx54"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <ListView
+        android:id="@+id/lv_type"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
+    <LinearLayout
+        android:background="#44000000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tv_current_select"
+                android:text="全部"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/ss54"
+                android:layout_marginTop="@dimen/xx67"
+                android:layout_marginLeft="@dimen/xx60"
+                android:layout_marginBottom="@dimen/xx44"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_none_sort"
+                android:text="综合排序"
+                android:textSize="@dimen/ss36"
+                android:layout_marginLeft="@dimen/xx318"
+                android:layout_marginTop="@dimen/xx73"
+                android:layout_marginBottom="@dimen/xx50"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/new_tv"
+                android:text="新品"
+                android:textSize="@dimen/ss36"
+                android:layout_marginTop="@dimen/xx73"
+                android:layout_marginBottom="@dimen/xx50"
+                android:layout_marginLeft="@dimen/xx48"
+                android:textColor="#ff5500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/hot_tv"
+                android:text="热销"
+                android:textSize="@dimen/ss36"
+                android:layout_marginTop="@dimen/xx73"
+                android:layout_marginBottom="@dimen/xx50"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="@dimen/xx48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/competitive_tv"
+                android:text="人气"
+                android:textSize="@dimen/ss36"
+                android:layout_marginTop="@dimen/xx73"
+                android:layout_marginBottom="@dimen/xx50"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="@dimen/xx48"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.lib.common.hxp.view.PullToRefreshLayout
+                android:id="@+id/mFilterContentView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+
+                <include layout="@layout/refresh_head" />
+                <!-- 支持所有实现Pullable接口的View -->
+
+                <com.lib.common.hxp.view.PullableGridView
+                    android:id="@+id/gridView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:numColumns="4"
+                    android:paddingLeft="@dimen/xx60"
+                    android:paddingRight="@dimen/xx60"
+                    android:paddingTop="@dimen/xx5"
+                    android:scrollbars="none"
+                    android:background="@android:color/transparent"
+                    android:verticalSpacing="@dimen/xx20"
+                    android:horizontalSpacing="@dimen/xx20"
+                    />
+                <include layout="@layout/load_more" />
+
+            </com.lib.common.hxp.view.PullToRefreshLayout>
+            <ProgressBar
+                android:id="@+id/pd"
+                android:layout_marginTop="@dimen/xx30"
+                style="@style/Base.Widget.AppCompat.ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:visibility="invisible" />
+            <ImageView
+                android:id="@+id/top_iv"
+                android:layout_width="@dimen/xx120"
+                android:layout_height="@dimen/xx120"
+                android:src="@mipmap/top_iv"
+                android:layout_gravity="right|bottom"
+                android:layout_marginBottom="@dimen/xx200"
+                android:layout_marginRight="@dimen/xx60"
+                android:visibility="visible"
+                />
+        </FrameLayout>
+
+    </LinearLayout>
+</LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_filter"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:id="@+id/view_diss2"
+            android:layout_width="@dimen/xx339"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:background="#fff"
+            android:layout_width="@dimen/xx1580"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+            <ListView
+                android:id="@+id/lv_fitler"
+                android:layout_width="@dimen/xx1580"
+                android:divider="#cccccc"
+                android:dividerHeight="1dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/xx100"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_reset"
+                    android:text="重置"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/ss36"
+                    android:background="#ff9000"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:id="@+id/tv_ensure"
+                    android:text="确定"
+                    android:background="@color/orange_theme"
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/ss36"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/view_diss"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_back"
+        android:onClick="goBack"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/xx60"
+        android:src="@mipmap/share_iv"
+        android:layout_width="@dimen/xx120"
+        android:layout_height="@dimen/xx120" />
+</RelativeLayout>

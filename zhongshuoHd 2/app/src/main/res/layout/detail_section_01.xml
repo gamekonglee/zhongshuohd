@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xx400"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/xx10"
+        android:paddingRight="@dimen/xx10"
+        android:background="@android:color/transparent"
+        >
+    <RelativeLayout
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:background="@android:color/transparent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:text=""
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xx10"
+            android:textSize="@dimen/ss27"
+            android:layout_marginLeft="@dimen/xx10"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:layout_marginBottom="@dimen/xx5"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text=""
+                android:id="@+id/proPriceTv"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/xx60"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/ss48"
+                android:layout_marginLeft="@dimen/xx10"
+                android:textColor="#ff9000"/>
+            <TextView
+                android:id="@+id/old_price"
+                android:textSize="@dimen/ss36"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="@dimen/xx15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+
+        <com.lib.common.hxp.view.ListViewForScrollView
+            android:id="@+id/properties_lv"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            >
+
+        </com.lib.common.hxp.view.ListViewForScrollView>
+        <View
+            android:layout_marginTop="1dp"
+            style="@style/view_style"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="@dimen/xx10"
+            android:layout_marginRight="@dimen/xx10"
+            />
+
+        <com.lib.common.hxp.view.ListViewForScrollView
+            android:id="@+id/parameter_lv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx200"
+            android:background="@android:color/transparent"
+            android:horizontalSpacing="@dimen/xx15"
+            android:numColumns="2"
+            android:paddingLeft="@dimen/xx15"
+            android:paddingRight="@dimen/xx15"
+            android:paddingTop="@dimen/xx5"
+            android:scrollbars="none"
+            android:verticalSpacing="@dimen/xx15"/>
+        <LinearLayout
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx60"
+            android:visibility="gone"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/xx10">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="数量:  "
+                android:visibility="gone"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="@dimen/xx10"
+                android:textSize="@dimen/ss20"/>
+            <include
+                android:layout_marginLeft="@dimen/xx15"
+                android:id="@+id/number_input_et"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                layout="@layout/number_input_et_new"
+                android:layout_centerVertical="true"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginLeft="@dimen/xx15"
+                android:layout_marginTop="@dimen/xx15"
+                android:id="@+id/tv_stock"
+                android:textSize="@dimen/ss30"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/iv_code"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="@dimen/xx164"
+        android:layout_marginBottom="@dimen/xx200"
+        android:layout_marginRight="@dimen/xx60"
+        android:layout_height="@dimen/xx164" />
+    <TextView
+        android:textSize="@dimen/ss24"
+        android:textColor="#ffffff"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/xx70"
+        android:layout_marginBottom="@dimen/xx150"
+        android:text="分享给好友"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
+
+    </LinearLayout>

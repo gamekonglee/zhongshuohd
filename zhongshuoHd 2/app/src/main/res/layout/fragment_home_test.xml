@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+
+        android:layout_width="@dimen/xx360"
+        android:layout_height="@dimen/xx588">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_360"
+            style="@style/tv_home_text"
+            android:layout_width="@dimen/xx360"
+            android:layout_height="@dimen/xx588" />
+
+
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx56"
+            android:layout_marginBottom="@dimen/xx10"
+            >
+            <TextView
+                android:text="360展厅"
+                android:visibility="gone"
+                android:id="@+id/tv_360"
+                style="@style/tv_home_text"
+                android:layout_alignParentBottom="true"
+                />
+        </LinearLayout>>
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="@dimen/xx320"
+            android:layout_height="@dimen/xx279"
+            >
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:layout_width="@dimen/xx320"
+                android:layout_height="@dimen/xx279"
+                android:id="@+id/iv_screen"
+                android:gravity="bottom|center"
+                />
+            <TextView
+                android:id="@+id/tv_screen"
+                style="@style/tv_home_text"
+                android:gravity="bottom|center"
+                android:visibility="gone"
+                android:text="场景库" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/xx30"
+            android:layout_width="@dimen/xx320"
+            android:layout_height="@dimen/xx279"
+            >
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_temai"
+                android:background="@mipmap/icon_zs_temai"
+                android:layout_width="@dimen/xx320"
+                android:layout_height="@dimen/xx279"
+                android:gravity="bottom|center"
+                />
+            <TextView
+                android:id="@+id/tv_temai"
+                style="@style/tv_home_text"
+                android:gravity="bottom|center"
+                android:visibility="gone"
+                android:text="特卖区" />
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_juhao"
+            android:text="钜豪超市"
+            android:visibility="gone"
+            android:layout_width="@dimen/xx300"
+            android:layout_height="@dimen/xx300"
+            style="@style/tv_home_text"
+            />
+        </LinearLayout>
+<LinearLayout
+    android:layout_marginTop="@dimen/xx30"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="@dimen/xx320"
+        android:layout_height="@dimen/xx279">
+        <ImageView
+            android:id="@+id/iv_solution"
+            android:layout_width="@dimen/xx320"
+            android:layout_height="@dimen/xx279" />
+        <TextView
+            android:id="@+id/tv_solution"
+            android:layout_width="@dimen/xx320"
+            android:layout_height="@dimen/xx279"
+            style="@style/tv_home_text"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx320"
+        android:layout_height="@dimen/xx279">
+    <ImageView
+        android:id="@+id/iv_match"
+        android:layout_width="@dimen/xx320"
+        android:layout_height="@dimen/xx279" />
+    <TextView
+        android:id="@+id/tv_match"
+        android:layout_width="@dimen/xx320"
+        android:layout_height="@dimen/xx279"
+        style="@style/tv_home_text" />
+    </RelativeLayout>
+</LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_buytime"
+            android:text="限时购"
+            android:visibility="gone"
+            android:layout_width="@dimen/xx300"
+            android:layout_height="@dimen/xx300"
+            style="@style/tv_home_text" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="@dimen/xx320"
+                android:layout_height="@dimen/xx279">
+                <ImageView
+                    android:id="@+id/iv_audio"
+                    android:layout_width="@dimen/xx320"
+                    android:layout_height="@dimen/xx279" />
+                <TextView
+                    android:id="@+id/tv_audio"
+                    android:layout_width="@dimen/xx320"
+                    android:layout_height="@dimen/xx279"
+                    style="@style/tv_home_text"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/xx30"
+                android:layout_width="@dimen/xx320"
+                android:layout_height="@dimen/xx279">
+            <ImageView
+                android:id="@+id/iv_cart"
+                android:layout_width="@dimen/xx320"
+                android:layout_height="@dimen/xx279" />
+            <TextView
+                android:id="@+id/tv_cart"
+                android:layout_width="@dimen/xx320"
+                android:layout_height="@dimen/xx279"
+                style="@style/tv_home_text" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+
+            android:layout_width="@dimen/xx670"
+            android:layout_height="@dimen/xx279"
+            android:layout_marginTop="@dimen/xx30"
+            >
+
+            <ImageView
+                android:id="@+id/iv_qr_code"
+                android:layout_width="@dimen/xx670"
+                android:layout_height="@dimen/xx279"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true" />
+            <ImageView
+                android:id="@+id/iv_code"
+                android:layout_width="@dimen/xx180"
+                android:layout_height="@dimen/xx180"
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/xx30"
+                android:src="@drawable/bg_default" />
+
+            <TextView
+                android:id="@+id/tv01"
+                android:layout_marginTop="@dimen/xx100"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/xx160"
+                android:text="扫码安装众烁云仓APP"
+                android:textColor="#FFFFFFFF"
+                android:textSize="@dimen/ss30" />
+
+            <TextView
+                android:id="@+id/tv_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/tv01"
+                android:layout_marginTop="@dimen/xx30"
+                android:layout_alignLeft="@+id/tv01"
+                android:text=""
+                android:textColor="#FFFFFFFF"
+                android:textSize="@dimen/ss30" />
+
+        </RelativeLayout>
+</LinearLayout>
+    </LinearLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/xx500"
+    android:background="@android:color/transparent"
+    android:layout_height="wrap_content">
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/xx500"
+    android:layout_marginTop="@dimen/xx70"
+    android:background="@android:color/transparent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:background="@mipmap/bg_up_date"
+        android:layout_width="@dimen/xx500"
+        android:layout_height="@dimen/xx196">
+        <View
+            android:background="#fff"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx50"/>
+        <RelativeLayout
+            android:background="@mipmap/update_top"
+            android:layout_width="@dimen/xx500"
+            android:layout_height="@dimen/xx196">
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/xx80"
+                android:text="发现新版本"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/ss30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/iv_close"
+                android:layout_alignParentRight="true"
+                android:layout_margin="@dimen/xx24"
+                android:src="@mipmap/icon_close"
+                android:layout_width="@dimen/xx30"
+                android:visibility="gone"
+                android:layout_height="@dimen/xx30" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+        <TextView
+            android:background="#ffffff"
+            android:id="@+id/tv_update_info"
+            android:textSize="@dimen/ss24"
+            android:textColor="#444444"
+            android:padding="@dimen/xx30"
+            android:lineSpacingExtra="@dimen/xx15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal">
+       <Button
+
+           android:id="@+id/btn_dismiss"
+           android:text="跳过"
+           android:textColor="#ffffff"
+           android:textSize="@dimen/ss30"
+           android:background="@mipmap/update_dimiss"
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="@dimen/xx60" />
+       <Button
+           android:id="@+id/btn_upgrate"
+           android:text="更新"
+           android:textColor="#ffffff"
+           android:textSize="@dimen/ss30"
+           android:background="@mipmap/update_ensure"
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="@dimen/xx60" />
+   </LinearLayout>
+</LinearLayout>
+    <ImageView
+        android:src="@mipmap/update_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/xx160"
+        android:layout_height="@dimen/xx141" /></RelativeLayout>

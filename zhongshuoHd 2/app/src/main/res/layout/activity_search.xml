@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_home"
+    tools:context="bc.juhaohd.com.ui.activity.SearchActivity">
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:src="@mipmap/icon_left_arrow"
+        android:layout_width="@dimen/xx44"
+        android:layout_margin="@dimen/xx80"
+        android:layout_height="@dimen/xx80" />
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:src="@mipmap/logo_search"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/xx200"
+        android:layout_width="@dimen/xx290"
+        android:layout_height="@dimen/xx130" />
+    <LinearLayout
+        android:layout_marginLeft="@dimen/xx460"
+        android:layout_below="@+id/iv_logo"
+        android:layout_width="@dimen/xx1000"
+        android:layout_height="@dimen/xx80"
+        android:layout_marginTop="@dimen/xx40"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="@dimen/xx820"
+            android:background="@drawable/bg_corner_left_white"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:src="@mipmap/icon_search"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/xx30"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/et_search"
+                android:hint="搜索关键词"
+                android:textColorHint="#aaaaaa"
+                android:textSize="@dimen/ss36"
+                android:background="@null"
+                android:layout_marginRight="@dimen/xx30"
+                android:layout_width="0dp"
+                android:paddingLeft="@dimen/xx30"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+            <TextView
+                android:id="@+id/tv_search"
+                android:text="搜索"
+                android:textSize="@dimen/ss36"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:background="@drawable/bg_corner_right_orange"
+                android:layout_width="@dimen/xx180"
+                android:layout_height="match_parent" />
+    </LinearLayout>
+</RelativeLayout>

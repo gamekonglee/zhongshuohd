@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+   <include layout="@layout/head"/>
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="@dimen/xx290"
+        android:layout_height="@dimen/xx588">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_dd"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx588"/>
+
+        <TextView
+            android:id="@+id/tv_diaodeng"
+            android:text="吊灯"
+            android:visibility="invisible"
+            style="@style/tv_home_text"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx588"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx290"
+        android:layout_height="@dimen/xx588">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_xdd"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx588"/>
+
+        <TextView
+            android:id="@+id/tv_xidingdeng"
+            android:text="吸顶灯"
+            style="@style/tv_home_text"
+            android:visibility="invisible"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx588"/>
+
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx290"
+        android:layout_height="@dimen/xx588"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx279">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_td"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279"/>
+
+            <TextView
+                android:id="@+id/tv_taideng"
+                android:text="台灯"
+                android:visibility="invisible"
+                style="@style/tv_home_text"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx279">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_bd"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279"/>
+
+
+            <TextView
+                android:id="@+id/tv_bideng"
+                style="@style/tv_home_text"
+                android:layout_marginTop="@dimen/xx30"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279"/>
+        <TextView
+            android:text="壁灯"
+            android:paddingBottom="@dimen/xx10"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:gravity="bottom|center"
+            android:textColor="#ffffff"
+            android:visibility="invisible"
+            android:textSize="24sp"
+            android:background="@drawable/bg_corner_trans_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx56"/>
+        </RelativeLayout>
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx290"
+        android:layout_height="@dimen/xx588">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_ldd"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx588"/>
+
+
+        <TextView
+            android:id="@+id/tv_luodideng"
+            style="@style/tv_home_text"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx588" />
+        <TextView
+            android:text="落地灯"
+            android:paddingBottom="@dimen/xx10"
+            android:orientation="vertical"
+            android:visibility="invisible"
+            android:layout_gravity="bottom"
+            android:gravity="bottom|center"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:background="@drawable/bg_corner_trans_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx56"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx290"
+        android:layout_height="@dimen/xx588"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx279">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_jqd"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279"/>
+
+
+            <TextView
+                android:id="@+id/tv_shangyezhaoming"
+                android:text="镜前灯"
+                style="@style/tv_home_text"
+                android:visibility="invisible"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx290"
+            android:layout_height="@dimen/xx279">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_qb"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279"/>
+
+            <TextView
+                android:id="@+id/tv_quanbu"
+                android:text="全部"
+                style="@style/tv_home_text"
+                android:visibility="invisible"
+                android:layout_width="@dimen/xx290"
+                android:layout_height="@dimen/xx279" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
+    </LinearLayout>

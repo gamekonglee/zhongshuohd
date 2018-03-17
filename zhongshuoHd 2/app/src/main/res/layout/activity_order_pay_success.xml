@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@mipmap/bg_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<ImageView
+    android:layout_marginTop="@dimen/xx220"
+    android:src="@mipmap/icon_cart_pay_success"
+    android:layout_width="@dimen/xx260"
+    android:layout_height="@dimen/xx260" />
+    <TextView
+        android:layout_marginTop="@dimen/xx42"
+        android:text="付款已成功"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss64"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+<LinearLayout
+    android:layout_marginTop="@dimen/xx80"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/tv_turn_back_toHome"
+        android:text="返回首页"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss54"
+        android:paddingLeft="@dimen/xx38"
+        android:paddingRight="@dimen/xx38"
+        android:paddingBottom="@dimen/xx12"
+        android:gravity="center"
+        android:paddingTop="@dimen/xx12"
+        android:background="@drawable/bg_corner_white_500"
+        android:layout_width="@dimen/xx450"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_order_detail"
+        android:text="查看订单状态"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss54"
+        android:layout_marginLeft="@dimen/xx80"
+        android:background="@drawable/bg_corner_white_500"
+        android:paddingLeft="@dimen/xx38"
+        android:gravity="center"
+        android:paddingRight="@dimen/xx38"
+        android:paddingBottom="@dimen/xx12"
+        android:paddingTop="@dimen/xx12"
+        android:layout_width="@dimen/xx450"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+</LinearLayout>

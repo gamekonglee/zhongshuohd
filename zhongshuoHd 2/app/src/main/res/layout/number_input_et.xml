@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/xx60"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:text="-"
+        android:id="@+id/leftTv"
+        android:layout_width="@dimen/xx60"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/xx5"
+        android:textColor="#999999"
+        android:textSize="@dimen/ss42"
+        android:background="#efefef"
+        />
+        <!--android:src="@mipmap/decrease_count"  -->
+        <!--/>-->
+
+    <EditText
+        android:id="@+id/et_num"
+        android:layout_width="@dimen/xx80"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:inputType="number"
+        android:background="@drawable/bg_corner_efefef_0"
+        android:focusable="false"
+        android:text="1" />
+    <!--android:background="@drawable/number_input_et_bg"-->
+    <TextView
+        android:id="@+id/rightTv"
+        android:text="+"
+        android:textColor="#999999"
+        android:paddingBottom="@dimen/xx5"
+        android:textSize="@dimen/ss42"
+        android:gravity="center_horizontal"
+        android:background="#efefef"
+        android:layout_width="@dimen/xx60"
+        android:layout_height="match_parent"
+/>
+        <!--android:src="@mipmap/increase_count" -->
+        <!--/>-->
+
+</LinearLayout>

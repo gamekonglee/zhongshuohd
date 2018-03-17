@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@mipmap/bg_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<TextView
+    android:text="登录"
+    android:textColor="#ffffff"
+    android:textSize="@dimen/ss48"
+    android:layout_marginTop="@dimen/xx90"
+    android:layout_marginLeft="@dimen/xx90"
+    android:layout_marginBottom="@dimen/xx60"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+        <ImageView
+            android:src="@mipmap/logo_search"
+            android:layout_width="@dimen/xx500"
+            android:layout_height="@dimen/xx66"
+            android:layout_gravity="center_horizontal"/>
+        <LinearLayout
+            android:layout_marginTop="@dimen/xx60"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_marginRight="@dimen/xx60"
+                android:layout_width="@dimen/xx400"
+                android:layout_height="match_parent">
+                <WebView
+                    android:id="@+id/webView"
+                    android:background="@color/transparent"
+                    android:layout_width="@dimen/xx400"
+                    android:layout_height="@dimen/xx400"/>
+                <TextView
+                    android:text="输入不方便？扫一扫"
+                    android:textSize="@dimen/ss24"
+                    android:textColor="#ffffff"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="@dimen/xx540"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+       
+        <LinearLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:src="@mipmap/icon_my_user"
+                android:layout_width="@dimen/xx48"
+                android:layout_height="@dimen/xx54" />
+            <EditText
+                android:gravity="center"
+                android:id="@+id/phone_et"
+                android:hint="请输入您的账户"
+                android:textColor="#ffffff"
+                android:textColorHint="#bbbbbb"
+                android:textSize="@dimen/ss36"
+                android:layout_marginLeft="@dimen/xx15"
+                android:paddingLeft="@dimen/xx15"
+                android:background="@null"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:background="#ffffff"
+            android:layout_marginTop="@dimen/xx20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx2"/>
+        <LinearLayout
+            android:layout_marginTop="@dimen/xx80"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <ImageView
+                android:src="@mipmap/icon_my_password"
+                android:layout_width="@dimen/xx38"
+                android:layout_height="@dimen/xx52" />
+            <EditText
+                android:id="@+id/pwd_et"
+                android:gravity="center"
+                android:hint="请输入您的密码"
+                android:textColor="#ffffff"
+                android:textColorHint="#bbbbbb"
+                android:textSize="@dimen/ss36"
+                android:layout_marginLeft="@dimen/xx15"
+                android:inputType="textPassword"
+                android:digits="@string/digits_password"
+                android:paddingLeft="@dimen/xx15"
+                android:background="@null"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <View
+            android:background="#ffffff"
+            android:layout_marginTop="@dimen/xx20"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx2"/>
+        <Button
+            android:layout_marginTop="@dimen/xx80"
+            android:id="@+id/login_bt"
+            android:text="登录"
+            android:textSize="@dimen/ss48"
+            android:textColor="#ffffff"
+            android:background="@drawable/bg_corner_orange_full"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx100" />
+    </LinearLayout>
+        </LinearLayout>
+    <RelativeLayout
+    android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/regiest_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/regiest"
+            android:gravity="center"
+            android:textSize="@dimen/xx22"
+            android:layout_centerInParent="true"
+
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/find_pwd_tv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/find_pwd"
+            android:gravity="center"
+            android:textSize="@dimen/xx22"
+            android:layout_centerInParent="true"
+            />
+    </RelativeLayout>
+
+</LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:src="@mipmap/share_iv"
+        android:layout_margin="@dimen/xx90"
+        android:onClick="goBack"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_width="@dimen/xx120"
+        android:layout_height="@dimen/xx120" />
+</RelativeLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bg_corner_white_full_10"
+    android:layout_width="match_parent"
+    android:visibility="gone"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="修改性别"
+        android:textSize="@dimen/ss36"
+        android:textColor="#444444"
+        android:layout_margin="@dimen/xx60"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <RadioGroup
+            android:id="@+id/rg_sex"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/tv_man"
+                android:text="男"
+                android:textSize="@dimen/ss72"
+                android:button="@null"
+                android:gravity="center"
+                android:checked="true"
+                android:background="@drawable/selector_sex"
+                android:textColor="@color/text_selector_sex"
+                android:layout_width="@dimen/xx240"
+                android:layout_height="@dimen/xx240" />
+            <RadioButton
+                android:id="@+id/tv_women"
+                android:text="女"
+                android:button="@null"
+                android:textSize="@dimen/ss72"
+                android:layout_marginLeft="@dimen/xx20"
+                android:gravity="center"
+                android:background="@drawable/selector_women"
+                android:textColor="@color/text_selector_sex"
+                android:layout_width="@dimen/xx240"
+                android:layout_height="@dimen/xx240" />
+        </RadioGroup>
+    <Button
+        android:id="@+id/btn_save_sex"
+        android:layout_marginTop="@dimen/xx30"
+        android:text="保存"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss48"
+        android:background="@color/orange_theme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xx100" />
+</LinearLayout>

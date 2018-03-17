@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/main_rl"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_orange"
+    android:orientation="vertical">
+    <LinearLayout
+        android:id="@+id/main_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <ImageView
+                android:visibility="invisible"
+                android:id="@+id/iv_left"
+                android:layout_marginLeft="@dimen/xx60"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_left_arrow"
+                android:layout_width="@dimen/xx80"
+                android:layout_height="@dimen/xx141" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                android:id="@+id/fl_content"
+                android:layout_marginLeft="@dimen/xx40"
+                android:layout_marginRight="@dimen/xx40"
+                android:layout_marginTop="@dimen/xx80"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+            <!--android:layout_width="@dimen/xx1760"-->
+            <ImageView
+                android:id="@+id/iv_right"
+                android:layout_marginRight="@dimen/xx60"
+                android:src="@mipmap/icon_right_arrow"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/xx80"
+                android:visibility="invisible"
+                android:layout_height="@dimen/xx141"/>
+
+        </RelativeLayout>
+
+        <include
+            layout="@layout/title_bar_home"
+            android:id="@+id/title_bar01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/xx20"
+            android:layout_marginLeft="@dimen/xx200"
+            android:layout_marginRight="@dimen/xx200"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/head"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="@dimen/xx359"
+            android:layout_height="@dimen/xx340">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_kt"
+                android:layout_width="@dimen/xx359"
+                android:layout_height="@dimen/xx340" />
+
+    <include layout="@layout/bg_corner_trans_bottom"/>
+            <TextView
+                android:id="@+id/tv_keting"
+                android:text="客厅"
+                style="@style/tv_home_text"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/xx30"
+            android:layout_width="@dimen/xx364"
+            android:layout_height="@dimen/xx340">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_ct"
+                android:layout_width="@dimen/xx364"
+                android:layout_height="@dimen/xx340"/>
+
+            <include layout="@layout/bg_corner_trans_bottom"/>
+            <TextView
+                android:id="@+id/tv_canting"
+                android:text="餐厅"
+                style="@style/tv_home_text"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/xx30"
+            android:layout_width="@dimen/xx364"
+            android:layout_height="@dimen/xx340">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_ws"
+                android:text="卧室"
+                android:layout_width="@dimen/xx364"
+                android:layout_height="@dimen/xx340"
+                />
+
+            <include layout="@layout/bg_corner_trans_bottom"/>
+            <TextView
+                android:id="@+id/tv_woshi"
+                android:text="卧室"
+                style="@style/tv_home_text"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginLeft="@dimen/xx30"
+            android:layout_width="@dimen/xx364"
+            android:layout_height="@dimen/xx340">
+            <bc.juhaohd.com.ui.view.CircleImageView
+                android:id="@+id/iv_sf"
+                android:layout_width="@dimen/xx364"
+                android:layout_height="@dimen/xx340"/>
+            <include layout="@layout/bg_corner_trans_bottom"/>
+            <TextView
+                android:text="书房"
+                android:id="@+id/tv_shufang"
+                style="@style/tv_home_text"
+                />
+            <!--<TextView-->
+              <!---->
+                <!--android:paddingBottom="@dimen/xx10"-->
+                <!--android:layout_gravity="bottom"-->
+                <!--android:gravity="bottom|center"-->
+                <!--android:textColor="#ffffff"-->
+                <!--android:textSize="24sp"-->
+                <!--android:background="@drawable/bg_corner_trans_bottom"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/xx340"/>-->
+        </RelativeLayout>
+    </LinearLayout>
+
+
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_marginTop="@dimen/xx30"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/xx218">
+    <RelativeLayout
+        android:layout_width="@dimen/xx359"
+        android:layout_height="@dimen/xx218">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_rtf"
+            android:layout_width="@dimen/xx359"
+            android:layout_height="@dimen/xx218"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_ertongfang"
+            android:text="儿童房"
+            style="@style/tv_home_text"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx167"
+        android:layout_height="@dimen/xx218">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_wyj"
+            android:layout_width="@dimen/xx167"
+            android:layout_height="@dimen/xx218"
+            />
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_weiyujian"
+            android:text="卫浴间"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx167"
+        android:layout_height="@dimen/xx218">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_gd"
+            android:layout_width="@dimen/xx167"
+            android:layout_height="@dimen/xx218"
+            />
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_zoulang"
+            android:text="过道"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx167"
+        android:layout_height="@dimen/xx218">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_yt"
+            android:layout_width="@dimen/xx167"
+            android:layout_height="@dimen/xx218"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_yangtai"
+            android:text="阳台"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx167"
+        android:layout_height="@dimen/xx218">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_lt"
+            android:layout_width="@dimen/xx167"
+            android:layout_height="@dimen/xx218"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_louti"
+            android:text="楼梯"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx167"
+        android:layout_height="@dimen/xx218">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_bs"
+            android:layout_width="@dimen/xx167"
+            android:layout_height="@dimen/xx218"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_bieshu"
+            android:text="别墅"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx167"
+        android:layout_height="@dimen/xx218">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_qb"
+            android:layout_width="@dimen/xx167"
+            android:layout_height="@dimen/xx218"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:text="全部"
+            android:id="@+id/tv_quanbu"
+            style="@style/tv_home_text"
+
+            />
+        <!--<TextView-->
+
+            <!--android:paddingBottom="@dimen/xx10"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_gravity="bottom"-->
+            <!--android:gravity="bottom|center"-->
+            <!--android:textColor="#ffffff"-->
+            <!--android:textSize="24sp"-->
+            <!--android:background="@drawable/bg_corner_trans_bottom"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/xx56"/>-->
+    </RelativeLayout>
+
+
+</LinearLayout>
+    </LinearLayout>

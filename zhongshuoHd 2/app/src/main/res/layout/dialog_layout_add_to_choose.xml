@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="@dimen/xx900"
+    android:layout_marginLeft="@dimen/xx10"
+    android:layout_marginRight="@dimen/xx10"
+    android:gravity="center"
+    android:background="@drawable/bg_corner_trans"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv_num"
+        android:text="请确认加入购物车的商品"
+        android:maxLines="1"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="@dimen/ss24"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:layout_marginTop="10dp"
+        android:background="@color/divier_grey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xx100"
+        android:background="@drawable/bg_corner_eeeeee_top"
+        android:layout_gravity="center_horizontal"
+        android:focusable ="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical">
+        <CheckBox
+            android:id="@+id/checkAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/xx30"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_checkbox"
+            android:textSize="@dimen/ss36"
+            android:maxHeight="@dimen/xx10"
+            android:text="  选择全部商品" />
+
+    </RelativeLayout>
+    <ScrollView
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="visible"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/xx5">
+
+            <!--<ListView
+                android:id="@+id/list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />-->
+            <com.lib.common.hxp.view.ListViewForScrollView
+                android:id="@+id/cart_lv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="1dp" />
+        </LinearLayout>
+
+    </ScrollView>
+    <View
+        android:background="@color/divier_grey"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xx80">
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:text="取消"
+            android:gravity="center"
+            android:textColor="#666666"
+            android:textSize="@dimen/ss24"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <View
+            android:background="@color/divier_grey"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/tv_ensure"
+            android:background="@color/orange_theme"
+            android:text="确定"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="@dimen/ss24"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</LinearLayout>

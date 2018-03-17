@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<TextView
+    android:id="@+id/tv_title"
+    android:text="类型"
+    android:layout_marginTop="@dimen/xx40"
+    android:layout_marginLeft="@dimen/xx30"
+    android:textColor="#666666"
+    android:textSize="@dimen/ss42"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+    <GridView
+        android:id="@+id/gv_item"
+        android:numColumns="3"
+        android:layout_marginLeft="@dimen/xx40"
+        android:layout_marginRight="@dimen/xx40"
+        android:layout_marginTop="@dimen/xx30"
+        android:layout_marginBottom="@dimen/xx40"
+        android:horizontalSpacing="@dimen/xx30"
+        android:verticalSpacing="@dimen/xx30"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

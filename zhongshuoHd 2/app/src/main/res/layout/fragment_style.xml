@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@android:color/transparent"
+    android:layout_width="match_parent"
+
+    android:layout_height="match_parent">
+    <include layout="@layout/head"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="@dimen/xx365"
+        android:layout_height="@dimen/xx588">
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_xdjy"
+            android:layout_width="@dimen/xx365"
+            android:layout_height="@dimen/xx588"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_xiandaijianyue"
+            style="@style/tv_home_text"
+            android:text="现代简约"
+            />
+    </RelativeLayout>
+
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx362"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_zs"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx279"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_zhongshi"
+            android:text="中式"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx362"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_xzs"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx279"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_xinzhongshi"
+            android:text="新中式"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx362"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_os"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx279"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_oushi"
+            android:text="欧式"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>
+<LinearLayout
+    android:layout_marginLeft="@dimen/xx30"
+    android:layout_marginTop="@dimen/xx30"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <RelativeLayout
+        android:layout_width="@dimen/xx362"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_ms"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx279"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_meishi"
+            android:text="美式"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx166"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_hxd"
+            android:layout_width="@dimen/xx166"
+            android:layout_height="@dimen/xx279"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_houxiandai"
+            android:text="后现代"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx166"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_yj"
+            android:layout_width="@dimen/xx166"
+            android:layout_height="@dimen/xx279"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_yijia"
+            android:text="宜家"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx166"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_ty"
+            android:layout_width="@dimen/xx166"
+            android:layout_height="@dimen/xx279"/>
+
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:id="@+id/tv_tianyuan"
+            android:text="田园"
+            style="@style/tv_home_text"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx166"
+        android:layout_height="@dimen/xx279" >
+        <bc.juhaohd.com.ui.view.CircleImageView
+            android:id="@+id/iv_qb"
+            android:layout_width="@dimen/xx166"
+            android:layout_height="@dimen/xx279"/>
+        <include layout="@layout/bg_corner_trans_bottom"/>
+        <TextView
+            android:text="全部"
+            android:id="@+id/tv_quanbu"
+            style="@style/tv_home_text"
+            />
+        <!--<TextView
+
+            android:paddingBottom="@dimen/xx10"
+            android:orientation="vertical"
+            android:layout_gravity="bottom"
+            android:gravity="bottom|center"
+            android:textColor="#ffffff"
+            android:textSize="24sp"
+            android:background="@drawable/bg_corner_trans_bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/xx56"/>-->
+    </RelativeLayout>
+
+</LinearLayout>
+</LinearLayout>
+
+
+</LinearLayout>
+    </LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bc.juhaohd.com.ui.view.BottomBarOfHome xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_bar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+        <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/home_zs_bg_selector"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            android:id="@+id/frag_home_tv"
+            android:text="首页"
+            style="@style/tv_home_bottom"
+            />
+        <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/type_zs_bg_selector"
+            android:id="@+id/frag_type_tv"
+            android:text="类型"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            style="@style/tv_home_bottom"/>
+        <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/space_zs_bg_selector"
+            android:id="@+id/frag_space_tv"
+            android:text="空间"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            style="@style/tv_home_bottom" />
+        <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/style_zs_bg_selector"
+            android:id="@+id/frag_style_tv"
+            android:text="风格"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            style="@style/tv_home_bottom" />
+        <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/search_zs_bg_selector"
+            android:id="@+id/frag_search_tv"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            android:text="搜索"
+            style="@style/tv_home_bottom" />
+        <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/setting_zs_bg_selector"
+            android:id="@+id/frag_setting_tv"
+            android:text="设置"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            style="@style/tv_home_bottom" />
+        <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/mine_zs_bg_selector"
+            android:id="@+id/frag_mine_tv"
+            android:text="我的"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            style="@style/tv_home_bottom"/>
+
+    </bc.juhaohd.com.ui.view.BottomBarOfHome>

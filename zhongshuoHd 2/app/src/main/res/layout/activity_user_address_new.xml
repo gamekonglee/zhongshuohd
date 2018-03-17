@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@mipmap/bg_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">`
+    <TextView
+        android:id="@+id/et_search"
+        android:text="@string/my_address"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss48"
+        android:layout_marginTop="@dimen/xx60"
+        android:layout_marginLeft="@dimen/xx90"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_marginLeft="@dimen/xx420"
+        android:layout_marginRight="@dimen/xx420"
+        android:layout_marginTop="@dimen/xx120"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="@android:color/transparent">
+
+                <include layout="@layout/common_error" />
+                <include
+                    android:id="@+id/null_net"
+                    layout="@layout/empty_page_no_wifi"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+
+                    />
+                <include
+                    android:id="@+id/null_view"
+                    layout="@layout/empty_page_no_recoder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone"
+                    />
+
+                <com.lib.common.hxp.view.PullToRefreshLayout
+                    android:id="@+id/contentView"
+                    android:background="@android:color/transparent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <include layout="@layout/refresh_head" />
+                    <!-- 支持所有实现Pullable接口的View -->
+
+                    <com.lib.common.hxp.view.PullableScrollView
+                        android:id="@+id/scrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@android:color/transparent"
+                        android:scrollbars="none">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:orientation="vertical">
+                            <com.lib.common.hxp.view.ListViewForScrollView
+                                android:id="@+id/order_sv"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/xx200"
+                                android:horizontalSpacing="@dimen/xx5"
+                                android:paddingLeft="@dimen/xx10"
+                                android:paddingRight="@dimen/xx10"
+                                android:paddingTop="@dimen/xx10"
+                                android:verticalSpacing="@dimen/xx15"
+                                android:dividerHeight="@dimen/xx20"
+                                android:divider="@android:color/transparent"
+                                android:listSelector="@android:color/transparent"
+                                android:background="@android:color/transparent"/>
+                        </LinearLayout>
+                    </com.lib.common.hxp.view.PullableScrollView>
+
+                    <include layout="@layout/load_more" />
+
+                </com.lib.common.hxp.view.PullToRefreshLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <ProgressBar
+            android:id="@+id/pd"
+            style="@style/Base.Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+
+
+
+</LinearLayout>
+<ImageView
+android:id="@+id/topLeftBtn"
+android:src="@mipmap/share_iv"
+    android:onClick="goBack"
+android:layout_alignParentBottom="true"
+android:layout_alignParentRight="true"
+android:layout_marginRight="@dimen/xx60"
+android:layout_marginBottom="@dimen/xx90"
+android:layout_width="@dimen/xx120"
+android:layout_height="@dimen/xx120" />
+    <Button
+        android:id="@+id/btn_save"
+        android:background="@mipmap/icon_my_add"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/xx60"
+        android:layout_marginBottom="@dimen/xx270"
+        android:layout_width="@dimen/xx120"
+        android:layout_height="@dimen/xx120" />
+    </RelativeLayout>

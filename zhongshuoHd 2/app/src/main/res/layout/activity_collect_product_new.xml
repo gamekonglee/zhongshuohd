@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@mipmap/bg_home"
+    >
+    <TextView
+        android:id="@+id/et_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss48"
+        android:layout_marginLeft="@dimen/xx90"
+        android:layout_marginTop="@dimen/xx60"
+        android:text="@string/my_collet"
+        />
+
+            <ImageView
+                android:id="@+id/iv_edit"
+                android:visibility="gone"
+                android:layout_width="@dimen/xx40"
+                android:layout_height="@dimen/xx40"
+                android:src="@drawable/edit"
+                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/xx10"
+                />
+
+
+
+    <FrameLayout
+        android:layout_marginLeft="@dimen/xx210"
+        android:layout_marginTop="@dimen/xx150"
+        android:layout_marginRight="@dimen/xx210"
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+            <include
+                android:id="@+id/null_view"
+                layout="@layout/empty_page_no_collect"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                />
+
+            <com.lib.common.hxp.view.PullToRefreshLayout
+                android:id="@+id/contentView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <include layout="@layout/refresh_head" />
+                <!-- 支持所有实现Pullable接口的View -->
+                        <com.lib.common.hxp.view.PullableGridView
+                            android:id="@+id/gridView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:horizontalSpacing="@dimen/xx15"
+                            android:numColumns="4"
+                            android:paddingLeft="@dimen/xx5"
+                            android:paddingRight="@dimen/xx5"
+                            android:paddingTop="@dimen/xx5"
+                            android:scrollbars="none"
+                            android:background="@android:color/transparent"
+                            android:verticalSpacing="@dimen/xx10" />
+                <include layout="@layout/load_more" />
+
+            </com.lib.common.hxp.view.PullToRefreshLayout>
+
+        <ProgressBar
+            android:id="@+id/pd"
+            style="@style/Base.Widget.AppCompat.ProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:visibility="invisible" />
+    </FrameLayout>
+    <RelativeLayout
+        android:id="@+id/rl"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xx60"
+        android:background="#F5F5F5"
+        android:layout_gravity="center_horizontal"
+        android:focusable ="true"
+        android:visibility="gone"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical">
+        <CheckBox
+            android:id="@+id/checkAll"
+            android:layout_width="@dimen/xx100"
+            android:layout_height="@dimen/xx50"
+            android:layout_marginLeft="@dimen/xx10"
+            android:layout_centerVertical="true"
+            android:button="@drawable/selector_checkbox"
+            android:textSize="@dimen/ss18"
+            android:text="全选" />
+        <Button
+            android:id="@+id/delete_bt"
+            style="@style/btndeleteStyle"
+            android:layout_width="@dimen/xx100"
+            android:layout_height="@dimen/xx50"
+            android:layout_marginRight="@dimen/xx10"
+            android:text="删除"
+            android:textSize="@dimen/ss20"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/txt_black"/>
+    </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/topLeftBtn"
+        android:layout_width="@dimen/xx120"
+        android:layout_height="@dimen/xx120"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="@dimen/xx60"
+        android:layout_marginBottom="@dimen/xx90"
+        android:background="@mipmap/share_iv"
+        android:onClick="goBack"
+        />
+</RelativeLayout>

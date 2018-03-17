@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_width="match_parent"
+    android:background="@drawable/bg_corner_trans"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="@dimen/xx360"
+    android:layout_height="@dimen/xx300">
+    <ImageView
+        android:id="@+id/iv_photo"
+        android:src="@drawable/bg_default"
+        android:layout_width="@dimen/xx300"
+        android:layout_centerHorizontal="true"
+        android:layout_height="@dimen/xx300" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_is_new"
+        android:text="新"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss30"
+        android:paddingLeft="@dimen/xx10"
+        android:paddingTop="@dimen/xx10"
+        android:background="@mipmap/icon_left_corner"
+        android:layout_width="@dimen/xx80"
+        android:layout_height="@dimen/xx80" />
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_is_hot"
+        android:text="热"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss30"
+        android:paddingLeft="@dimen/xx10"
+        android:paddingTop="@dimen/xx10"
+        android:background="@mipmap/icon_left_corner"
+        android:layout_width="@dimen/xx80"
+        android:layout_height="@dimen/xx80" />
+</RelativeLayout>
+    <LinearLayout
+        android:background="@drawable/bg_corner_eeeeee_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_marginLeft="@dimen/xx24"
+        android:textSize="@dimen/ss30"
+        android:textColor="#444444"
+        android:text="000-00"
+        android:lines="1"
+        android:layout_marginTop="@dimen/xx18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_marginTop="@dimen/xx18"
+        android:layout_marginLeft="@dimen/xx24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <TextView
+        android:text="¥"
+        android:textSize="@dimen/ss24"
+        android:textColor="@color/orange_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/tv_price"
+            android:text="00.00"
+            android:textColor="@color/orange_theme"
+            android:textSize="@dimen/ss36"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

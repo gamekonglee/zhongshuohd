@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bg_corner_white_full_10"
+    android:layout_width="match_parent"
+    android:visibility="gone"
+    android:layout_height="wrap_content">
+<TextView
+    android:text="修改用户名"
+    android:textSize="@dimen/ss36"
+    android:textColor="#444444"
+    android:layout_margin="@dimen/xx60"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/et_username"
+        android:hint="请输入您的新用户名"
+        android:textColorHint="#bbbbbb"
+        android:textSize="@dimen/ss36"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_marginRight="@dimen/xx30"
+        android:padding="@dimen/xx15"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/btn_save_username"
+        android:layout_marginTop="@dimen/xx30"
+        android:text="保存"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/ss48"
+        android:background="@color/orange_theme"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/xx100" />
+</LinearLayout>
