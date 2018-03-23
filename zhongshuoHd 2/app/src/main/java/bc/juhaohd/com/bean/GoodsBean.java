@@ -2,6 +2,9 @@
  * Copyright 2018 bejson.com
  */
 package bc.juhaohd.com.bean;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.util.List;
 
 /**
@@ -11,6 +14,8 @@ import java.util.List;
  * @website http://www.bejson.com/java2pojo/
  */
 public class GoodsBean {
+
+    private Long gid;
 
     private int sales_count;
     private Object goods_desc;
@@ -274,41 +279,6 @@ public class GoodsBean {
      * @author bejson.com (i@bejson.com)
      * @website http://www.bejson.com/java2pojo/
      */
-    public class Default_photo {
-
-        private String width;
-        private String height;
-        private String thumb;
-        private String large;
-        public void setWidth(String width) {
-            this.width = width;
-        }
-        public String getWidth() {
-            return width;
-        }
-
-        public void setHeight(String height) {
-            this.height = height;
-        }
-        public String getHeight() {
-            return height;
-        }
-
-        public void setThumb(String thumb) {
-            this.thumb = thumb;
-        }
-        public String getThumb() {
-            return thumb;
-        }
-
-        public void setLarge(String large) {
-            this.large = large;
-        }
-        public String getLarge() {
-            return large;
-        }
-
-    }
     /**
      * Copyright 2018 bejson.com
      */

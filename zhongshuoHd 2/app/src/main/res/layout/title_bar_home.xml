@@ -14,6 +14,13 @@
             style="@style/tv_home_bottom"
             />
         <bc.juhaohd.com.ui.view.TextViewPlus
+            android:drawableTop="@drawable/style_zs_bg_selector"
+            android:id="@+id/frag_style_tv"
+            android:text="风格"
+            app:top_width="@dimen/xx90"
+            app:top_height="@dimen/xx90"
+            style="@style/tv_home_bottom" />
+        <bc.juhaohd.com.ui.view.TextViewPlus
             android:drawableTop="@drawable/type_zs_bg_selector"
             android:id="@+id/frag_type_tv"
             android:text="类型"
@@ -27,13 +34,7 @@
             app:top_width="@dimen/xx90"
             app:top_height="@dimen/xx90"
             style="@style/tv_home_bottom" />
-        <bc.juhaohd.com.ui.view.TextViewPlus
-            android:drawableTop="@drawable/style_zs_bg_selector"
-            android:id="@+id/frag_style_tv"
-            android:text="风格"
-            app:top_width="@dimen/xx90"
-            app:top_height="@dimen/xx90"
-            style="@style/tv_home_bottom" />
+
         <bc.juhaohd.com.ui.view.TextViewPlus
             android:drawableTop="@drawable/search_zs_bg_selector"
             android:id="@+id/frag_search_tv"

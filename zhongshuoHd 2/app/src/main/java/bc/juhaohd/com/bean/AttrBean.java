@@ -2,6 +2,9 @@
  * Copyright 2018 bejson.com
  */
 package bc.juhaohd.com.bean;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+
 import java.util.List;
 
 /**
@@ -10,7 +13,10 @@ import java.util.List;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
+
 public class AttrBean {
+
+    private Long aid;
 
     private String filter_attr_name;
     private int index;
@@ -45,23 +51,5 @@ public class AttrBean {
      * @author bejson.com (i@bejson.com)
      * @website http://www.bejson.com/java2pojo/
      */
-    public class Attr_list {
 
-        private String attr_value;
-        private int id;
-        public void setAttr_value(String attr_value) {
-            this.attr_value = attr_value;
-        }
-        public String getAttr_value() {
-            return attr_value;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-        public int getId() {
-            return id;
-        }
-
-    }
 }

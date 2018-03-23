@@ -40,6 +40,7 @@ import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListene
 import com.zhy.http.okhttp.callback.Callback;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -485,7 +486,7 @@ public class DiyController extends BaseController implements INetworkCallBack, P
      * @param RequestURL 请求的rul
      * @return 返回响应的内容
      */
-    private String uploadFile(Bitmap file, String RequestURL, Map<String, String> param, String imageName) {
+    private String uploadFile(Bitmap file, String RequestURL, final Map<String, String> param, String imageName) {
 
         ApiClient.upLoadFile(ImageUtil.saveBitmapFile(IssueApplication.getcontext().getCacheDir()+"/"+imageName,file),RequestURL,param,imageName, new Callback<String>() {
             @Override
@@ -503,6 +504,9 @@ public class DiyController extends BaseController implements INetworkCallBack, P
             public String onResponse(final String response, int id) {
 //                LogUtils.logE("res",response);
                 mView.runOnUiThread(new Runnable() {
+
+                    private String path;
+
                     @Override
                     public void run() {
                         mView.hideLoading();
@@ -512,6 +516,8 @@ public class DiyController extends BaseController implements INetworkCallBack, P
                             return ;
                         }
                         FangAnBean fangAnBean = new FangAnBean();
+                        String id="";
+
                         try {
                             UpLoadBean upLoadBean = new Gson().fromJson(response, UpLoadBean.class);
                             int isResult = upLoadBean.getError_code();
@@ -519,14 +525,26 @@ public class DiyController extends BaseController implements INetworkCallBack, P
                                 MyToast.show(mView, "保存失败!");
                                 return ;
                             }
-                            fangAnBean = new Gson().fromJson(response, FangAnBean.class);
-                        } catch (Exception e) {
-                            fangAnBean = new Gson().fromJson(response, FangAnBean.class);
 
+                        } catch (Exception e) {
+                            try {
+                                {fangAnBean = new Gson().fromJson(response, FangAnBean.class);
+                            }}catch (Exception e2 ){
+                                try {
+                                    org.json.JSONObject jsonObject=new org.json.JSONObject(response);
+                                    id=jsonObject.getJSONObject(Constance.fangan).getInt(Constance.id)+"";
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
                         }
 
+                        if(fangAnBean!=null&&fangAnBean.getFangan()!=null&&fangAnBean.getFangan().getId()!=0){
 
-                        final String path = NetWorkConst.SHARE_FANGAN + fangAnBean.getFangan().getId();
+                            path = NetWorkConst.SHARE_FANGAN + fangAnBean.getFangan().getId();
+                        }else {
+                            path=id;
+                        }
 
                         String title = "来自 " + UIUtils.getString(R.string.app_name) + " 配灯的分享";
                         MyShare.get(mView).putString(Constance.sharePath, path);

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,9 +18,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anonymous.greendao.DaoMaster;
+import com.example.anonymous.greendao.DaoSession;
+import com.example.anonymous.greendao.GdAttrBeanDao;
+import com.example.anonymous.greendao.GdAttrBeanListDao;
+import com.example.anonymous.greendao.GdGoodsBeanDao;
 import com.google.gson.Gson;
 import com.lib.common.hxp.view.PullToRefreshLayout;
 import com.lib.common.hxp.view.PullableGridView;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +35,11 @@ import bc.juhaohd.com.R;
 import bc.juhaohd.com.adapter.BaseAdapterHelper;
 import bc.juhaohd.com.adapter.QuickAdapter;
 import bc.juhaohd.com.bean.AttrBean;
+import bc.juhaohd.com.bean.Attr_list;
+import bc.juhaohd.com.bean.Default_photo;
+import bc.juhaohd.com.bean.GdAttrBean;
+import bc.juhaohd.com.bean.GdAttrBeanList;
+import bc.juhaohd.com.bean.GdGoodsBean;
 import bc.juhaohd.com.bean.GoodsBean;
 import bc.juhaohd.com.bean.GoodsDetailZsBean;
 import bc.juhaohd.com.bean.GroupBuy;
@@ -36,6 +48,7 @@ import bc.juhaohd.com.bean.ScProperties;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.cons.NetWorkConst;
 import bc.juhaohd.com.listener.INetworkCallBack;
+import bc.juhaohd.com.net.ApiClient;
 import bc.juhaohd.com.ui.activity.IssueApplication;
 import bc.juhaohd.com.ui.activity.MainNewActivity;
 import bc.juhaohd.com.ui.activity.product.ProductDetailHDNewActivity;
@@ -64,9 +77,9 @@ public class MainNewController extends BaseController implements INetworkCallBac
     private TextView et_search;
     private PullToRefreshLayout mFilterContentView;
     private PullableGridView gridView;
-    private QuickAdapter typeAdapter;
-    private QuickAdapter goodsAdapter;
-    private List<AttrBean.Attr_list> attrBeen;
+    private QuickAdapter<Attr_list> typeAdapter;
+    private QuickAdapter<GoodsBean> goodsAdapter;
+    private List<Attr_list> attrBeen;
     private List<GoodsBean> goodsBeen;
     public int page;
     private ProgressBar pd;
@@ -78,13 +91,14 @@ public class MainNewController extends BaseController implements INetworkCallBac
     private List<AttrBean> attrAllBean;
     private int currentTitlePosition;
     private ListView lv_filter;
-    private QuickAdapter attrAlladapter;
+    private QuickAdapter<AttrBean> attrAlladapter;
     private TextView tv_reset;
     private TextView tv_ensure;
     private LinearLayout ll_filter;
     private boolean[][] filterArray;
     private String current_three_filter;
     private ProgressDialog progressDialog;
+    private boolean request;
 
     public MainNewController(MainNewActivity v) {
         mView = v;
@@ -97,7 +111,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
         page = 1;
 //        boolean initFilterDropDownView =  true;
 
-        pd.setVisibility(View.VISIBLE);
+//        pd.setVisibility(View.VISIBLE);
         if (mView.isAttrloadData) {
             return;
         }
@@ -107,11 +121,160 @@ public class MainNewController extends BaseController implements INetworkCallBac
         if(!TextUtils.isEmpty(mView.filter_type)){
             tv_current_select.setText(mView.filter_type);
         }
-        sendAttrList();
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdAttrBeanDao attrBeanDao=daoSession.getGdAttrBeanDao();
+        GdAttrBeanListDao beanListDao=daoSession.getGdAttrBeanListDao();
+        GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
+        List<GdAttrBean> attrBeans=attrBeanDao.loadAll();
+        List<GdAttrBeanList> gdAttrBeanListList=beanListDao.loadAll();
+
+        List<GdGoodsBean> gdGoodsBeans;
+
+        if(attrBeans==null||attrBeans.size()==0||gdAttrBeanListList==null||gdAttrBeanListList.size()==0){
+            request=false;
+                sendAttrList();
+        }else {
+            for(int i=0;i<gdAttrBeanListList.size();i++){
+                for(int j=0;j<gdAttrBeanListList.size();j++){
+                    if(gdAttrBeanListList.get(i).getAttr_bean_index()==gdAttrBeanListList.get(j).getAttr_bean_index()&&gdAttrBeanListList.get(i).getAttr_value().equals(gdAttrBeanListList.get(j).getAttr_value())&&i!=j){
+                        beanListDao.deleteByKey(gdAttrBeanListList.get(j).getAlid());
+                    }
+
+                }
+            }
+            for(GdAttrBean temp :attrBeans){
+                AttrBean attrBean=new AttrBean();
+                attrBean.setFilter_attr_name(temp.getFilter_attr_name());
+                attrBean.setIndex(temp.getIndex());
+                List<Attr_list> attr_lists=new ArrayList<>();
+                for(GdAttrBeanList abList: gdAttrBeanListList){
+                    if(abList.getAttr_bean_index()==temp.getIndex()){
+                        Attr_list attr_list=new Attr_list();
+                        attr_list.setAttr_value(abList.getAttr_value());
+                        attr_list.setId(abList.getId());
+                        attr_lists.add(attr_list);
+                    }
+                }
+                attrBean.setAttr_list(attr_lists);
+                attrAllBean.add(attrBean);
+            }
+
+            if(mView.filter_attr_name.equals("类型")){
+                index=0;
+            }else if(mView.filter_attr_name.equals("空间")){
+                index=1;
+            }else if(mView.filter_attr_name.equals("风格")){
+                index=3;
+            }
+            for(int i=0;i<attrBeen.size();i++){
+                for(int j=0;j<attrBeen.size();j++){
+                    if(attrBeen.get(i).getId()==attrBeen.get(j).getId()&&i!=j){
+                        attrBeen.remove(j);
+                        beanListDao.deleteByKey(gdAttrBeanListList.get(j).getAlid());
+                    }
+                }
+            }
+            for(int i=0;i<attrAllBean.size();i++){
+                for(int j=0;j<attrAllBean.size();j++){
+                    if(attrAllBean.get(i).getFilter_attr_name().equals(attrAllBean.get(j).getFilter_attr_name())&&i!=j){
+                        attrAllBean.remove(j);
+                        attrBeanDao.deleteByKey(attrBeans.get(j).getAid());
+                    }
+                }
+            }
+            boolean hasFilterType=false;
+            for(int i=0;i<attrAllBean.size();i++){
+                if(attrAllBean.get(i).getIndex()==index){
+                    currentTitlePosition=i;
+                    List<Attr_list> attr_list=attrAllBean.get(i).getAttr_list();
+                    for(int j=0;j<attr_list.size();j++){
+
+                        attrBeen.add(attr_list.get(j));
+                        if(attrBeen.size()>0&&!TextUtils.isEmpty(mView.filter_type)&&currentTitlePosition==i
+                                &&attrBeen.get(attrBeen.size()-1).getAttr_value().equals(mView.filter_type)){
+                            currentPosition=j;
+                            hasFilterType=true;
+                        }
+                    }
+                }
+            }
+
+            if(hasFilterType){
+                String filter = "";
+                for (int x = 0; x < index + 1; x++) {
+                    if (x == index) {
+                        filter += attrAllBean.get(currentTitlePosition).getAttr_list().get(currentPosition).getId();
+                    } else {
+                        filter += "0.";
+                    }
+                }
+                mView.filter_attr = filter;
+//                pd.setVisibility(View.VISIBLE);
+                page=1;
+                isScrollToTop=true;
+
+            filterArray = new boolean[attrAllBean.size()][];
+            for(int i = 0; i< filterArray.length; i++){
+                filterArray[i]=new boolean[attrAllBean.get(i).getAttr_list().size()];
+            }
+            goodsBeen=new ArrayList<>();
+                if(mView.filter_attr!=null){
+                    gdGoodsBeans=gdGoodsBeanDao.queryBuilder().where(GdGoodsBeanDao.Properties.Filter.eq(mView.filter_attr)).list();
+                }else {
+                    gdGoodsBeans=gdGoodsBeanDao.loadAll();
+                }
+            for(GdGoodsBean temp:gdGoodsBeans){
+                GoodsBean goodsBean=new GoodsBean();
+                goodsBean.setId(temp.getId());
+                goodsBean.setName(temp.getName());
+                Default_photo default_photo=new Default_photo();
+                default_photo.setThumb(temp.getOrignalImg());
+                goodsBean.setDefault_photo(default_photo);
+                goodsBean.setCurrent_price(temp.getCurrentPrice());
+                if(mView.filter_attr!=null) {
+                    if (temp.getFilter() != null && temp.getFilter().equals(mView.filter_attr)) {
+                        goodsBeen.add(goodsBean);
+                    }
+                }else {
+                goodsBeen.add(goodsBean);
+                }
+            }
+            for(int i=0;i<goodsBeen.size();i++){
+                for(int j=0;j<goodsBeen.size();j++){
+                    if(j==goodsBeen.size())j--;
+                    if(i==goodsBeen.size())i--;
+                    if(goodsBeen                                                                                                                                                                                  .get(j).getId()==goodsBeen.get(i).getId()&&j!=i){
+                        goodsBeen.remove(j);
+                        gdGoodsBeanDao.deleteByKey(gdGoodsBeans.get(j).getGid());
+                    }
+                }
+            }
+            if(goodsBeen==null||goodsBeen.size()==0){
+                request=false;
+             sendAttrList();
+            }else {
+            typeAdapter.replaceAll(attrBeen);
+            attrAlladapter.replaceAll(attrAllBean);
+            goodsAdapter.replaceAll(goodsBeen);
+            goodsAdapter.notifyDataSetChanged();
+            request=false;
+            }
+        }else {
+                if(mView.keyword!=null){
+                    request=false;
+                    sendAttrList();
+                }else {
+                MyToast.show(mView, "数据查询不到");
+                }
+
+            }
+        }
 //        selectProduct(page, "20", null, null, null);
     }
     public void sendAttrList() {
-        progressDialog = ProgressDialog.show(mView,"","加载中");
+        if(UIUtils.isValidContext(mView))progressDialog = ProgressDialog.show(mView,"","加载中");
         mNetWork.sendAttrList("yes", this);
 
     }
@@ -144,10 +307,10 @@ public class MainNewController extends BaseController implements INetworkCallBac
         currentPosition=0;
         currentTitlePosition = 0;
 //        unMessageReadTv = (TextView) mView.findViewById(R.id.unMessageReadTv);
-        typeAdapter = new QuickAdapter<AttrBean.Attr_list>(mView, R.layout.item_attr){
+        typeAdapter = new QuickAdapter<Attr_list>(mView, R.layout.item_attr){
 
             @Override
-            protected void convert(BaseAdapterHelper helper, AttrBean.Attr_list item) {
+            protected void convert(BaseAdapterHelper helper, Attr_list item) {
             helper.setText(R.id.tv_attr,""+item.getAttr_value());
                 TextView ll_bg=helper.getView(R.id.tv_attr);
             if(helper.getPosition()==currentPosition){
@@ -173,10 +336,14 @@ public class MainNewController extends BaseController implements INetworkCallBac
 //                }else {
 //                }
                 helper.setText(R.id.tv_price," "+item.getCurrent_price());
-                GoodsBean.Default_photo default_photo=item.getDefault_photo();
+                Default_photo default_photo=item.getDefault_photo();
+//                String url=item.getOriginal_img();
                 if(null!=default_photo){
-                    String imageUrl=item.getDefault_photo().getLarge();
-                    ImageLoadProxy.displayImage(imageUrl, (ImageView) helper.getView(R.id.iv_photo));
+                    String imageUrl=item.getDefault_photo().getThumb();
+//                    Log.e("imageUrl",NetWorkConst.SCENE_HOST+imageUrl);
+                    ImageLoader.getInstance().displayImage(imageUrl, (ImageView) helper.getView(R.id.iv_photo),IssueApplication.getImageloaderOption());
+                }else {
+//                    Log.e("image","ddefault==null");
                 }
             }
         };
@@ -200,9 +367,9 @@ public class MainNewController extends BaseController implements INetworkCallBac
                     }
                 });
 
-                gridView.setAdapter(new QuickAdapter<AttrBean.Attr_list>(mView,R.layout.item_text) {
+                gridView.setAdapter(new QuickAdapter<Attr_list>(mView,R.layout.item_text) {
                     @Override
-                    protected void convert(BaseAdapterHelper helper, AttrBean.Attr_list item) {
+                    protected void convert(BaseAdapterHelper helper, Attr_list item) {
                         TextView textView=helper.getView(R.id.textview);
                         if(filterArray[basehelper.getPosition()][helper.getPosition()]){
                             textView.setSelected(true);
@@ -222,7 +389,6 @@ public class MainNewController extends BaseController implements INetworkCallBac
                     layoutParams.height=UIUtils.dip2PX(68*row)+UIUtils.dip2PX(30*(row-1));
                     gridView.setLayoutParams(layoutParams);
                 }
-
             }
         };
         lv_type.setAdapter(typeAdapter);
@@ -232,6 +398,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
         lv_type.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                request=false;
                 currentPosition = position;
                 typeAdapter.notifyDataSetChanged();
                 tv_current_select.setText(""+attrBeen.get(position).getAttr_value());
@@ -251,7 +418,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 mView.filter_attr = filter;
                 if (AppUtils.isEmpty(mView.filter_attr))
                     return;
-                pd.setVisibility(View.VISIBLE);
+//                pd.setVisibility(View.VISIBLE);
                 page=1;
                 isScrollToTop=true;
                 selectProduct(page, "20", null, null, null);
@@ -333,7 +500,6 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 }else {
                     current_three_filter +="0.";
                 }
-
             }
         }
 //        Toast.makeText(mView, "filter:"+filter, Toast.LENGTH_SHORT).show();
@@ -368,18 +534,105 @@ public class MainNewController extends BaseController implements INetworkCallBac
      * @param shop
      */
     public void selectProduct(int page, String per_page, String brand, String category, String shop) {
-        pd.setVisibility(View.VISIBLE);
-        mNetWork.sendGoodsList(page, per_page, brand, mView.category, mView.filter_attr, shop, mView.keyword, mSortKey, mSortValue, this);
+//        pd.setVisibility(View.VISIBLE);
+        if(!request){
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
+        List<GdGoodsBean> gdGoodsBeans = null;
+        if(mView.filter_attr!=null){
+            gdGoodsBeans=gdGoodsBeanDao.queryBuilder().where(GdGoodsBeanDao.Properties.Filter.eq(mView.filter_attr)).list();
+        }else if (mSortKey != null && mSortValue != null) {
+            gdGoodsBeans=gdGoodsBeanDao.queryBuilder().where(GdGoodsBeanDao.Properties.SortKey.eq(mSortKey),GdGoodsBeanDao.Properties.SortValue.eq(mSortValue)).list();
+        }else {
+            gdGoodsBeans=gdGoodsBeanDao.loadAll();
+        }
+        if(gdGoodsBeans==null||gdGoodsBeans.size()==0){
+            pd.setVisibility(View.VISIBLE);
+            mNetWork.sendGoodsList(page, per_page, brand, mView.category, mView.filter_attr, shop, mView.keyword, mSortKey, mSortValue, this);
+        }else {
+//            pd.setVisibility(View.VISIBLE);
+            if (mView.filter_attr_name.equals("类型")) {
+                index = 0;
+            } else if (mView.filter_attr_name.equals("空间")) {
+                index = 1;
+            } else if (mView.filter_attr_name.equals("风格")) {
+                index = 3;
+            }
+            String filter = "";
+            for (int x = 0; x < index + 1; x++) {
+                if (x == index) {
+                    filter += attrAllBean.get(currentTitlePosition).getAttr_list().get(currentPosition).getId();
+                } else {
+                    filter += "0.";
+                }
+            }
+            mView.filter_attr = filter;
+//                pd.setVisibility(View.VISIBLE);
+            page = 1;
+            isScrollToTop = true;
+            filterArray = new boolean[attrAllBean.size()][];
+            for (int i = 0; i < filterArray.length; i++) {
+                filterArray[i] = new boolean[attrAllBean.get(i).getAttr_list().size()];
+            }
+            goodsBeen = new ArrayList<>();
+
+            for (GdGoodsBean temp : gdGoodsBeans) {
+
+                GoodsBean goodsBean = new GoodsBean();
+                goodsBean.setId(temp.getId());
+                goodsBean.setName(temp.getName());
+                goodsBean.setOriginal_img(temp.getOrignalImg());
+                goodsBean.setCurrent_price(temp.getCurrentPrice());
+                Default_photo default_photo = new Default_photo();
+                default_photo.setThumb(temp.getOrignalImg());
+                goodsBean.setDefault_photo(default_photo);
+                if (mView.filter_attr != null) {
+
+                    if (temp.getFilter() != null && mView.filter_attr.equals(temp.getFilter())) {
+//                        Log.e("temp_filter", temp.getFilter() + "");
+                        goodsBeen.add(goodsBean);
+                    }
+                } else if (mSortKey != null && mSortValue != null) {
+                    if (temp.getSortKey().equals(mSortKey) && temp.getSortValue().equals(mSortValue)) {
+                        goodsBeen.add(goodsBean);
+                    }
+                } else {
+                    goodsBeen.add(goodsBean);
+                }
+            }
+            if (goodsBeen != null && goodsBeen.size() > 0) {
+                if(mView.keyword.equals("")) {
+                    for (int i = 0; i < goodsBeen.size(); i++) {
+                        for (int j = 0; j < goodsBeen.size(); j++) {
+                            if (j == goodsBeen.size()) j--;
+                            if (i == goodsBeen.size()) i--;
+                            if (goodsBeen.get(j).getId() == goodsBeen.get(i).getId() && j != i) {
+                                goodsBeen.remove(j);
+                                gdGoodsBeanDao.deleteByKey(gdGoodsBeans.get(j).getGid());
+                            }
+                        }
+                    }
+                    goodsAdapter.replaceAll(goodsBeen);
+                    goodsAdapter.notifyDataSetChanged();
+                }else {
+                    mNetWork.sendGoodsList(page, per_page, brand, mView.category, mView.filter_attr, shop, mView.keyword, mSortKey, mSortValue, this);
+                }
+            } else {
+                pd.setVisibility(View.VISIBLE);
+                mNetWork.sendGoodsList(page, per_page, brand, mView.category, mView.filter_attr, shop, mView.keyword, mSortKey, mSortValue, this);
+            }
+        }
+        }else {
+                pd.setVisibility(View.VISIBLE);
+                mNetWork.sendGoodsList(page, per_page, brand, mView.category, mView.filter_attr, shop, mView.keyword, mSortKey, mSortValue, this);
+            }
     }
 
     /**
      * 产品查询by key
      *
-     * @param page
-     * @param per_page
-     * @param brand
-     * @param category
-     * @param shop
      */
     public void selectProductByKey(String key) {
         pd.setVisibility(View.VISIBLE);
@@ -391,7 +644,8 @@ public class MainNewController extends BaseController implements INetworkCallBac
     public void onSuccessListener(String requestCode, JSONObject ans) {
         switch (requestCode) {
             case NetWorkConst.PRODUCT:
-                if(progressDialog!=null&&progressDialog.isShowing())progressDialog.dismiss();
+
+                if(UIUtils.isValidContext(mView)&&progressDialog!=null&&progressDialog.isShowing())progressDialog.dismiss();
                 pd.setVisibility(View.GONE);
                 //                if (null == mView || mView.getActivity().isFinishing())
                 //                    return;
@@ -416,8 +670,47 @@ public class MainNewController extends BaseController implements INetworkCallBac
                     dismissRefesh();
                     return;
                 }
-
                 getDataSuccess(goodsList);
+                DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+                DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+                DaoSession daoSession = daoMaster.newSession();
+                GdAttrBeanDao attrBeanDao=daoSession.getGdAttrBeanDao();
+                GdAttrBeanListDao beanListDao=daoSession.getGdAttrBeanListDao();
+                GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
+                attrBeanDao.deleteAll();
+                beanListDao.deleteAll();
+                for(AttrBean attrBean:attrAllBean){
+                    GdAttrBean gdAttrBean=new GdAttrBean();
+                    gdAttrBean.setIndex(attrBean.getIndex());
+                    gdAttrBean.setAttr_list_index(attrBean.getIndex());
+                    gdAttrBean.setFilter_attr_name(attrBean.getFilter_attr_name());
+                    attrBeanDao.insert(gdAttrBean);
+                    List<Attr_list> attr_lists=attrBean.getAttr_list();
+                    for( Attr_list list:attr_lists){
+                        GdAttrBeanList beanList=new GdAttrBeanList();
+                        beanList.setAttr_bean_index(attrBean.getIndex());
+                        beanList.setAttr_value(list.getAttr_value());
+                        beanList.setId(list.getId());
+                        beanListDao.insert(beanList);
+                    }
+
+                }
+//                if(page==1){
+//                    gdGoodsBeanDao.deleteAll();
+//                }
+                for(GoodsBean bean:goodsBeen){
+                GdGoodsBean gdGoodsBean=new GdGoodsBean();
+                gdGoodsBean.setId(bean.getId());
+                gdGoodsBean.setCurrentPrice(bean.getCurrent_price());
+                gdGoodsBean.setName((String) bean.getName());
+                gdGoodsBean.setOrignalImg(bean.getDefault_photo().getThumb());
+                Log.e("insert_filter",mView.filter_attr+"");
+                gdGoodsBean.setFilter(mView.filter_attr);
+                gdGoodsBean.setSortKey(mSortKey);
+                gdGoodsBean.setSortValue(mSortValue);
+                gdGoodsBeanDao.insert(gdGoodsBean);
+                }
+
 //                sendAttrList();
 
                 break;
@@ -429,8 +722,10 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 }else if(mView.filter_attr_name.equals("空间")){
                     index=1;
                 }else if(mView.filter_attr_name.equals("风格")){
-                    index=4;
+                    index=3;
                 }
+                attrAllBean=new ArrayList<>();
+                attrBeen=new ArrayList<>();
                 boolean hasFilterType=false;
                 for(int i=0;i<sceneAllAttrs.length();i++){
                     if(sceneAllAttrs.getJSONObject(i).getInt(Constance.index)==index){
@@ -438,7 +733,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
                         JSONArray jsonArray=sceneAllAttrs.getJSONObject(i).getJSONArray(Constance.attr_list);
                         for(int j=0;j<jsonArray.length();j++){
 
-                            attrBeen.add(new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(j)),AttrBean.Attr_list.class));
+                            attrBeen.add(new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(j)),Attr_list.class));
                             if(!TextUtils.isEmpty(mView.filter_type)&&currentTitlePosition==i
                                     &&attrBeen.get(attrBeen.size()-1).getAttr_value().contains(mView.filter_type)){
                                     currentPosition=j;
@@ -459,7 +754,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
                         }
                     }
                     mView.filter_attr = filter;
-                    pd.setVisibility(View.VISIBLE);
+//                    pd.setVisibility(View.VISIBLE);
                     page=1;
                     isScrollToTop=true;
                 }
@@ -488,8 +783,9 @@ public class MainNewController extends BaseController implements INetworkCallBac
             }catch(Exception e){
                 GoodsBean goodsBean=new GoodsBean();
                 goodsBean.setName(array.getJSONObject(i).getString(Constance.name));
+                goodsBean.setOriginal_img(array.getJSONObject(i).getString(Constance.original_img));
                 goodsBean.setCurrent_price(array.getJSONObject(i).getString(Constance.current_price));
-                goodsBean.setDefault_photo(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.default_photo)), GoodsBean.Default_photo.class));
+                goodsBean.setDefault_photo(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.default_photo)), Default_photo.class));
                 goodsBean.setId(Integer.parseInt(array.getJSONObject(i).getString(Constance.id)));
                 goodsBean.setGroup_buy(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.group_buy)),GroupBuy.class));
                 JSONArray jsonArray=array.getJSONObject(i).getJSONArray(Constance.properties);
@@ -516,6 +812,15 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 MyToast.show(mView, "没有更多内容了");
         }
 //        mProAdapter.notifyDataSetChanged();
+        for(int i=0;i<goodsBeen.size();i++){
+            for(int j=0;j<goodsBeen.size();j++){
+                if(j==goodsBeen.size())j--;
+                if(i==goodsBeen.size())i--;
+                if(goodsBeen.get(j).getId()==goodsBeen.get(i).getId()&&j!=i){
+                    goodsBeen.remove(j);
+                }
+            }
+        }
         goodsAdapter.replaceAll(goodsBeen);
         if(isScrollToTop)
         {
@@ -526,6 +831,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
     }
     @Override
     public void onFailureListener(String requestCode, JSONObject ans) {
+        if(UIUtils.isValidContext(mView)&&progressDialog!=null&&progressDialog.isShowing())progressDialog.dismiss();
         pd.setVisibility(View.GONE);
         if (null == mView || mView.isFinishing())
             return;
@@ -569,6 +875,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
     @Override
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
         page = 1;
+        request = true;
 //        initFilterDropDownView = false;
         selectProduct(page, "20", null, null, null);
     }
@@ -576,7 +883,18 @@ public class MainNewController extends BaseController implements INetworkCallBac
     @Override
     public void onLoadMore(PullToRefreshLayout pullToRefreshLayout) {
 //        initFilterDropDownView = false;
-        page = page + 1;
+        if(goodsBeen==null||goodsBeen.size()==0){
+            page=1;
+        }else {
+        int pageRow;
+        if(goodsBeen.size()%20==0){
+            pageRow=goodsBeen.size()/20;
+        }else {
+            pageRow=goodsBeen.size()/20+1;
+        }
+        page = pageRow + 1;
+        }
+        request=true;
         selectProduct(page, "20", null, null, null);
     }
 
@@ -614,8 +932,65 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 ll_filter.setVisibility(View.GONE);
                 tv_select_choose.setSelected(false);
                 page=1;
-                selectProduct(page,"20",null,null,null);
+                selectProductByFilter(page,"20",null,null,null);
                 break;
+        }
+    }
+
+    private void selectProductByFilter(int page, String s, Object o, Object o1, Object o2) {
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
+        List<GdGoodsBean> gdGoodsBeans=gdGoodsBeanDao.loadAll();
+        if(gdGoodsBeans==null||gdGoodsBeans.size()==0){
+            pd.setVisibility(View.VISIBLE);
+            mNetWork.sendGoodsList(page, "20", null, mView.category, mView.filter_attr, null, mView.keyword, mSortKey, mSortValue, this);
+        }else {
+//            pd.setVisibility(View.VISIBLE);
+            page=1;
+            isScrollToTop=true;
+//            filterArray = new boolean[attrAllBean.size()][];
+//            for(int i = 0; i< filterArray.length; i++){
+//                filterArray[i]=new boolean[attrAllBean.get(i).getAttr_list().size()];
+//            }
+            goodsBeen=new ArrayList<>();
+
+            for(GdGoodsBean temp:gdGoodsBeans){
+
+                GoodsBean goodsBean=new GoodsBean();
+                goodsBean.setId(temp.getId());
+                goodsBean.setName(temp.getName());
+                goodsBean.setOriginal_img(temp.getOrignalImg());
+                goodsBean.setCurrent_price(temp.getCurrentPrice());
+                Default_photo default_phot=new Default_photo();
+                default_phot.setThumb(temp.getOrignalImg());
+                goodsBean.setDefault_photo(default_phot);
+                if(mView.filter_attr!=null){
+                    if (temp.getFilter()!=null&&mView.filter_attr.equals(temp.getFilter())) {
+                        goodsBeen.add(goodsBean);
+                    }
+                }else {
+                    goodsBeen.add(goodsBean);
+                }
+            }
+            if(goodsBeen!=null&&goodsBeen.size()>0){
+                for(int i=0;i<goodsBeen.size();i++){
+                    for(int j=0;j<goodsBeen.size();j++){
+                        if(j==goodsBeen.size())j--;
+                        if(i==goodsBeen.size())i--;
+                        if(goodsBeen.get(j).getId()==goodsBeen.get(i).getId()&&j!=i){
+                            goodsBeen.remove(j);
+                            gdGoodsBeanDao.deleteByKey(gdGoodsBeans.get(j).getGid());
+                        }
+                    }
+                }
+                goodsAdapter.replaceAll(goodsBeen);
+                goodsAdapter.notifyDataSetChanged();
+            }else {
+                pd.setVisibility(View.VISIBLE);
+                mNetWork.sendGoodsList(page, "20", null, mView.category, mView.filter_attr, null, mView.keyword, mSortKey, mSortValue, this);
+            }
         }
     }
 
@@ -627,4 +1002,5 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 selectProductByKey(key);
             }
     }
+
 }

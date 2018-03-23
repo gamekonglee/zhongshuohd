@@ -19,6 +19,8 @@ public class ScGoods implements Parcelable {
     private String attrs;
     private ScProduct product;
 
+
+
     public ScGoods() {
 
     }

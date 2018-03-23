@@ -17,10 +17,9 @@
             android:layout_width="@dimen/xx365"
             android:layout_height="@dimen/xx588"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_xiandaijianyue"
-            style="@style/tv_home_text"
+            style="@style/tv_home_text2"
             android:text="现代简约"
             />
     </RelativeLayout>
@@ -42,11 +41,10 @@
             android:layout_width="@dimen/xx362"
             android:layout_height="@dimen/xx279"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_zhongshi"
-            android:text="中式"
-            style="@style/tv_home_text"
+            android:text="亚克力吸顶灯"
+            style="@style/tv_home_text2"
             />
     </RelativeLayout>
 
@@ -59,11 +57,10 @@
             android:layout_width="@dimen/xx362"
             android:layout_height="@dimen/xx279"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_xinzhongshi"
             android:text="新中式"
-            style="@style/tv_home_text"
+            style="@style/tv_home_text2"
             />
     </RelativeLayout>
 
@@ -76,11 +73,10 @@
             android:layout_width="@dimen/xx362"
             android:layout_height="@dimen/xx279"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_oushi"
             android:text="欧式"
-            style="@style/tv_home_text"
+            style="@style/tv_home_text2"
             />
     </RelativeLayout>
 
@@ -100,12 +96,15 @@
             android:layout_width="@dimen/xx362"
             android:layout_height="@dimen/xx279"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_meishi"
-            android:text="美式"
-            style="@style/tv_home_text"
-            />
+            style="@style/tv_home_text2"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="18dp"
+            android:layout_marginRight="18dp"
+            android:text="铁艺吸顶灯" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -117,11 +116,10 @@
             android:layout_width="@dimen/xx166"
             android:layout_height="@dimen/xx279"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_houxiandai"
-            android:text="后现代"
-            style="@style/tv_home_text"
+            android:text="中式"
+            style="@style/tv_home_text2"
             />
     </RelativeLayout>
 
@@ -134,11 +132,10 @@
             android:layout_width="@dimen/xx166"
             android:layout_height="@dimen/xx279"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_yijia"
-            android:text="宜家"
-            style="@style/tv_home_text"
+            android:text="美式"
+            style="@style/tv_home_text2"
             />
     </RelativeLayout>
 
@@ -151,11 +148,10 @@
             android:layout_width="@dimen/xx166"
             android:layout_height="@dimen/xx279"/>
 
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_tianyuan"
-            android:text="田园"
-            style="@style/tv_home_text"
+            android:text="餐厅"
+            style="@style/tv_home_text2"
             />
     </RelativeLayout>
 
@@ -167,11 +163,10 @@
             android:id="@+id/iv_qb"
             android:layout_width="@dimen/xx166"
             android:layout_height="@dimen/xx279"/>
-        <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
-            android:text="全部"
+            android:text="风扇灯"
             android:id="@+id/tv_quanbu"
-            style="@style/tv_home_text"
+            style="@style/tv_home_text2"
             />
         <!--<TextView
 

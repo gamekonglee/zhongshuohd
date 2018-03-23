@@ -146,7 +146,6 @@ public class CartController extends BaseController implements INetworkCallBack {
         mListView.setDivider(null);//去除listview的下划线
 
 //        myAdapter = new MyAdapter();
-
 //
 //        final SwipeMenuCreator creator = new SwipeMenuCreator() {
 //            @Override
@@ -318,15 +317,14 @@ public class CartController extends BaseController implements INetworkCallBack {
                     for(int i=0;i<goodarray.length();i++){
                         try{
                             goodsTotalList.add(new Gson().fromJson(goodarray.getJSONObject(i).toString(),ScGoods.class));
-
                         }catch (Exception e){
                             ScGoods scGoods=new ScGoods();
                             scGoods.setId(Integer.parseInt(goodarray.getJSONObject(i).getString(Constance.id)));
                             scGoods.setAmount(Integer.parseInt(goodarray.getJSONObject(i).getString(Constance.amount)));
                             scGoods.setAttr_stock(goodarray.getJSONObject(i).getInt(Constance.attr_stock));
                             scGoods.setPrice(goodarray.getJSONObject(i).getString(Constance.price));
+                            scGoods.setProperty(goodarray.getJSONObject(i).getString(Constance.property));
                             try {
-
                             scGoods.setProduct(new Gson().fromJson(goodarray.getJSONObject(i).getString(Constance.product), ScProduct.class));
                             }catch (Exception e2){
                                 JSONObject jsonObject=goodarray.getJSONObject(i).getJSONObject(Constance.product);
@@ -334,9 +332,9 @@ public class CartController extends BaseController implements INetworkCallBack {
                                 scProduct.setName(jsonObject.getString(Constance.name));
                                 scProduct.setOriginal_img(jsonObject.getString(Constance.original_img));
                                 scProduct.setApp_img(new Gson().fromJson(jsonObject.getString(Constance.app_img), ScAppImg.class));
+                                scProduct.setWarn_number(jsonObject.getInt(Constance.warn_number));
                                 scGoods.setProduct(scProduct);
                             }
-                            scGoods.setProperty(goodarray.getJSONObject(i).getString(Constance.property));
                             goodsTotalList.add(scGoods);
                         }
                     }
@@ -508,7 +506,8 @@ public class CartController extends BaseController implements INetworkCallBack {
             helper.setText(R.id.priceTv,"￥"+ df.format(Double.parseDouble(item.getPrice())));
             ImageView imageView=helper.getView(R.id.imageView);
             String ori_img=item.getProduct().getApp_img().getImg();
-
+            int warn_number=item.getProduct().getWarn_number();
+            if(warn_number==0)warn_number=1;
             imageLoader.displayImage(ori_img
                     , imageView, options);
             helper.setOnClickListener(R.id.iv_delete, new View.OnClickListener() {
@@ -531,30 +530,32 @@ public class CartController extends BaseController implements INetworkCallBack {
 //            holder.number_input_et.setMax(10000);//设置数量的最大值
 //
 //            holder.numTv.setText(goodsObject.getInt(Constance.amount)+"");
+            final int finalWarn_number = warn_number;
             final EditText numTv=helper.getView(R.id.et_num);
             numTv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showCountDialo(helper.getPosition(),item.getAmount());
+                    showCountDialo(helper.getPosition(),item.getAmount(),finalWarn_number);
                 }
             });
             helper.setChecked(R.id.checkbox,isCheckList.get(helper.getPosition()));
+
             helper.setOnClickListener(R.id.rightTv, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     pd=ProgressDialog.show(mView,"","正在处理中...");
-                    sendUpdateCart(item.getId()+"",(item.getAmount()+1)+"");
+                    sendUpdateCart(item.getId()+"",(item.getAmount()+ finalWarn_number)+"");
                 }
             });
             helper.setOnClickListener(R.id.leftTv, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(item.getAmount()==1){
+                    if(item.getAmount()==finalWarn_number){
                         MyToast.show(mView,"亲,已经到底啦!");
                         return;
                     }
                     pd=ProgressDialog.show(mView,"","正在处理中...");
-                    sendUpdateCart(item.getId()+"",(item.getAmount()-1)+"");
+                    sendUpdateCart(item.getId()+"",(item.getAmount()-finalWarn_number)+"");
                 }
             });
             CheckBox checkBox=helper.getView(R.id.checkbox);
@@ -638,7 +639,7 @@ public class CartController extends BaseController implements INetworkCallBack {
 
     }
 
-    private void showCountDialo(final int position, int count) {
+    private void showCountDialo(final int position, int count,int warn) {
         final Dialog dialog=new Dialog(mView,R.style.customDialog);
         dialog.setContentView(R.layout.item_shopcar_count_dialog);
         Window dialogWindow = dialog.getWindow();
@@ -651,9 +652,11 @@ public class CartController extends BaseController implements INetworkCallBack {
         TextView tv_reduce= (TextView) dialog.findViewById(R.id.tv_reduce);
         final EditText et_num_dialog= (EditText) dialog.findViewById(R.id.et_num);
         final int beforeCount= goodsTotalList.get(position).getAmount();
+        if(warn==0)warn=1;
         TextView tv_cancel= (TextView) dialog.findViewById(R.id.tv_cancel);
         TextView tv_ensure= (TextView) dialog.findViewById(R.id.tv_ensure);
         et_num_dialog.setText(""+count);
+        final int finalWarn = warn;
         tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -661,11 +664,7 @@ public class CartController extends BaseController implements INetworkCallBack {
                 {MyToast.show(mView,"商品数量要大于0");
                     return;}
                 int  count= Integer.parseInt(et_num_dialog.getText().toString().trim());
-                if(count<1){
-                    MyToast.show(mView,"商品数量要大于0");
-                    return;
-                }
-                count++;
+                count+=finalWarn;
                 et_num_dialog.setText(""+count);
             }
         });
@@ -676,14 +675,10 @@ public class CartController extends BaseController implements INetworkCallBack {
                 {MyToast.show(mView,"商品数量要大于0");
                     return;}
                 int  count= Integer.parseInt(et_num_dialog.getText().toString().trim());
-                if(count<1){
-                    MyToast.show(mView,"商品数量要大于0");
+                if(count<=finalWarn){
                     return;
                 }
-                if(count<=1){
-                    return;
-                }
-                count--;
+                count-=finalWarn;
                 et_num_dialog.setText(""+count);
             }
         });
@@ -700,7 +695,7 @@ public class CartController extends BaseController implements INetworkCallBack {
                 {MyToast.show(mView,"商品数量要大于0");
                     return;}
                 int  count= Integer.parseInt(et_num_dialog.getText().toString().trim());
-                if(count<1){
+                if(count<finalWarn){
                     MyToast.show(mView,"商品数量要大于0");
                     return;
                 }

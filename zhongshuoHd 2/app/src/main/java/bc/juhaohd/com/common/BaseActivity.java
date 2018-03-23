@@ -77,6 +77,7 @@ public abstract class BaseActivity  extends FragmentActivity implements View.OnC
      * 跳轉廣告
      */
     public void startAD() {
+        if(IssueApplication.noAd)return;
         if (countDownTimer == null) {
             countDownTimer = new CountDownTimer(advertisingTime, 1000l) {
                 @Override
@@ -153,7 +154,13 @@ public abstract class BaseActivity  extends FragmentActivity implements View.OnC
     @Override
     protected void onResume() {
         super.onResume();
-        startAD();
+        if(!IssueApplication.noAd){
+            startAD();
+        }else {
+            if (countDownTimer != null){
+                countDownTimer.cancel();
+            }
+        }
     }
 
     @Override

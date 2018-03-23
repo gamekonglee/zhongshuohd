@@ -26,6 +26,7 @@ import bc.juhaohd.com.R;
 import bc.juhaohd.com.adapter.BaseAdapterHelper;
 import bc.juhaohd.com.adapter.QuickAdapter;
 import bc.juhaohd.com.bean.CollectGoodsBean;
+import bc.juhaohd.com.bean.Default_photo;
 import bc.juhaohd.com.bean.GoodsBean;
 import bc.juhaohd.com.bean.GroupBuy;
 import bc.juhaohd.com.bean.ScAttrs;
@@ -140,7 +141,7 @@ public class CollectController extends BaseController implements INetworkCallBac
                     helper.setText(R.id.tv_price," "+item.getGoods().getCurrent_price());
                 }
                 helper.setText(R.id.tv_price," "+item.getGoods().getCurrent_price());
-                GoodsBean.Default_photo default_photo=item.getGoods().getDefault_photo();
+                Default_photo default_photo=item.getGoods().getDefault_photo();
                 if(null!=default_photo){
                     String imageUrl=item.getGoods().getDefault_photo().getLarge();
                     ImageLoadProxy.displayImage(imageUrl, (ImageView) helper.getView(R.id.iv_photo));
@@ -280,7 +281,7 @@ public class CollectController extends BaseController implements INetworkCallBac
                 GoodsBean goodsBean=new GoodsBean();
                 goodsBean.setName(array.getJSONObject(i).getString(Constance.name));
                 goodsBean.setCurrent_price(array.getJSONObject(i).getString(Constance.current_price));
-                goodsBean.setDefault_photo(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.default_photo)), GoodsBean.Default_photo.class));
+                goodsBean.setDefault_photo(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.default_photo)), Default_photo.class));
                 goodsBean.setId(Integer.parseInt(array.getJSONObject(i).getString(Constance.goods_id)));
                 goodsBean.setGroup_buy(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.group_buy)),GroupBuy.class));
                 collectgoodsBean.setGoods(goodsBean);

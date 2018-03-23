@@ -27,6 +27,8 @@ import bc.juhaohd.com.R;
 import bc.juhaohd.com.adapter.BaseAdapterHelper;
 import bc.juhaohd.com.adapter.QuickAdapter;
 import bc.juhaohd.com.bean.AttrBean;
+import bc.juhaohd.com.bean.Attr_list;
+import bc.juhaohd.com.bean.Default_photo;
 import bc.juhaohd.com.bean.GoodsBean;
 import bc.juhaohd.com.bean.GroupBuy;
 import bc.juhaohd.com.cons.Constance;
@@ -62,7 +64,7 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
     private PullableGridView gridView;
     private QuickAdapter typeAdapter;
     private QuickAdapter goodsAdapter;
-    private List<AttrBean.Attr_list> attrBeen;
+    private List<Attr_list> attrBeen;
     private List<GoodsBean> goodsBeen;
     public int page;
     private ProgressBar pd;
@@ -138,10 +140,10 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
         currentPosition=0;
         currentTitlePosition = 0;
 //        unMessageReadTv = (TextView) mView.findViewById(R.id.unMessageReadTv);
-        typeAdapter = new QuickAdapter<AttrBean.Attr_list>(mView, R.layout.item_attr){
+        typeAdapter = new QuickAdapter<Attr_list>(mView, R.layout.item_attr){
 
             @Override
-            protected void convert(BaseAdapterHelper helper, AttrBean.Attr_list item) {
+            protected void convert(BaseAdapterHelper helper, Attr_list item) {
             helper.setText(R.id.tv_attr,""+item.getAttr_value());
                 if(helper.getPosition()==currentPosition){
                     helper.setBackgroundColor(R.id.ll_bg,mView.getResources().getColor(R.color.bg_item_selected));
@@ -171,7 +173,7 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
                     helper.setText(R.id.tv_price," "+item.getCurrent_price());
                 }
 
-                GoodsBean.Default_photo default_photo=item.getDefault_photo();
+                Default_photo default_photo=item.getDefault_photo();
                 if(null!=default_photo){
                     String imageUrl=item.getDefault_photo().getLarge();
                     ImageLoadProxy.displayImage(imageUrl, (ImageView) helper.getView(R.id.iv_photo));
@@ -199,9 +201,9 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
                     }
                 });
 
-                gridView.setAdapter(new QuickAdapter<AttrBean.Attr_list>(mView,R.layout.item_text) {
+                gridView.setAdapter(new QuickAdapter<Attr_list>(mView,R.layout.item_text) {
                     @Override
-                    protected void convert(BaseAdapterHelper helper, AttrBean.Attr_list item) {
+                    protected void convert(BaseAdapterHelper helper, Attr_list item) {
                         TextView textView=helper.getView(R.id.textview);
                         if(filterArray[basehelper.getPosition()][helper.getPosition()]){
                             textView.setSelected(true);
@@ -396,7 +398,7 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
                         JSONArray jsonArray=sceneAllAttrs.getJSONObject(i).getJSONArray(Constance.attr_list);
                         for(int j=0;j<jsonArray.length();j++){
 
-                            attrBeen.add(new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(j)),AttrBean.Attr_list.class));
+                            attrBeen.add(new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(j)),Attr_list.class));
                             if(!TextUtils.isEmpty(mView.filter_type)&&currentTitlePosition==i
                                     &&attrBeen.get(attrBeen.size()-1).getAttr_value().contains(mView.filter_type)){
                                     currentPosition=j;
@@ -447,7 +449,7 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
                 GoodsBean goodsBean=new GoodsBean();
                 goodsBean.setName(array.getJSONObject(i).getString(Constance.name));
                 goodsBean.setCurrent_price(array.getJSONObject(i).getString(Constance.current_price));
-                goodsBean.setDefault_photo(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.default_photo)), GoodsBean.Default_photo.class));
+                goodsBean.setDefault_photo(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.default_photo)), Default_photo.class));
                 goodsBean.setId(Integer.parseInt(array.getJSONObject(i).getString(Constance.id)));
                 goodsBean.setGroup_buy(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.group_buy)),GroupBuy.class));
                 temp.add(goodsBean);

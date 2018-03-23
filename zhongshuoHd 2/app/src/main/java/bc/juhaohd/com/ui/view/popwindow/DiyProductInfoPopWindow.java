@@ -128,22 +128,31 @@ public class DiyProductInfoPopWindow extends BasePopwindown implements View.OnCl
      */
     public void getDetail() {
         mParamMsg=new StringBuffer();
-        JSONArray attachmentArray = productObject.getJSONArray(Constance.attachments);
+        int currentposition=productObject.getInt(Constance.c_position);
+        JSONArray attachmentArray = productObject.getJSONArray(Constance.properties);
         List<String> attachs = new ArrayList<>();
         attachs.add("名称: " + productObject.getString(Constance.name));
         attachs.add("价格: " + productObject.getString(Constance.current_price) + "￥");
         mParamMsg.append("名称: " + productObject.getString(Constance.name) + "\n");
         mParamMsg.append("价格: " + productObject.getString(Constance.current_price) + "￥\n");
+        if(currentposition>=attachmentArray.length())currentposition=0;
+        int currentAttach=0;
         for (int i = 0; i < attachmentArray.length(); i++) {
-            JSONObject jsonObject = attachmentArray.getJSONObject(i);
-            JSONArray attrs = jsonObject.getJSONArray(Constance.attrs);
-            attachs.add(jsonObject.getString(Constance.name) + ": " + attrs.getJSONObject(0).getString(Constance.attr_name));
-            if(i<attachmentArray.length()-1){
-                mParamMsg.append(jsonObject.getString(Constance.name) + ": " + attrs.getJSONObject(0).getString(Constance.attr_name)+"\n");
-            }else{
-                mParamMsg.append(jsonObject.getString(Constance.name) + ": " + attrs.getJSONObject(0).getString(Constance.attr_name));
-            }
+          if(attachmentArray.getJSONObject(i).getString(Constance.name).equals("规格")){
+              currentAttach=i;
+              break;
+          }
 
+        }
+
+        JSONObject jsonObject = attachmentArray.getJSONObject(currentAttach);
+        JSONArray attrs = jsonObject.getJSONArray(Constance.attrs);
+
+        attachs.add(jsonObject.getString(Constance.name) + ": " + attrs.getJSONObject(currentposition).getString(Constance.attr_name));
+        if(currentAttach<attachmentArray.length()-1){
+            mParamMsg.append(jsonObject.getString(Constance.name) + ": " + attrs.getJSONObject(currentposition).getString(Constance.attr_name)+"\n");
+        }else{
+            mParamMsg.append(jsonObject.getString(Constance.name) + ": " + attrs.getJSONObject(currentposition).getString(Constance.attr_name));
         }
 
 

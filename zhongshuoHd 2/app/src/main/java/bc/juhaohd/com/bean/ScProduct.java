@@ -35,6 +35,16 @@ public class ScProduct implements Parcelable{
     private String share_url;
     private long created_at;
     private long updated_at;
+    private int warn_number;
+
+    public int getWarn_number() {
+        return warn_number;
+    }
+
+    public void setWarn_number(int warn_number) {
+        this.warn_number = warn_number;
+    }
+
     private List<ScProperties> properties;
 public  ScProduct(){
 

@@ -94,7 +94,7 @@ public class CircleImageView extends ImageView {
     @Override
     protected void onDraw(Canvas canvas) {
         Drawable mDrawable = getDrawable();
-
+        canvas.drawColor(Color.TRANSPARENT);
         Matrix mDrawMatrix = getImageMatrix();
         if (mDrawable == null) {
             return; // couldn't resolve the URI

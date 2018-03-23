@@ -63,7 +63,6 @@ public class HomeShowNewActivity extends BaseActivity {
         homeShowNewActivity=this;
         ActivityManager activityManager= (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> appTask = activityManager.getRunningTasks(1);
-
         if (appTask != null)
             if(appTask.size()>0)
                 if(appTask.get(0).topActivity.toString().contains(packageName))
@@ -183,13 +182,13 @@ public class HomeShowNewActivity extends BaseActivity {
                 tabid=R.id.frag_home_tv;
                 break;
             case 1:
-                tabid=R.id.frag_type_tv;
+                tabid=R.id.frag_style_tv;
                 break;
             case 2:
-                tabid=R.id.frag_space_tv;
+                tabid=R.id.frag_type_tv;
                 break;
             case 3:
-                tabid=R.id.frag_style_tv;
+                tabid=R.id.frag_space_tv;
                 break;
             case 4:
                 tabid=R.id.frag_search_tv;
@@ -257,18 +256,19 @@ public class HomeShowNewActivity extends BaseActivity {
                     mFragmentState = 0;
                     clickTab1Layout();
                     break;
-                case R.id.frag_type_tv:
+                case R.id.frag_style_tv:
                     mFragmentState=1;
+                    clickTab4Layout();
+                    break;
+                case R.id.frag_type_tv:
+                    mFragmentState=2;
                     clickTab2Layout();
                     break;
                 case R.id.frag_space_tv:
-                    mFragmentState=2;
+                    mFragmentState=3;
                     clickTab3Layout();
                     break;
-                case R.id.frag_style_tv:
-                    mFragmentState=3;
-                    clickTab4Layout();
-                    break;
+
                 case R.id.frag_search_tv:
                     clickTab5Layout();
                     break;

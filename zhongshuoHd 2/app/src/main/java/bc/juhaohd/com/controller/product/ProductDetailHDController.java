@@ -29,9 +29,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.bigkoo.convenientbanner.CBPageAdapter;
 import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
+import com.example.anonymous.greendao.DaoMaster;
+import com.example.anonymous.greendao.DaoSession;
+import com.example.anonymous.greendao.GdGoodsDetialDao;
 import com.google.gson.Gson;
 import com.lib.common.hxp.view.GridViewForScrollView;
 import com.lib.common.hxp.view.ListViewForScrollView;
@@ -43,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bc.juhaohd.com.R;
+import bc.juhaohd.com.bean.GdGoodsDetial;
 import bc.juhaohd.com.bean.GoodsDetailZsBean;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.cons.NetWorkConst;
@@ -133,8 +139,23 @@ public class ProductDetailHDController extends BaseController implements INetwor
     }
 
     private void initViewData() {
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdGoodsDetialDao gdGoodsDetialDao=daoSession.getGdGoodsDetialDao();
+        List<GdGoodsDetial>  gdGoodsDetials=gdGoodsDetialDao.loadAll();
+        boolean hasBean=false;
+        for(GdGoodsDetial gdGoodsDetial:gdGoodsDetials){
+            if(gdGoodsDetial.getId()==mView.productId){
+                getProductDetail(JSON.parseObject(gdGoodsDetial.getGdJson()));
+                hasBean=true;
+                break;
+            }
+        }
+        if(!hasBean){
         sendProductDetail();
         sendProductDetail02();
+        }
 
     }
 
@@ -180,6 +201,14 @@ public class ProductDetailHDController extends BaseController implements INetwor
     private void getProductDetail(com.alibaba.fastjson.JSONObject productObject) {
 //        LogUtils.logE("product",productObject.toString());
         goodsDetailZsBean = new Gson().fromJson(productObject.toString(),GoodsDetailZsBean.class);
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdGoodsDetial gdGoodsDetial=new GdGoodsDetial();
+        gdGoodsDetial.setId(goodsDetailZsBean.getId());
+        gdGoodsDetial.setGdJson(productObject.toJSONString());
+        GdGoodsDetialDao gdGoodsDetialDao=daoSession.getGdGoodsDetialDao();
+        gdGoodsDetialDao.insert(gdGoodsDetial);
         final String value = goodsDetailZsBean.getGoods_desc();
         mIsLike = (int)goodsDetailZsBean.getIs_liked();
         productName = goodsDetailZsBean.getName();
@@ -292,8 +321,10 @@ public class ProductDetailHDController extends BaseController implements INetwor
             price=attrsArray.get(y).getAttr_price_3();
         }else if(levelid.equals("101")){
             price=attrsArray.get(y).getAttr_price_2();
-        }else{
+        }else if(levelid.equals("100")){
             price=attrsArray.get(y).getAttr_price_1();
+        }else {
+            price=attrsArray.get(y).getAttr_price_5();
         }
         return price;
     }
@@ -572,7 +603,6 @@ public class ProductDetailHDController extends BaseController implements INetwor
                     mView.startActivity(intent);
             }
         });
-
     }
 
     /**
@@ -754,6 +784,9 @@ public class ProductDetailHDController extends BaseController implements INetwor
             final TextView tv_reduce = (TextView) skuDialog.findViewById(R.id.tv_reduce);
             final TextView tv_add = (TextView) skuDialog.findViewById(R.id.tv_add);
             et_sku_num = (TextView) skuDialog.findViewById(R.id.et_num);
+            int warn=goodsDetailZsBean.getWarn_number();
+            if(warn==0){warn=1;}
+            et_sku_num.setText(""+warn);
             TextView tv_remark=skuDialog.findViewById(R.id.tv_remark);
             if(TextUtils.isEmpty(goodsDetailZsBean.getRemark())){
                 tv_remark.setVisibility(View.GONE);
@@ -767,6 +800,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
                 showCountDialo(Integer.parseInt(et_sku_num.getText().toString()), et_sku_num,rootview);
                 }
             });
+            final int finalWarn = warn;
             tv_reduce.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -775,10 +809,10 @@ public class ProductDetailHDController extends BaseController implements INetwor
                         numstr="1";
                     }
                     int num = Integer.parseInt(numstr);
-                    if (num <= 1) {
+                    if (num <= finalWarn) {
                         return;
                     }
-                    num--;
+                    num-=finalWarn;
                     et_sku_num.setText("" + num);
                 }
             });
@@ -787,10 +821,10 @@ public class ProductDetailHDController extends BaseController implements INetwor
                 public void onClick(View view) {
                     String numstr= et_sku_num.getText()+"";
                     if(numstr==null||numstr.toString()==null||numstr.toString().trim()==null){
-                        numstr="1";
+                        numstr=""+finalWarn;
                     }
                     int num = Integer.parseInt(numstr);
-                    num++;
+                    num+=finalWarn;
                     et_sku_num.setText(""+num);
                 }
             });
@@ -1100,6 +1134,11 @@ public class ProductDetailHDController extends BaseController implements INetwor
         TextView tv_cancel= (TextView) countDialog.findViewById(R.id.tv_cancel);
         TextView tv_ensure= (TextView) countDialog.findViewById(R.id.tv_ensure);
         et_num_dialog.setText(""+count);
+        Integer warn=goodsDetailZsBean.getWarn_number();
+        if(warn==0){
+            warn=1;
+        }
+        final Integer finalWarn = warn;
         tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -1111,7 +1150,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
                     MyToast.show(mView,"商品数量要大于0");
                     return;
                 }
-                count++;
+                count+= finalWarn;
                 et_num_dialog.setText(""+count);
             }
         });
@@ -1126,10 +1165,10 @@ public class ProductDetailHDController extends BaseController implements INetwor
                     MyToast.show(mView,"商品数量要大于0");
                     return;
                 }
-                if(count<=1){
+                if(count<=finalWarn){
                     return;
                 }
-                count--;
+                count-=finalWarn;
                 et_num_dialog.setText(""+count);
             }
         });
@@ -1209,12 +1248,17 @@ public class ProductDetailHDController extends BaseController implements INetwor
         final TextView tv_reduce = (TextView) skuDialog.findViewById(R.id.tv_reduce);
         final TextView tv_add = (TextView) skuDialog.findViewById(R.id.tv_add);
         et_sku_num = (TextView) skuDialog.findViewById(R.id.et_num);
+        Integer warn_number=goodsDetailZsBean.getWarn_number();
+        if(warn_number==0){
+            warn_number=1;
+        }
         et_sku_num.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showCountDialo(Integer.parseInt(et_sku_num.getText().toString()), et_sku_num,rootview);
             }
         });
+        final Integer finalWarn_number = warn_number;
         tv_reduce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1223,13 +1267,14 @@ public class ProductDetailHDController extends BaseController implements INetwor
                     numstr="1";
                 }
                 int num = Integer.parseInt(numstr);
-                if (num <= 1) {
+                if (num <= finalWarn_number) {
                     return;
                 }
-                num--;
+                num-= finalWarn_number;
                 et_sku_num.setText("" + num);
             }
         });
+        et_sku_num.setText(""+warn_number);
         tv_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1238,7 +1283,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
                     numstr="1";
                 }
                 int num = Integer.parseInt(numstr);
-                num++;
+                num+=finalWarn_number;
                 et_sku_num.setText(""+num);
             }
         });
@@ -1275,12 +1320,13 @@ public class ProductDetailHDController extends BaseController implements INetwor
             public void onClick(View view) {
                 mIntent = new Intent(mView, DiyActivity.class);
                 String url=NetWorkConst.SCENE_HOST+propertiesList.get(currentProperty).getAttrs().get(currentAttr).getImg();
-                if(url==null)url=goodsDetailZsBean.getApp_img().getImg();
+                if(propertiesList.get(currentProperty).getAttrs().get(currentAttr).getImg()==null)url=goodsDetailZsBean.getApp_img().getImg();
                 mIntent.putExtra(Constance.product, mView.goodses);
                 mIntent.putExtra(Constance.property, mView.mProperty);
                 mIntent.putExtra(Constance.url,url);
                 mView.goodses.add(Constance.c_property,mView.mProperty);
                 mView.goodses.add(Constance.c_url,url);
+                mView.goodses.add(Constance.c_position,currentAttr);
                 IssueApplication.mSelectProducts.add(mView.goodses);
                 LogUtils.logE("mSelect",IssueApplication.mSelectProducts.toString());
                 mView.startActivity(mIntent);

@@ -135,15 +135,16 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
             case 0://默认
                 filter_attr_name=" ";
                 break;
-            case 1://类型
-                filter_attr_name="类型";
-                break;
-            case 2://空间
-                filter_attr_name="空间";
-                break;
-            case 3://风格
+            case 1://风格
                 filter_attr_name="风格";
                 break;
+            case 2://类型
+                filter_attr_name="类型";
+                break;
+            case 3://空间
+                filter_attr_name="空间";
+                break;
+
         }
         if(getIntent().hasExtra(Constance.filter_attr_name)){
             filter_type = getIntent().getStringExtra(Constance.filter_attr_name);

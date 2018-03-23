@@ -31,6 +31,7 @@ import bc.juhaohd.com.ui.activity.TimeBuyActivity;
 import bc.juhaohd.com.ui.activity.programme.DiyActivity;
 import bc.juhaohd.com.ui.activity.programme.MatchHomeActivity;
 import bc.juhaohd.com.ui.activity.programme.ScreenActivity;
+import bc.juhaohd.com.ui.activity.user.BrandPlayActivity;
 import bc.juhaohd.com.ui.activity.user.WebActivity;
 import bc.juhaohd.com.ui.view.popwindow.VideoPopWindow;
 import bc.juhaohd.com.utils.MyShare;
@@ -154,7 +155,6 @@ public class HomeIndexFragment extends BaseFragment implements View.OnClickListe
         tv_screen.setOnClickListener(this);
         iv_temai.setOnClickListener(this);
 
-
     }
 
     @Override
@@ -241,9 +241,13 @@ public class HomeIndexFragment extends BaseFragment implements View.OnClickListe
             startActivity(new Intent(getActivity(),CartActivity.class));
             break;
         case R.id.tv_audio:
-            MyToast.show(getActivity(),"数据正在整理中");
+//            MyToast.show(getActivity(),"数据正在整理中");
 //            VideoPopWindow popWindow = new VideoPopWindow(getActivity().getBaseContext(), getActivity());
 //            popWindow.onShow(((HomeShowNewActivity)getActivity()).main_rl);
+            IssueApplication.noAd=true;
+            Intent mIntent=new Intent(getActivity(), BrandPlayActivity.class);
+            mIntent.putExtra(Constance.url,"http://7xt9qi.com1.z0.glb.clouddn.com/job_zsyc");
+            getActivity().startActivity(mIntent);
             break;
             case R.id.tv_screen:
                 startActivity(new Intent(getActivity(), ScreenActivity.class));

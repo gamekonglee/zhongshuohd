@@ -489,6 +489,7 @@ public class SelectGoodsController extends BaseController implements INetworkCal
                 String url=NetWorkConst.SCENE_HOST+propertiesList.getJSONObject(currentProperty).getJSONArray(Constance.attrs).getJSONObject(currentAttr[0]).getString(Constance.img);
                 if(url==null)url=goodses.getJSONObject(position).getJSONObject(Constance.app_img).getString(Constance.img);
                 goodses.getJSONObject(position).add(Constance.c_url,url);
+                goodses.getJSONObject(position).add(Constance.c_position,currentAttr[0]);
             IssueApplication.mSelectProducts.add(goodses.getJSONObject(position));
             mProAdapter.notifyDataSetChanged();
             mView.select_num_tv.setText(IssueApplication.mSelectProducts.length() + "");

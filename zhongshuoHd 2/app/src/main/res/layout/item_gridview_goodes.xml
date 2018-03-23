@@ -2,18 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:background="@drawable/bg_corner_trans"
     android:layout_height="match_parent">
 <RelativeLayout
-    android:layout_width="@dimen/xx360"
-    android:layout_height="@dimen/xx300">
-    <ImageView
+    android:layout_width="@dimen/xx400"
+    android:layout_height="@dimen/xx400">
+    <bc.juhaohd.com.ui.view.CircleImageView
         android:id="@+id/iv_photo"
+        android:scaleType="fitXY"
         android:src="@drawable/bg_default"
-        android:layout_width="@dimen/xx300"
+        android:layout_width="@dimen/xx400"
         android:layout_centerHorizontal="true"
-        android:layout_height="@dimen/xx300" />
+        android:layout_height="@dimen/xx400" />
     <TextView
         android:visibility="gone"
         android:id="@+id/tv_is_new"
@@ -49,11 +50,11 @@
         android:textColor="#444444"
         android:text="000-00"
         android:lines="1"
-        android:layout_marginTop="@dimen/xx18"
+        android:layout_marginTop="@dimen/xx9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <LinearLayout
-        android:layout_marginTop="@dimen/xx18"
+        android:layout_marginTop="@dimen/xx9"
         android:layout_marginLeft="@dimen/xx24"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

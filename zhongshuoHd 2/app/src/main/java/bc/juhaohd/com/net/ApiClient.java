@@ -4,6 +4,7 @@ import android.os.SystemClock;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -230,21 +231,25 @@ public class ApiClient  {
                 .build();
         OkHttpClient mOkHttpClent = new OkHttpClient();
         Call call = mOkHttpClent.newCall(request);
-        call.enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+       try {
+           call.enqueue(new okhttp3.Callback() {
+               @Override
+               public void onFailure(Call call, IOException e) {
 //                LogUtils.logE("failed",e.getMessage());
-                callback.onError(call,e,0);
+                   callback.onError(call,e,0);
 
-            }
+               }
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
+               @Override
+               public void onResponse(Call call, Response response) throws IOException {
 
 //                LogUtils.logE("onResponse:",response.body().string());
-                callback.onResponse(response.body().string(),0);
-            }
-        });
+                   callback.onResponse(response.body().string(),0);
+               }
+           });
+       }catch (Exception e){
+           PgyCrashManager.reportCaughtException(IssueApplication.getContext(), e);
+       }
 //        responseListener.onStarted();
 //        Map<String ,String> map=new HashMap<>();
 //        StringBuffer sb = new StringBuffer();

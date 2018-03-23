@@ -1,5 +1,6 @@
 package bc.juhaohd.com.utils;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -13,7 +14,9 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -310,4 +313,17 @@ public class UIUtils {
         dialog.show();
         return dialog;
     }
-}
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static boolean isValidContext (Context c) {
+
+        Activity a = (Activity) c;
+
+        if (a.isDestroyed() || a.isFinishing()) {
+            Log.i("YXH", "Activity is invalid." + " isDestoryed-->" + a.isDestroyed() + " isFinishing-->" + a.isFinishing());
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    }

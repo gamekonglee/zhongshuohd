@@ -207,7 +207,7 @@ public class SpaceFragment extends BaseFragment implements View.OnClickListener 
                 filername="餐厅";
                 break;
             case R.id.tv_weiyujian:
-                filername="卫浴间";
+                filername="厨卫";
                 break;
             case R.id.tv_louti:
                 filername="楼梯";
@@ -216,13 +216,13 @@ public class SpaceFragment extends BaseFragment implements View.OnClickListener 
                 filername="全部";
                 break;
             case R.id.tv_zoulang:
-                filername="走廊";
+                filername="过道";
                 break;
             case R.id.tv_woshi:
                 filername="卧室";
                 break;
             case R.id.tv_bieshu:
-                filername="别墅";
+                filername="其他";
                 break;
             case R.id.tv_shufang:
                 filername="书房";

@@ -248,6 +248,14 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <style name="tv_home_text2">
+        <item name="android:textSize">@dimen/ss42</item>
+        <item name="android:gravity">center|bottom</item>
+        <item name="android:layout_marginBottom">@dimen/xx10</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
     <style name="myCbStyle">
         <item name="android:button">@drawable/selector_checkbox</item>
         <item name="android:paddingLeft">25.0dip</item>

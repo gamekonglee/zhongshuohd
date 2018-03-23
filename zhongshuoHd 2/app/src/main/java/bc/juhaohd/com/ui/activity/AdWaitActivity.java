@@ -1,6 +1,7 @@
 package bc.juhaohd.com.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import com.android.volley.misc.Utils;
 import com.baiiu.filter.util.UIUtil;
 import com.bigkoo.convenientbanner.CBLoopViewPager;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,7 @@ public class AdWaitActivity extends Activity {
         setContentView(R.layout.activity_ad_wait);
         vp = (AutoScrollViewPager) findViewById(R.id.vp);
         MyPagerAdapter myPagerAdapter=new MyPagerAdapter();
-
+        try {
         imageViews = new ArrayList<>();
         bitmaps = new ArrayList<>();
         for(int i=0;i<3;i++){
@@ -70,7 +72,9 @@ public class AdWaitActivity extends Activity {
                 }
             });
             imageViews.add(imageView);
-
+        }
+        }catch (Exception e){
+            PgyCrashManager.reportCaughtException(this,e);
         }
         vp.setAdapter(myPagerAdapter);
 
@@ -120,20 +124,22 @@ public class AdWaitActivity extends Activity {
         public Object instantiateItem(ViewGroup container, int position) {
             ImageView v=imageViews.get(position);
 //            bitmap = null;
-            switch (position){
-                case 0:
-                    bitmaps.set(0,ImageUtil.compressBgImage(ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_1)));
-                    break;
-                case 1:
-                    bitmaps.set(1,ImageUtil.compressBgImage(ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_2)));
-                    break;
-                case 2:
-                    bitmaps.set(2,ImageUtil.compressBgImage(ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_3)));
-                    break;
-//                case 3:
-//                    bitmap =ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_4);
+//            switch (position){
+//                case 0:
+//                    bitmaps.set(0,ImageUtil.compressBgImage(ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_1)));
 //                    break;
-            }
+//                case 1:
+//                    bitmaps.set(1,ImageUtil.compressBgImage(ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_2)));
+//                    break;
+//                case 2:
+//                    bitmaps.set(2,ImageUtil.compressBgImage(ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_3)));
+//                    break;
+////                case 3:
+////                    bitmap =ImageUtil.getBitmapById(AdWaitActivity.this,R.mipmap.ad_4);
+////                    break;
+//            }
+            try {
+
             v.setImageBitmap(bitmaps.get(position));
             ViewGroup parent = (ViewGroup) v.getParent();
             //Log.i("ViewPaperAdapter", parent.toString());
@@ -141,12 +147,15 @@ public class AdWaitActivity extends Activity {
                 parent.removeAllViews();
             }
             container.addView(v);
+            }catch (Exception e){
+
+            }
             return v;
         }
 
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            bitmaps.set(position,null);
+//            bitmaps.set(position,null);
             container.removeView((View) object);
         }
     }

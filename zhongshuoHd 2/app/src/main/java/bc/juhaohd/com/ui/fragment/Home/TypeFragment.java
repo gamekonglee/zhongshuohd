@@ -222,7 +222,7 @@ public class TypeFragment extends BaseFragment implements View.OnClickListener {
                 break;
             case R.id.iv_qb:
             case R.id.tv_quanbu:
-                filterType="全部";
+                filterType="餐吊";
                 break;
         }
         intent.putExtra(Constance.filter_attr_name,filterType);

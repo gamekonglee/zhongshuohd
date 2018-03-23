@@ -288,7 +288,7 @@ public class MineController extends BaseController implements INetworkCallBack {
 
     @Override
     public void onFailureListener(String requestCode, JSONObject ans) {
-        if (null == mView || mView.getActivity().isFinishing())
+        if (null == mView ||mView.getActivity()==null|| mView.getActivity().isFinishing())
             return;
         if (AppUtils.isEmpty(ans)) {
             AppDialog.messageBox(UIUtils.getString(R.string.server_error));

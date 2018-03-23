@@ -335,4 +335,7 @@ public class Constance {
     public static String c_property="c_property";
     public static String c_url="c_url";
     public static String goods_id="goods_id";
+    public static java.lang.String db_mydb="my-db";
+    public static String warn_number="warn_number";
+    public static String c_position="c_position";
 }

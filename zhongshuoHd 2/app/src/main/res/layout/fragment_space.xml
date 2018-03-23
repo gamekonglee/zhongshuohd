@@ -106,28 +106,28 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_marginLeft="@dimen/xx30"
-        android:layout_width="@dimen/xx167"
+        android:layout_width="@dimen/xx359"
         android:layout_height="@dimen/xx218">
         <bc.juhaohd.com.ui.view.CircleImageView
             android:id="@+id/iv_wyj"
-            android:layout_width="@dimen/xx167"
+            android:layout_width="@dimen/xx359"
             android:layout_height="@dimen/xx218"
             />
 
         <include layout="@layout/bg_corner_trans_bottom"/>
         <TextView
             android:id="@+id/tv_weiyujian"
-            android:text="卫浴间"
+            android:text="厨卫"
             style="@style/tv_home_text"
             />
     </RelativeLayout>
     <RelativeLayout
         android:layout_marginLeft="@dimen/xx30"
-        android:layout_width="@dimen/xx167"
+        android:layout_width="@dimen/xx359"
         android:layout_height="@dimen/xx218">
         <bc.juhaohd.com.ui.view.CircleImageView
             android:id="@+id/iv_gd"
-            android:layout_width="@dimen/xx167"
+            android:layout_width="@dimen/xx359"
             android:layout_height="@dimen/xx218"
             />
 
@@ -155,6 +155,7 @@
             />
     </RelativeLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:layout_marginLeft="@dimen/xx30"
         android:layout_width="@dimen/xx167"
         android:layout_height="@dimen/xx218">
@@ -171,6 +172,7 @@
             />
     </RelativeLayout>
     <RelativeLayout
+        android:visibility="gone"
         android:layout_marginLeft="@dimen/xx30"
         android:layout_width="@dimen/xx167"
         android:layout_height="@dimen/xx218">

@@ -218,25 +218,25 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
                 filterType="欧式";
                 break;
             case R.id.tv_zhongshi:
-                filterType="中式";
+                filterType="亚克力吸顶灯";
                 break;
             case R.id.tv_xinzhongshi:
                 filterType="新中式";
                 break;
             case R.id.tv_quanbu:
-                filterType="全部";
+                filterType="风扇灯";
                 break;
             case R.id.tv_meishi:
-                filterType="美式";
+                filterType="铁艺吸顶灯";
                 break;
             case R.id.tv_yijia:
-                filterType="宜家";
+                filterType="美式";
                 break;
             case R.id.tv_houxiandai:
-                filterType="后现代";
+                filterType="中式";
                 break;
             case R.id.tv_tianyuan:
-                filterType="田园";
+                filterType="餐吊";
                 break;
         }
         intent.putExtra(Constance.filter_attr_name,filterType);
