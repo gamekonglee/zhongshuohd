@@ -611,6 +611,7 @@ public class OrderController extends BaseController implements PullToRefreshLayo
             holder.total_tv.setText(str);
 
             if(array.size()>1){
+                holder.id_gallery.removeAllViews();
                 for(int x=0;x<array.size();x++){
                     com.alibaba.fastjson.JSONObject object=array.getJSONObject(x);
                     ImageView img=new ImageView(mView.getActivity());
@@ -618,7 +619,7 @@ public class OrderController extends BaseController implements PullToRefreshLayo
                     view.setBackgroundColor(mView.getResources().getColor(R.color.bg_f6f6f6));
                     ImageLoader.getInstance().displayImage( object.getJSONObject(Constance.product).
                             getJSONArray(Constance.photos).getJSONObject(0).getString(Constance.thumb),img);
-                    LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(UIUtils.dip2PX(220),UIUtils.dip2PX(220));
+                    LinearLayout.LayoutParams layoutParams=new LinearLayout.LayoutParams(UIUtils.dip2PX(160),UIUtils.dip2PX(160));
                     LinearLayout.LayoutParams layoutParams2=new LinearLayout.LayoutParams(UIUtils.dip2PX(20),UIUtils.dip2PX(260));
                     view.setLayoutParams(layoutParams2);
                     img.setLayoutParams(layoutParams);
@@ -796,9 +797,9 @@ public class OrderController extends BaseController implements PullToRefreshLayo
 
         @Override
         public void onFailureListener(String requestCode, JSONObject ans) {
-            MyToast.show(mView.getActivity(), "2");
+//            MyToast.show(mView.getActivity(), "2");
             mView.hideLoading();
-            MyToast.show(mView.getActivity(), "支付成功!");
+//            MyToast.show(mView.getActivity(), "支付成功!");
 
         }
 

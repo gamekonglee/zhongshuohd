@@ -19,7 +19,7 @@ public class CollectGoodsBean {
     private int goods_id;
     public GoodsBean goods;
     private int user_id;
-    public List<PropertiesEntity> properties;
+    public List<ScProperties> properties;
     private int add_time;
     private int is_attention;
     private int rec_id;
@@ -36,7 +36,7 @@ public class CollectGoodsBean {
         this.user_id = user_id;
     }
 
-    public void setProperties(List<PropertiesEntity> properties) {
+    public void setProperties(List<ScProperties> properties) {
         this.properties = properties;
     }
 
@@ -64,7 +64,7 @@ public class CollectGoodsBean {
         return user_id;
     }
 
-    public List<PropertiesEntity> getProperties() {
+    public List<ScProperties> getProperties() {
         return properties;
     }
 
@@ -469,94 +469,94 @@ public class CollectGoodsBean {
             }
         }
     }
-
-    public class PropertiesEntity {
-        /**
-         * is_multiselect : false
-         * id : 17
-         * attrs : [{"is_multiselect":false,"id":47961,"attr_price":0,"attr_name":"W50H55"}]
-         * name : 规格
-         */
-        private boolean is_multiselect;
-        private int id;
-        private List<ScAttrs> attrs;
-        private String name;
-
-        public void setIs_multiselect(boolean is_multiselect) {
-            this.is_multiselect = is_multiselect;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public void setAttrs(List<ScAttrs> attrs) {
-            this.attrs = attrs;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public boolean isIs_multiselect() {
-            return is_multiselect;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public List<ScAttrs> getAttrs() {
-            return attrs;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public class AttrsEntity {
-            /**
-             * is_multiselect : false
-             * id : 47961
-             * attr_price : 0
-             * attr_name : W50H55
-             */
-            private boolean is_multiselect;
-            private int id;
-            private int attr_price;
-            private String attr_name;
-
-            public void setIs_multiselect(boolean is_multiselect) {
-                this.is_multiselect = is_multiselect;
-            }
-
-            public void setId(int id) {
-                this.id = id;
-            }
-
-            public void setAttr_price(int attr_price) {
-                this.attr_price = attr_price;
-            }
-
-            public void setAttr_name(String attr_name) {
-                this.attr_name = attr_name;
-            }
-
-            public boolean isIs_multiselect() {
-                return is_multiselect;
-            }
-
-            public int getId() {
-                return id;
-            }
-
-            public int getAttr_price() {
-                return attr_price;
-            }
-
-            public String getAttr_name() {
-                return attr_name;
-            }
-        }
-    }
+//
+//    public class PropertiesEntity {
+//        /**
+//         * is_multiselect : false
+//         * id : 17
+//         * attrs : [{"is_multiselect":false,"id":47961,"attr_price":0,"attr_name":"W50H55"}]
+//         * name : 规格
+//         */
+//        private boolean is_multiselect;
+//        private int id;
+//        private List<ScAttrs> attrs;
+//        private String name;
+//
+//        public void setIs_multiselect(boolean is_multiselect) {
+//            this.is_multiselect = is_multiselect;
+//        }
+//
+//        public void setId(int id) {
+//            this.id = id;
+//        }
+//
+//        public void setAttrs(List<ScAttrs> attrs) {
+//            this.attrs = attrs;
+//        }
+//
+//        public void setName(String name) {
+//            this.name = name;
+//        }
+//
+//        public boolean isIs_multiselect() {
+//            return is_multiselect;
+//        }
+//
+//        public int getId() {
+//            return id;
+//        }
+//
+//        public List<ScAttrs> getAttrs() {
+//            return attrs;
+//        }
+//
+//        public String getName() {
+//            return name;
+//        }
+//
+//        public class AttrsEntity {
+//            /**
+//             * is_multiselect : false
+//             * id : 47961
+//             * attr_price : 0
+//             * attr_name : W50H55
+//             */
+//            private boolean is_multiselect;
+//            private int id;
+//            private int attr_price;
+//            private String attr_name;
+//
+//            public void setIs_multiselect(boolean is_multiselect) {
+//                this.is_multiselect = is_multiselect;
+//            }
+//
+//            public void setId(int id) {
+//                this.id = id;
+//            }
+//
+//            public void setAttr_price(int attr_price) {
+//                this.attr_price = attr_price;
+//            }
+//
+//            public void setAttr_name(String attr_name) {
+//                this.attr_name = attr_name;
+//            }
+//
+//            public boolean isIs_multiselect() {
+//                return is_multiselect;
+//            }
+//
+//            public int getId() {
+//                return id;
+//            }
+//
+//            public int getAttr_price() {
+//                return attr_price;
+//            }
+//
+//            public String getAttr_name() {
+//                return attr_name;
+//            }
+//        }
+//    }
 }

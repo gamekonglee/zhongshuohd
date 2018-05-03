@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import bc.juhaohd.com.R;
+import bc.juhaohd.com.bean.Attachments;
 import bc.juhaohd.com.bean.GoodsDetailZsBean;
 import bc.juhaohd.com.controller.BaseController;
 import bc.juhaohd.com.ui.adapter.ParamentAdapter;
@@ -60,7 +61,7 @@ public class ParameterController extends BaseController {
         return;
 //        com.alibaba.fastjson.JSONArray attachArray = mProductObject.getJSONArray(Constance.attachments);
         GoodsDetailZsBean goodsDetailBean=new Gson().fromJson(mProductObject.toString(),GoodsDetailZsBean.class);
-        List<GoodsDetailZsBean.Attachments> attachArray=goodsDetailBean.getAttachments();
+        List<Attachments> attachArray=goodsDetailBean.getAttachments();
         mAdapter = new ParamentAdapter(attachArray, mView.getContext());
         parameter_lv.setAdapter(mAdapter);
     }

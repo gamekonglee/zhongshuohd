@@ -9,6 +9,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import bc.juhaohd.com.R;
+import bc.juhaohd.com.bean.Attachments;
 import bc.juhaohd.com.bean.GoodsDetailBean;
 import bc.juhaohd.com.bean.GoodsDetailZsBean;
 import bc.juhaohd.com.cons.Constance;
@@ -19,10 +20,10 @@ import bc.juhaohd.com.cons.Constance;
  * @description :
  */
 public class ParamentAdapter extends BaseAdapter {
-    private List<GoodsDetailZsBean.Attachments> mParamentLists;
+    private List<Attachments> mParamentLists;
     private Context mContext;
 
-    public ParamentAdapter(List<GoodsDetailZsBean.Attachments> paramentLists, Context context) {
+    public ParamentAdapter(List<Attachments> paramentLists, Context context) {
         mParamentLists = paramentLists;
         mContext = context;
     }

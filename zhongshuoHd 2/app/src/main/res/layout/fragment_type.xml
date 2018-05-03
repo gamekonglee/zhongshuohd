@@ -13,11 +13,10 @@
     <RelativeLayout
         android:layout_width="@dimen/xx290"
         android:layout_height="@dimen/xx588">
-        <bc.juhaohd.com.ui.view.CircleImageView
+        <ImageView
             android:id="@+id/iv_dd"
             android:layout_width="@dimen/xx290"
             android:layout_height="@dimen/xx588"/>
-
         <TextView
             android:id="@+id/tv_diaodeng"
             android:text="吊灯"
@@ -30,7 +29,7 @@
         android:layout_marginLeft="@dimen/xx30"
         android:layout_width="@dimen/xx290"
         android:layout_height="@dimen/xx588">
-        <bc.juhaohd.com.ui.view.CircleImageView
+        <ImageView
             android:id="@+id/iv_xdd"
             android:layout_width="@dimen/xx290"
             android:layout_height="@dimen/xx588"/>
@@ -54,7 +53,7 @@
         <RelativeLayout
             android:layout_width="@dimen/xx290"
             android:layout_height="@dimen/xx279">
-            <bc.juhaohd.com.ui.view.CircleImageView
+            <ImageView
                 android:id="@+id/iv_td"
                 android:layout_width="@dimen/xx290"
                 android:layout_height="@dimen/xx279"/>
@@ -71,7 +70,7 @@
             android:layout_marginTop="@dimen/xx30"
             android:layout_width="@dimen/xx290"
             android:layout_height="@dimen/xx279">
-            <bc.juhaohd.com.ui.view.CircleImageView
+            <ImageView
                 android:id="@+id/iv_bd"
                 android:layout_width="@dimen/xx290"
                 android:layout_height="@dimen/xx279"/>
@@ -102,7 +101,7 @@
         android:layout_marginLeft="@dimen/xx30"
         android:layout_width="@dimen/xx290"
         android:layout_height="@dimen/xx588">
-        <bc.juhaohd.com.ui.view.CircleImageView
+        <ImageView
             android:id="@+id/iv_ldd"
             android:layout_width="@dimen/xx290"
             android:layout_height="@dimen/xx588"/>
@@ -136,7 +135,7 @@
         <RelativeLayout
             android:layout_width="@dimen/xx290"
             android:layout_height="@dimen/xx279">
-            <bc.juhaohd.com.ui.view.CircleImageView
+            <ImageView
                 android:id="@+id/iv_jqd"
                 android:layout_width="@dimen/xx290"
                 android:layout_height="@dimen/xx279"/>
@@ -154,7 +153,7 @@
             android:layout_marginTop="@dimen/xx30"
             android:layout_width="@dimen/xx290"
             android:layout_height="@dimen/xx279">
-            <bc.juhaohd.com.ui.view.CircleImageView
+            <ImageView
                 android:id="@+id/iv_qb"
                 android:layout_width="@dimen/xx290"
                 android:layout_height="@dimen/xx279"/>

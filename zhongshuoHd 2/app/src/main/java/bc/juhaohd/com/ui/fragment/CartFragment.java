@@ -17,6 +17,7 @@ import bc.juhaohd.com.R;
 import bc.juhaohd.com.common.BaseFragment;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.controller.buy.CartController;
+import bocang.utils.LogUtils;
 
 /**
  * @author Jun

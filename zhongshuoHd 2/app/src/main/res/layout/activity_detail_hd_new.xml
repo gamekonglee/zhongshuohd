@@ -60,7 +60,7 @@
                     android:layout_weight="1">
                     <include
                         layout="@layout/detail_section_01"
-                        android:layout_height="@dimen/xx400"
+                        android:layout_height="@dimen/xx500"
                         android:layout_width="@dimen/xx750" />
 
                     <LinearLayout

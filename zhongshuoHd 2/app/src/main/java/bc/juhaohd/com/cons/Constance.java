@@ -338,4 +338,8 @@ public class Constance {
     public static java.lang.String db_mydb="my-db";
     public static String warn_number="warn_number";
     public static String c_position="c_position";
+    public static String count="count";
+    public static String error="error";
+    public static String has_register_eventBus="has_register_eventBus";
+    public static String c_property_id="c_property_id";
 }

@@ -119,6 +119,9 @@ public class ProductDetailHDNewActivity extends BaseActivity {
                 mController.sendcollectProduct();
                 break;
             case R.id.toDiyBtn://配配看
+                if(isToken()){
+                    return;
+                }
                 mController.sendDiy();
                 break;
             case R.id.toCartBtn://加入购物车

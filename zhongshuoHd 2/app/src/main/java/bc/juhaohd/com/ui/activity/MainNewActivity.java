@@ -32,7 +32,7 @@ public class MainNewActivity extends BaseActivity implements View.OnClickListene
     public boolean isTypeloadData;
     private int isTypeId = 0;
     public String filter_attr_name=" ";
-    public String category;
+    public String category="";
     public String filter_attr;
     private TextView new_tv;
     private TextView competitive_tv;

@@ -18,8 +18,15 @@ public class ScGoods implements Parcelable {
     private int attr_stock;
     private String attrs;
     private ScProduct product;
+    public String img;
 
+    public String getImg() {
+        return img;
+    }
 
+    public void setImg(String img) {
+        this.img = img;
+    }
 
     public ScGoods() {
 

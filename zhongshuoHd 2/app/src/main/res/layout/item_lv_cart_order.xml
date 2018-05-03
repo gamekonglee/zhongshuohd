@@ -63,7 +63,7 @@
             android:layout_width="@dimen/xx300"
             android:layout_height="@dimen/xx300"
             android:layout_margin="@dimen/xx20"
-            android:background="#22999999"
+            android:background="#b6a797"
             android:src="@drawable/bg_default"/>
 
         <RelativeLayout

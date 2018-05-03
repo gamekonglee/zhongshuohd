@@ -148,19 +148,12 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <com.lib.common.hxp.view.PullToRefreshLayout
+            <bc.juhaohd.com.ui.view.PMSwipeRefreshLayout
                 android:id="@+id/mFilterContentView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
-
-                <include layout="@layout/refresh_head" />
-                <!-- 支持所有实现Pullable接口的View -->
-
-                <com.lib.common.hxp.view.PullableGridView
+                android:layout_height="match_parent">
+                <bc.juhaohd.com.ui.view.EndOfGridView
                     android:id="@+id/gridView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:numColumns="4"
                     android:paddingLeft="@dimen/xx60"
                     android:paddingRight="@dimen/xx60"
@@ -169,10 +162,9 @@
                     android:background="@android:color/transparent"
                     android:verticalSpacing="@dimen/xx20"
                     android:horizontalSpacing="@dimen/xx20"
-                    />
-                <include layout="@layout/load_more" />
-
-            </com.lib.common.hxp.view.PullToRefreshLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </bc.juhaohd.com.ui.view.PMSwipeRefreshLayout>
             <ProgressBar
                 android:id="@+id/pd"
                 android:layout_marginTop="@dimen/xx30"

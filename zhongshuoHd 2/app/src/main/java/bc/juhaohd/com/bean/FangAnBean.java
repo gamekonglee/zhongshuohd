@@ -9,8 +9,8 @@ public class FangAnBean {
     int error_code;
     String debug_id;
 
-    FangAnClass fangan;
-    public class FangAnClass{
+    FangAn fangan;
+    public class FangAn{
         int id;
         String path;
 
@@ -47,11 +47,11 @@ public class FangAnBean {
         this.debug_id = debug_id;
     }
 
-    public FangAnClass getFangan() {
+    public FangAn getFangan() {
         return fangan;
     }
 
-    public void setFangan(FangAnClass fangan) {
+    public void setFangan(FangAn fangan) {
         this.fangan = fangan;
     }
 }

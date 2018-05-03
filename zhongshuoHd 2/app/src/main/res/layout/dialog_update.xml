@@ -59,7 +59,7 @@
        android:layout_height="wrap_content"
        android:orientation="horizontal">
        <Button
-
+android:visibility="gone"
            android:id="@+id/btn_dismiss"
            android:text="跳过"
            android:textColor="#ffffff"

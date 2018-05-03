@@ -34,6 +34,7 @@ import com.lib.common.hxp.view.ListViewForScrollView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.yjn.swipelistview.swipelistviewlibrary.widget.SwipeMenu;
 import com.yjn.swipelistview.swipelistviewlibrary.widget.SwipeMenuCreator;
 import com.yjn.swipelistview.swipelistviewlibrary.widget.SwipeMenuItem;
@@ -49,10 +50,13 @@ import bc.juhaohd.com.adapter.BaseAdapterHelper;
 import bc.juhaohd.com.adapter.QuickAdapter;
 import bc.juhaohd.com.bean.AddressBean;
 import bc.juhaohd.com.bean.CartGoods;
+import bc.juhaohd.com.bean.Default_photo;
 import bc.juhaohd.com.bean.GoodsBean;
 import bc.juhaohd.com.bean.ScAppImg;
+import bc.juhaohd.com.bean.ScDefault_photo;
 import bc.juhaohd.com.bean.ScGoods;
 import bc.juhaohd.com.bean.ScProduct;
+import bc.juhaohd.com.bean.ScProperties;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.cons.NetWorkConst;
 import bc.juhaohd.com.controller.BaseController;
@@ -324,20 +328,49 @@ public class CartController extends BaseController implements INetworkCallBack {
                             scGoods.setAttr_stock(goodarray.getJSONObject(i).getInt(Constance.attr_stock));
                             scGoods.setPrice(goodarray.getJSONObject(i).getString(Constance.price));
                             scGoods.setProperty(goodarray.getJSONObject(i).getString(Constance.property));
+                            scGoods.setAttrs(goodarray.getJSONObject(i).getString(Constance.attrs));
                             try {
                             scGoods.setProduct(new Gson().fromJson(goodarray.getJSONObject(i).getString(Constance.product), ScProduct.class));
                             }catch (Exception e2){
                                 JSONObject jsonObject=goodarray.getJSONObject(i).getJSONObject(Constance.product);
                                 ScProduct scProduct=new ScProduct();
+                                scProduct.setId(Integer.parseInt(jsonObject.getString(Constance.id)));
                                 scProduct.setName(jsonObject.getString(Constance.name));
+                                scProduct.setDefault_photo(new Gson().fromJson(jsonObject.getJSONObject(Constance.default_photo).toString(), ScDefault_photo.class));
+                                scProduct.setCurrent_price(jsonObject.getString(Constance.current_price));
                                 scProduct.setOriginal_img(jsonObject.getString(Constance.original_img));
                                 scProduct.setApp_img(new Gson().fromJson(jsonObject.getString(Constance.app_img), ScAppImg.class));
                                 scProduct.setWarn_number(jsonObject.getInt(Constance.warn_number));
-                                scGoods.setProduct(scProduct);
+
+                                String price=UIUtils.getScCurrentPrice(scGoods.getAttrs(),scProduct.getProperties())+"";
+                                String img=UIUtils.getScCurrentImg(scGoods.getAttrs(),scProduct.getProperties());
+                                        if(TextUtils.isEmpty(img)||"null".equals(img)||img==null){
+                                    img=scProduct.getDefault_photo().getThumb();
+                                        }
+                                        scGoods.setImg(img);
+                                        scGoods.setPrice(price);
+                                        scProduct.setCurrent_price(price);
+                                        scGoods.setProduct(scProduct);
                             }
                             goodsTotalList.add(scGoods);
                         }
                     }
+
+                    for(ScGoods temp:goodsTotalList){
+                        List<ScProperties> properties=temp.getProduct().getProperties();
+                        String price=UIUtils.getScCurrentPrice(temp.getAttrs(),properties)+"";
+                        String img= UIUtils.getScCurrentImg(temp.getAttrs(),properties);
+                        if(TextUtils.isEmpty(img)||"null".equals(img)||img==null){
+                            img=temp.getProduct().getDefault_photo().getThumb();
+                        }
+                        temp.setImg(img);
+                        if(!TextUtils.isEmpty(price)){
+                            temp.setPrice(Double.parseDouble(price)+"");
+                            temp.getProduct().setCurrent_price(Double.parseDouble(price)+"");
+                        }
+                    }
+
+
                     goodsAdapter.replaceAll(goodsTotalList);
                     goodsAdapter.notifyDataSetChanged();
                     goodsAdapter.addIsCheckAll(false);
@@ -503,9 +536,22 @@ public class CartController extends BaseController implements INetworkCallBack {
             helper.setText(R.id.SpecificationsTv,item.getProperty());
             helper.setText(R.id.tv_num,"x"+item.getAmount());
             helper.setText(R.id.et_num,""+item.getAmount()+"");
-            helper.setText(R.id.priceTv,"￥"+ df.format(Double.parseDouble(item.getPrice())));
+            try {
+
+                helper.setText(R.id.priceTv,"￥"+ df.format(Double.parseDouble(item.getPrice())));
+            }catch (Exception e){
+                helper.setText(R.id.priceTv,"￥"+ item.getPrice());
+                Exception temp=new Exception("￥"+ item.getPrice()+",id:"+item.getId());
+                PgyCrashManager.reportCaughtException(mView,temp);
+            }
             ImageView imageView=helper.getView(R.id.imageView);
             String ori_img=item.getProduct().getApp_img().getImg();
+            if(item.getImg()!=null){
+                ori_img=item.getImg();
+            }
+            if (!ori_img.contains("http")) {
+                ori_img=NetWorkConst.SCENE_HOST+ori_img;
+            }
             int warn_number=item.getProduct().getWarn_number();
             if(warn_number==0)warn_number=1;
             imageLoader.displayImage(ori_img

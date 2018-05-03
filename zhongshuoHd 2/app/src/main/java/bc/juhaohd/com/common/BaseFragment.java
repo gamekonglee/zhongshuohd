@@ -38,6 +38,12 @@ public abstract class BaseFragment extends Fragment {
         initViewData();
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);//重建时不销毁Fragment
+    }
+
     protected abstract void initController();
 
     /**

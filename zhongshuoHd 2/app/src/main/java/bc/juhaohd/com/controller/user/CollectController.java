@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baiiu.filter.util.UIUtil;
 import com.google.gson.Gson;
 import com.lib.common.hxp.view.PullToRefreshLayout;
 import com.lib.common.hxp.view.PullableGridView;
@@ -40,6 +41,7 @@ import bc.juhaohd.com.ui.activity.product.ProductDetailHDNewActivity;
 import bc.juhaohd.com.ui.activity.user.CollectActivity;
 import bc.juhaohd.com.ui.activity.user.CollectNewActivity;
 import bc.juhaohd.com.utils.ImageLoadProxy;
+import bc.juhaohd.com.utils.UIUtils;
 import bocang.json.JSONArray;
 import bocang.json.JSONObject;
 import bocang.utils.AppDialog;
@@ -134,9 +136,9 @@ public class CollectController extends BaseController implements INetworkCallBac
                 if(null!=name){
                     helper.setText(R.id.tv_name,item.getGoods().getName().toString());
                 }
-                if(item.getProperties()!=null&&item.getProperties().size()>0&&item.getProperties().get(0)!=null&&item.getProperties().get(0).getAttrs()!=null&&item.getProperties().get(0).getAttrs().size()>0){
-
-                    helper.setText(R.id.tv_price," "+getLevelPrice(helper.getPosition(),0,0));
+                if(item.getProperties()!=null&&item.getProperties().size()>0&&item.getProperties().get(0)!=null&&item.getProperties().get(0).getScAttrs()!=null&&item.getProperties().get(0).getScAttrs().size()>0){
+                    int currentPosition=UIUtils.getCurrentProperties(item.getProperties());
+                    helper.setText(R.id.tv_price," "+ UIUtils.getLevelPrice(item.getProperties(),currentPosition,UIUtils.getMiniPricePostion(item.getProperties().get(currentPosition).getScAttrs())));
                 }else {
                     helper.setText(R.id.tv_price," "+item.getGoods().getCurrent_price());
                 }
@@ -151,28 +153,7 @@ public class CollectController extends BaseController implements INetworkCallBac
         order_sv.setAdapter(goodsAdapter);
     }
 
-    private double getLevelPrice(int x,int y,int z) {
-        int levelid=0;
-        bocang.json.JSONObject mUser= IssueApplication.mUserObject;
-        if(mUser!=null&&mUser.length()>0){
-            levelid=IssueApplication.mUserObject.getInt(Constance.level_id);
-        }
-        List<ScAttrs> attrsArray=goodsBeen.get(x).getProperties().get(y).getAttrs();
-        double price;
-        if(levelid==104)
-        {
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_5());
-        }else if(levelid==103){
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_4());
-        }else if(levelid==102){
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_3());
-        }else if(levelid==101){
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_2());
-        }else{
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_1());
-        }
-        return price;
-    }
+
 
     @Override
     protected void handleMessage(int action, Object[] values) {

@@ -8,26 +8,33 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.pgyersdk.crash.PgyCrashManager;
 import com.zhy.http.okhttp.callback.Callback;
 
 import org.greenrobot.eventbus.EventBus;
 
 import bc.juhaohd.com.R;
 import bc.juhaohd.com.bean.AppVersion;
+import bc.juhaohd.com.bean.UserInfo;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.cons.NetWorkConst;
 import bc.juhaohd.com.listener.INetworkCallBack;
 import bc.juhaohd.com.net.ApiClient;
 import bc.juhaohd.com.ui.activity.HomeShowNewActivity;
+import bc.juhaohd.com.ui.activity.IssueApplication;
 import bc.juhaohd.com.ui.view.BottomBarOfHome;
 import bc.juhaohd.com.utils.MyShare;
 import bc.juhaohd.com.utils.NetWorkUtils;
+import bc.juhaohd.com.utils.UIUtils;
 import bc.juhaohd.com.utils.upload.UpAppUtils;
 import bocang.json.JSONObject;
 import bocang.utils.AppUtils;
@@ -46,7 +53,7 @@ public class HomeShowNewController extends BaseController implements INetworkCal
     private HomeShowNewActivity mView;
     private String mAppVersion;
 
-    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2222;
     private AppVersion appVersion;
 
     public HomeShowNewController(HomeShowNewActivity homeShowNewActivity) {
@@ -86,6 +93,7 @@ public class HomeShowNewController extends BaseController implements INetworkCal
                             public void run() {
                                 final Dialog dialog = new Dialog(mView, R.style.customDialog);
                                 dialog.setContentView(R.layout.dialog_update);
+                                dialog.setCanceledOnTouchOutside(false);
                                 TextView tv_info= (TextView) dialog.findViewById(R.id.tv_update_info);
                                 Button btn_upgrate= (Button) dialog.findViewById(R.id.btn_upgrate);
                                 ImageView iv_close= (ImageView) dialog.findViewById(R.id.iv_close);
@@ -109,7 +117,7 @@ public class HomeShowNewController extends BaseController implements INetworkCal
                                         appVersion.setForcedUpdate("0");
                                         appVersion.setUrl(NetWorkConst.DOWN_APK_URL);
                                         if (appVersion != null) {
-                                            dialog.dismiss();
+                                            if(mView!=null&&UIUtils.isValidContext(mView)&&dialog.isShowing())dialog.dismiss();
 
                                             if(Build.VERSION.SDK_INT>=23) { //判读版本是否在6.0以上{
                                                 if (ContextCompat.checkSelfPermission(mView,
@@ -135,7 +143,7 @@ public class HomeShowNewController extends BaseController implements INetworkCal
                                 iv_close.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        dialog.dismiss();
+                                        if(mView!=null&&UIUtils.isValidContext(mView)&&dialog.isShowing())dialog.dismiss();
                                     }
                                 });
 //                                ShowDialog mDialog = new ShowDialog();
@@ -182,7 +190,90 @@ public class HomeShowNewController extends BaseController implements INetworkCal
      * 获取用户信息
      */
     public void sendUser() {
-        mNetWork.sendUser(this);
+        if(IssueApplication.mUserObject!=null||TextUtils.isEmpty(MyShare.get(mView).getString(Constance.TOKEN))){
+            return;
+        }
+        ApiClient.sendUser( new Callback<String>() {
+
+            private int userId;
+            private UserInfo userInfo;
+
+            @Override
+            public String parseNetworkResponse(Response response, int id) throws Exception {
+                return null;
+            }
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public String onResponse(String response, int id) {
+//                LogUtils.logE("response",response);
+                JSONObject jsonObject=new JSONObject(response);
+                if(jsonObject!=null&&jsonObject.getBoolean(Constance.error)){
+                    MyShare.get(mView).putString(Constance.TOKEN,"");
+//                    MyToast.show(mView,""+jsonObject.getString(Constance.error_desc));
+                    return "";
+                }
+                IssueApplication.mUserObject=jsonObject.getJSONObject(Constance.user);
+                EventBus.getDefault().postSticky(new bc.juhaohd.com.bean.Message(1,"1"));
+                try {
+                    userInfo = new Gson().fromJson(response,UserInfo.class);
+                }catch (Exception e){
+                    e=new Exception("userinfo_parse_error:"+response);
+                    PgyCrashManager.reportCaughtException(mView,e);
+                }
+                userId = 0;
+                if (!AppUtils.isEmpty(mUserObject.getString("parent_id"))) {
+                    if (mUserObject.getInt("parent_id") == 0) {
+                        MyShare.get(mView).putInt(Constance.USERCODEID, mUserObject.getInt("id"));
+                        userId = mUserObject.getInt("id");
+                    } else {
+                        MyShare.get(mView).putInt(Constance.USERCODEID, mUserObject.getInt("parent_id"));
+                        userId = mUserObject.getInt("parent_id");
+                    }
+
+                }
+//                if(userInfo!=null&&userInfo.getUser()!=null){
+//                    if(!TextUtils.isEmpty(userInfo.getUser().getParent_id()+"")){
+//
+//                        if(userInfo.getUser().getParent_id()==0){
+//                            userId =userInfo.getUser().getId();
+//                            MyShare.get(mView).putInt(Constance.USERCODEID, userId);
+//                        }else {
+//                            userId =userInfo.getUser().getParent_id();
+//                            MyShare.get(mView).putInt(Constance.USERCODEID, userId);
+//                        }
+//                    }
+//                }
+                else {
+                    PgyCrashManager.reportCaughtException(mView,new Exception("userinfo==null||user==null:"+response));
+                }
+//                ApiClient.sendAddress(userId, new Callback<String>() {
+//                    @Override
+//                    public String parseNetworkResponse(Response response, int id) throws Exception {
+//                        return null;
+//                    }
+//
+//                    @Override
+//                    public void onError(Call call, Exception e, int id) {
+//
+//                    }
+//
+//                    @Override
+//                    public String onResponse(String response, int id) {
+//                        LogUtils.logE("response",response);
+//                        return null;
+//                    }
+//                });
+
+                return null;
+            }
+        });
+
+//        mNetWork.sendUser(this);
 //
 //        ApiClient.sendUser(NetWorkConst.PROFILE, new Callback<String>() {
 //            @Override
@@ -330,19 +421,21 @@ public class HomeShowNewController extends BaseController implements INetworkCal
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+//                PgyCrashManager.reportCaughtException(mView,new Exception("onControllerRequestPermissionsResult"));
                 // If request is cancelled, the result arrays are empty.
-                new UpAppUtils(mView, appVersion);
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
+           sendVersion();
+//                IssueApplication.restartApp();
+//                if (grantResults.length > 0
+//                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//
+//                    // permission was granted, yay! Do the
+//                    // contacts-related task you need to do.
+//
+//                } else {
+//
+//                    // permission denied, boo! Disable the
+//                    // functionality that depends on this permission.
+//                }
                 return;
             }
         }

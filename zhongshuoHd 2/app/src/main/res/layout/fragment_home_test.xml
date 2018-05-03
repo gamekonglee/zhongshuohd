@@ -59,7 +59,7 @@
                 android:id="@+id/tv_screen"
                 style="@style/tv_home_text"
                 android:gravity="bottom|center"
-                android:visibility="gone"
+                android:visibility="invisible"
                 android:text="场景库" />
         </RelativeLayout>
         <RelativeLayout

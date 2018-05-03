@@ -164,4 +164,8 @@
     <dimen name="xx75">45dp</dimen>
     <dimen name="xx1760">1056dp</dimen>
     <dimen name="xx350">210dp</dimen>
+    <dimen name="xx140">84dp</dimen>
+    <dimen name="xx280">168dp</dimen>
+    <dimen name="xx176">105.6dp</dimen>
+    <dimen name="xx165">99dp</dimen>
 </resources>

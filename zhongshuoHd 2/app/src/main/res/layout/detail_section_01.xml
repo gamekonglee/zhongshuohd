@@ -20,18 +20,32 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
-        <TextView
-            android:text=""
-            android:id="@+id/name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <LinearLayout
             android:layout_marginTop="@dimen/xx10"
-            android:textSize="@dimen/ss27"
+            android:layout_width="match_parent"
             android:layout_marginLeft="@dimen/xx10"
-            android:textColor="#ffffff"
-            android:textStyle="bold"
             android:layout_marginBottom="@dimen/xx5"
-            />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:text=""
+                android:id="@+id/name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/ss27"
+                android:textColor="#ffffff"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_marginLeft="@dimen/xx15"
+                android:id="@+id/tv_stock"
+                android:textSize="@dimen/ss30"
+                android:textColor="#ffffff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,7 +91,7 @@
         <com.lib.common.hxp.view.ListViewForScrollView
             android:id="@+id/parameter_lv"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/xx200"
+            android:layout_height="@dimen/xx500"
             android:background="@android:color/transparent"
             android:horizontalSpacing="@dimen/xx15"
             android:numColumns="2"
@@ -110,19 +124,6 @@
                 layout="@layout/number_input_et_new"
                 android:layout_centerVertical="true"
                 />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_marginLeft="@dimen/xx15"
-                android:layout_marginTop="@dimen/xx15"
-                android:id="@+id/tv_stock"
-                android:textSize="@dimen/ss30"
-                android:textColor="#ffffff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
 
     </LinearLayout>

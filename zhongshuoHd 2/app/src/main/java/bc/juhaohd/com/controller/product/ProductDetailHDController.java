@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baiiu.filter.util.UIUtil;
 import com.bigkoo.convenientbanner.CBPageAdapter;
 import com.bigkoo.convenientbanner.CBViewHolderCreator;
 import com.bigkoo.convenientbanner.ConvenientBanner;
@@ -48,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bc.juhaohd.com.R;
+import bc.juhaohd.com.bean.Attachments;
 import bc.juhaohd.com.bean.GdGoodsDetial;
 import bc.juhaohd.com.bean.GoodsDetailZsBean;
 import bc.juhaohd.com.cons.Constance;
@@ -64,6 +66,7 @@ import bc.juhaohd.com.ui.activity.product.ProductDetailHDNewActivity;
 import bc.juhaohd.com.ui.activity.programme.DiyActivity;
 import bc.juhaohd.com.ui.activity.programme.ImageDetailActivity;
 import bc.juhaohd.com.ui.adapter.ParamentAdapter;
+import bc.juhaohd.com.ui.adapter.ParamentBeanAdapter;
 import bc.juhaohd.com.ui.view.AutoLinefeedLayout;
 import bc.juhaohd.com.ui.view.NumberInputView;
 import bc.juhaohd.com.ui.view.popwindow.TwoCodeSharePopWindow;
@@ -92,7 +95,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
     private ProAdapter mAdapter;
     private GoodsDetailZsBean.Attrs itemObject;
     private TextView name_tv, proPriceTv;
-    private ParamentAdapter mParamentAdapter;
+    private ParamentBeanAdapter mParamentAdapter;
     private ListViewForScrollView parameter_lv;
     public WebView mWebView;
     private ImageView collectIv;
@@ -143,19 +146,20 @@ public class ProductDetailHDController extends BaseController implements INetwor
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
         GdGoodsDetialDao gdGoodsDetialDao=daoSession.getGdGoodsDetialDao();
-        List<GdGoodsDetial>  gdGoodsDetials=gdGoodsDetialDao.loadAll();
-        boolean hasBean=false;
-        for(GdGoodsDetial gdGoodsDetial:gdGoodsDetials){
-            if(gdGoodsDetial.getId()==mView.productId){
-                getProductDetail(JSON.parseObject(gdGoodsDetial.getGdJson()));
-                hasBean=true;
-                break;
-            }
-        }
-        if(!hasBean){
+        gdGoodsDetialDao.deleteAll();
+//        boolean hasBean=false;
+//        for(GdGoodsDetial gdGoodsDetial:gdGoodsDetials){
+//            if(gdGoodsDetial.getId()==mView.productId){
+//                getProductDetail(JSON.parseObject(gdGoodsDetial.getGdJson()));
+//                sendProductDetail02();
+//                hasBean=true;
+//                break;
+//            }
+//        }
+//        if(!hasBean){
+//        }
         sendProductDetail();
         sendProductDetail02();
-        }
 
     }
 
@@ -235,11 +239,12 @@ public class ProductDetailHDController extends BaseController implements INetwor
         propertiesList = goodsDetailZsBean.getProperties();
         mAdapter = new ProAdapter();
         properties_lv.setAdapter(mAdapter);
-        List<GoodsDetailZsBean.Attachments> attachmentsList= goodsDetailZsBean.getAttachments();
+        List<Attachments> attachmentsList= goodsDetailZsBean.getAttachments();
 //        JSONArray attachArray = productObject.getJSONArray(Constance.attachments);
-        mParamentAdapter = new ParamentAdapter(attachmentsList, mView);
+        mParamentAdapter = new ParamentBeanAdapter(attachmentsList, mView);
         parameter_lv.setAdapter(mParamentAdapter);
-        parameter_lv.setDivider(null);//去除listview的下划线
+        parameter_lv.setDivider(null);
+        UIUtils.initListViewHeight(parameter_lv);//去除listview的下划线
         selectCollect();
 
         ProductDetailHDNewActivity.isXianGou=false;
@@ -293,15 +298,13 @@ public class ProductDetailHDController extends BaseController implements INetwor
                 String parament = attrsArray.get(currentAttr).getAttr_name();
                 double currentPrice =  price;
                 mPrice=currentPrice+"";
-                mOldPrice=(price)+"";
+//                mOldPrice=(price)+"";
                 proPriceTv.setText("￥" + currentPrice);
                 old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                old_price.setText("￥" +mOldPrice);
+//                old_price.setText("￥" +mOldPrice);
                 mView.mProperty = "{\"id\":"+attrsArray.get(currentAttr).getId()+"}";
             }
         }
-
-
     }
 
     private double getLevelPrice(int x,int y) {
@@ -536,6 +539,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
 
 
     private void initView() {
+        if(mView==null)return;
         mConvenientBanner = (ConvenientBanner) mView.findViewById(R.id.convenientBanner);
         properties_lv = (ListViewForScrollView) mView.findViewById(R.id.properties_lv);
         name_tv = (TextView) mView.findViewById(R.id.name_tv);
@@ -691,7 +695,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
                         double tempPrice=ProperPrice;
                         double tempOldPrice= ProperPrice;
                         proPriceTv.setText("￥" + tempPrice);
-                        old_price.setText("￥" + tempOldPrice);
+                        old_price.setText("￥" + mOldPrice);
                         old_price.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
 //                        bocang.json.JSONObject jsonObject=new bocang.json.JSONObject()
                         mView.mProperty = "\"{id:"+itemObject.getId()+"}\"";
@@ -783,6 +787,10 @@ public class ProductDetailHDController extends BaseController implements INetwor
             final LinearLayout ll_skulist = (LinearLayout) skuDialog.findViewById(R.id.ll_skulist);
             final TextView tv_reduce = (TextView) skuDialog.findViewById(R.id.tv_reduce);
             final TextView tv_add = (TextView) skuDialog.findViewById(R.id.tv_add);
+            final TextView tv_dialog_oldp=skuDialog.findViewById(R.id.tv_o_price);
+            tv_dialog_oldp.getPaint().setFlags(Paint. STRIKE_THRU_TEXT_FLAG);
+            tv_dialog_oldp.setText("原价：¥"+mOldPrice);
+
             et_sku_num = (TextView) skuDialog.findViewById(R.id.et_num);
             int warn=goodsDetailZsBean.getWarn_number();
             if(warn==0){warn=1;}
@@ -834,7 +842,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
                     if(skuDialog!=null&&skuDialog.isShowing())skuDialog.dismiss();
                 }
             });
-            tv_dialog_price.setText("¥" + mPrice);
+            tv_dialog_price.setText("代理价：¥" + mPrice);
             tv_dialog_name.setText(goodsDetailZsBean.getName());
             if(goodsDetailZsBean.getProperties()!=null&&goodsDetailZsBean.getProperties().size()>0) {
                 String stock = goodsDetailZsBean.getProperties().get(0).getAttrs().get(0).getNumber();
@@ -960,7 +968,8 @@ public class ProductDetailHDController extends BaseController implements INetwor
 
                             mPrice=""+price;
 //                            mPrice=""+(Double.parseDouble(goodsDetailZsBean.getCurrent_price())+price);
-                            tv_dialog_price.setText("￥" + mPrice);
+                            tv_dialog_price.setText("代理价：￥" + mPrice);
+                            tv_dialog_oldp.setText("原价：￥"+mOldPrice);
                             String stock="0";
                             String goods_attr=propertiesList.get(currentProperty).getAttrs().get(finalY).getAttr_name();
                                 if(propertiesList.get(currentProperty).getAttrs().get(currentAttr).getNumber()!=null){
@@ -1326,6 +1335,7 @@ public class ProductDetailHDController extends BaseController implements INetwor
                 mIntent.putExtra(Constance.url,url);
                 mView.goodses.add(Constance.c_property,mView.mProperty);
                 mView.goodses.add(Constance.c_url,url);
+                mView.goodses.add(Constance.c_property_id,propertiesList.get(currentProperty).getAttrs().get(currentAttr).getId());
                 mView.goodses.add(Constance.c_position,currentAttr);
                 IssueApplication.mSelectProducts.add(mView.goodses);
                 LogUtils.logE("mSelect",IssueApplication.mSelectProducts.toString());

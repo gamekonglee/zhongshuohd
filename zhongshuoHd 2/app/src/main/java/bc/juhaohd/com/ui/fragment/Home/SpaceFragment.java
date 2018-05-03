@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pgyersdk.crash.PgyCrashManager;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -149,7 +151,12 @@ public class SpaceFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EventBus.getDefault().register(this);
+        try {
+            EventBus.getDefault().register(this);
+        }catch (Exception e){
+            e=new Exception("spaceFrag");
+            PgyCrashManager.reportCaughtException(getActivity(),e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

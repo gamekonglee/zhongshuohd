@@ -15,12 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.feadre.xfrag.XFrag;
+import com.feadre.xfrag.XFragActivity;
+import com.pgyersdk.crash.PgyCrashManager;
+
 import java.util.List;
 
 import bc.juhaohd.com.R;
 import bc.juhaohd.com.common.BaseActivity;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.controller.HomeShowNewController;
+import bc.juhaohd.com.ui.activity.user.LoginActivity;
 import bc.juhaohd.com.ui.fragment.Home.HomeIndexFragment;
 import bc.juhaohd.com.ui.fragment.Home.MineNewFragment;
 import bc.juhaohd.com.ui.fragment.Home.SpaceFragment;
@@ -28,7 +33,9 @@ import bc.juhaohd.com.ui.fragment.Home.StyleFragment;
 import bc.juhaohd.com.ui.fragment.Home.TypeFragment;
 import bc.juhaohd.com.ui.fragment.SceneHDFragment;
 import bc.juhaohd.com.ui.view.BottomBarOfHome;
+import bc.juhaohd.com.utils.MyShare;
 import bc.juhaohd.com.utils.UIUtils;
+import bocang.utils.AppUtils;
 
 public class HomeShowNewActivity extends BaseActivity {
 
@@ -59,17 +66,24 @@ public class HomeShowNewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        Toast.makeText(HomeShowNewActivity.this, "oncreate", Toast.LENGTH_SHORT).show();
-        String packageName = this.getPackageName();
-        homeShowNewActivity=this;
-        ActivityManager activityManager= (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> appTask = activityManager.getRunningTasks(1);
-        if (appTask != null)
-            if(appTask.size()>0)
-                if(appTask.get(0).topActivity.toString().contains(packageName))
-                    isAppInFront = true;
 
-        checkUI();
     }
+
+//    @Override
+//    protected int getFrameLayoutResID() {
+//        return R.id.fl_content;
+//    }
+//
+//    @Override
+//    protected Class<? extends Fragment> getDefFragment() {
+//        return HomeIndexFragment.class;
+//    }
+
+//    @Override
+//    public void onCreateNow(Bundle bundle) {
+//
+//
+//    }
 
     public void checkUI() {
         if(mFragmentState==0){
@@ -92,70 +106,22 @@ public class HomeShowNewActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void InitDataView() {
-
-    }
-
-    @Override
-    protected void initController() {
-        mHomeShowController = new HomeShowNewController(this);
-
-    }
-
-    @Override
-    protected void initView() {
-//        tel_tv = (TextView) findViewById(R.id.tel_tv);
-//        address_tv = (TextView) findViewById(R.id.address_tv);
-//        operator_tv = (TextView) findViewById(R.id.operator_tv);
-//        two_code_tv = (TextView) findViewById(R.id.two_code_tv);
-        setContentView(R.layout.activity_home_show_new);
-        bottom_bar = (BottomBarOfHome) findViewById(R.id.title_bar01);
-        bottom_bar.setOnClickListener(mBottomBarClickListener);
-        main_rl = (LinearLayout) findViewById(R.id.main_rl);
-        iv_left = (ImageView) findViewById(R.id.iv_left);
-        iv_right = (ImageView) findViewById(R.id.iv_right);
-        fl_content = findViewById(R.id.fl_content);
-        iv_left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mFragmentState>0){
-                    mFragmentState--;
-                    if(mFragmentState==5){
-                        mFragmentState--;
-                    }
-                    if(mFragmentState==4){
-                        mFragmentState--;
-                    }
-
-                    refresUI();
-                }
-            }
-        });
-        iv_right.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(mFragmentState<7){
-                    mFragmentState++;
-                    if(mFragmentState==4){
-                        mFragmentState++;
-                    }
-                    if(mFragmentState==5){
-                        mFragmentState++;
-                    }
-                    refresUI();
-                }
-
-            }
-        });
-        initTab();
-
-    }
-
-    @Override
-    protected void initData() {
-
-    }
+//
+//    @Override
+//    protected void initController() {
+//
+//
+//    }
+//
+//    @Override
+//    protected void initView() {
+//
+//    }
+//
+//    @Override
+//    protected void initData() {
+//
+//    }
 
     @Override
     protected void onResume() {
@@ -172,6 +138,11 @@ public class HomeShowNewActivity extends BaseActivity {
     protected void onViewClick(View v) {
 
     }
+
+//    @Override
+//    protected void onViewClick(View v) {
+//
+//    }
 
 
     public void refresUI() {
@@ -228,7 +199,7 @@ public class HomeShowNewActivity extends BaseActivity {
         if (!mHomeFragment.isAdded()) {
             // 提交事务
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fl_content, mHomeFragment).commit();
+                    .add(R.id.fl_content, mHomeFragment).commitAllowingStateLoss();
 
             // 记录当前Fragment
             currentFragmen = mHomeFragment;
@@ -377,32 +348,33 @@ public class HomeShowNewActivity extends BaseActivity {
                                    Fragment fragment) {
         if (currentFragmen == fragment)
             return;
-
+        if(currentFragmen==null)currentFragmen=fragment;
+        transaction.addToBackStack(null);
         if (!fragment.isAdded()) { // 如果当前fragment未被添加，则添加到Fragment管理器中
             transaction.hide(currentFragmen)
-                    .add(R.id.fl_content, fragment).commit();
+                    .add(R.id.fl_content, fragment,fragment.getClass().getName()).commitAllowingStateLoss();
         } else {
-            transaction.hide(currentFragmen).show(fragment).commit();
+            transaction.hide(currentFragmen).show(fragment).commitAllowingStateLoss();
         }
 
         currentFragmen = fragment;
     }
     private long firstTime = 0;
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        long secondTime = System.currentTimeMillis();
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if ( secondTime - firstTime < 2000) {
-                android.os.Process.killProcess(android.os.Process.myPid());    //获取PID
-                System.exit(0);
-            } else {
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                firstTime = System.currentTimeMillis();
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        long secondTime = System.currentTimeMillis();
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            if ( secondTime - firstTime < 2000) {
+//                android.os.Process.killProcess(android.os.Process.myPid());    //获取PID
+//                System.exit(0);
+//            } else {
+//                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+//                firstTime = System.currentTimeMillis();
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
     public  void clearAll(){
 
         if(mTypeFragment!=null)mTypeFragment.onDestroy();
@@ -414,6 +386,96 @@ public class HomeShowNewActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
+        PgyCrashManager.reportCaughtException(this,new Exception("onRequestPermissionsResult"));
       mHomeShowController.onRequestPermissionResult(requestCode,permissions,grantResults);
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+    /**
+     * 判断是否有toKen
+     */
+    public Boolean isToken() {
+        String token = MyShare.get(this).getString(Constance.TOKEN);
+        if(AppUtils.isEmpty(token)){
+            Intent logoutIntent = new Intent(this, LoginActivity.class);
+//            logoutIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(logoutIntent);
+            return true;
+        }
+        return  false;
+    }
+
+    @Override
+    protected void InitDataView() {
+
+    }
+
+    @Override
+    protected void initController() {
+        mHomeShowController = new HomeShowNewController(this);
+    }
+
+    @Override
+    protected void initView() {
+        setContentView(R.layout.activity_home_show_new);
+        bottom_bar = (BottomBarOfHome) findViewById(R.id.title_bar01);
+        bottom_bar.setOnClickListener(mBottomBarClickListener);
+        main_rl = (LinearLayout) findViewById(R.id.main_rl);
+        iv_left = (ImageView) findViewById(R.id.iv_left);
+        iv_right = (ImageView) findViewById(R.id.iv_right);
+        fl_content = (LinearLayout) findViewById(R.id.fl_content);
+        iv_left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mFragmentState>0){
+                    mFragmentState--;
+                    if(mFragmentState==5){
+                        mFragmentState--;
+                    }
+                    if(mFragmentState==4){
+                        mFragmentState--;
+                    }
+
+                    refresUI();
+                }
+            }
+        });
+        iv_right.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mFragmentState<7){
+                    mFragmentState++;
+                    if(mFragmentState==4){
+                        mFragmentState++;
+                    }
+                    if(mFragmentState==5){
+                        mFragmentState++;
+                    }
+                    refresUI();
+                }
+
+            }
+        });
+        initTab();
+
+        String packageName = this.getPackageName();
+        homeShowNewActivity=this;
+        ActivityManager activityManager= (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> appTask = activityManager.getRunningTasks(1);
+        if (appTask != null)
+            if(appTask.size()>0)
+                if(appTask.get(0).topActivity.toString().contains(packageName))
+                    isAppInFront = true;
+
+        checkUI();
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 }

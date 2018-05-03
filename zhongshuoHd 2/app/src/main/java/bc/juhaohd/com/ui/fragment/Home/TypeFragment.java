@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baiiu.filter.util.UIUtil;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -143,7 +144,12 @@ public class TypeFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EventBus.getDefault().register(this);
+        try {
+            EventBus.getDefault().register(this);
+        }catch (Exception e){
+            e=new Exception("typeFrag");
+            PgyCrashManager.reportCaughtException(getActivity(),e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)

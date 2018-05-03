@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/name_tv"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
         android:text="￥35"
         android:textColor="@color/fontColor2"
         android:textSize="@dimen/x26" />

@@ -450,7 +450,8 @@
             android:theme="@style/NoTitleTheme"/>
         <activity android:name=".ui.activity.ConvenientBannerActivity"
             android:theme="@style/NoTitleTheme"/>
-
+    <activity android:name=".ui.activity.TemaiActivity"
+        android:theme="@style/NoTitleTheme"/>
     </application>
 
 </manifest>

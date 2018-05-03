@@ -505,6 +505,7 @@ public class DiyController extends BaseController implements INetworkCallBack, P
 //                LogUtils.logE("res",response);
                 mView.runOnUiThread(new Runnable() {
 
+                    private org.json.JSONObject jsonObject;
                     private String path;
 
                     @Override
@@ -519,6 +520,7 @@ public class DiyController extends BaseController implements INetworkCallBack, P
                         String id="";
 
                         try {
+                            fangAnBean = new Gson().fromJson(response, FangAnBean.class);
                             UpLoadBean upLoadBean = new Gson().fromJson(response, UpLoadBean.class);
                             int isResult = upLoadBean.getError_code();
                             if (isResult != 0) {
@@ -531,8 +533,8 @@ public class DiyController extends BaseController implements INetworkCallBack, P
                                 {fangAnBean = new Gson().fromJson(response, FangAnBean.class);
                             }}catch (Exception e2 ){
                                 try {
-                                    org.json.JSONObject jsonObject=new org.json.JSONObject(response);
-                                    id=jsonObject.getJSONObject(Constance.fangan).getInt(Constance.id)+"";
+                                    jsonObject = new org.json.JSONObject(response);
+                                    id= jsonObject.getJSONObject(Constance.fangan).getInt(Constance.id)+"";
                                 } catch (JSONException e1) {
                                     e1.printStackTrace();
                                 }
@@ -543,7 +545,7 @@ public class DiyController extends BaseController implements INetworkCallBack, P
 
                             path = NetWorkConst.SHARE_FANGAN + fangAnBean.getFangan().getId();
                         }else {
-                            path=id;
+                            path=NetWorkConst.SHARE_FANGAN +id;
                         }
 
                         String title = "来自 " + UIUtils.getString(R.string.app_name) + " 配灯的分享";
@@ -1465,7 +1467,6 @@ return null;
             MyToast.show(mView, "请选择产品!");
             return;
         }
-
         mPopWindow.productObject = jsonObject;
         mPopWindow.initViewData();
         mPopWindow.onShow(main_fl);
@@ -1496,7 +1497,7 @@ return null;
                 displayCheckedGoods03(logoPath);
                 break;
             case 3://产品卡
-                String cardPath = NetWorkConst.WEB_PRODUCT_CARD + productId;
+                String cardPath = NetWorkConst.WEB_PRODUCT_CARD + productId+"&attr="+jsonObject.getString(Constance.c_property_id);
                 displayCheckedGoods03(cardPath);
                 break;
         }

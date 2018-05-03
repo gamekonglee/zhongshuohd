@@ -75,6 +75,7 @@ public class AdWaitActivity extends Activity {
         }
         }catch (Exception e){
             PgyCrashManager.reportCaughtException(this,e);
+            AdWaitActivity.this.finish();
         }
         vp.setAdapter(myPagerAdapter);
 
@@ -148,7 +149,8 @@ public class AdWaitActivity extends Activity {
             }
             container.addView(v);
             }catch (Exception e){
-
+                PgyCrashManager.reportCaughtException(AdWaitActivity.this,e);
+                AdWaitActivity.this.finish();
             }
             return v;
         }

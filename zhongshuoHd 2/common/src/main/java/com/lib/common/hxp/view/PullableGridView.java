@@ -29,7 +29,7 @@ public class PullableGridView extends GridView implements Pullable
 		{
 			// 没有item的时候也可以下拉刷新
 			return true;
-		} else if (getFirstVisiblePosition() == 0
+		} else if (getFirstVisiblePosition() == 0&&getChildAt(0)!=null
 				&& getChildAt(0).getTop() >= 0)
 		{
 			// 滑到顶部了

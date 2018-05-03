@@ -616,7 +616,13 @@ public class ConfirmOrderController extends BaseController implements INetworkCa
             }
            ScGoods goodsObject = mView.goodsList.get(position);
             holder.nameTv.setText(goodsObject.getProduct().getName());
-            imageLoader.displayImage(goodsObject.getProduct().getApp_img().getImg()
+
+            String img=goodsObject.getImg();
+            if(!img.contains("http")){
+                img=NetWorkConst.SCENE_HOST+img;
+            }
+
+            imageLoader.displayImage(img
                     , holder.imageView, options);
 
             String property = goodsObject.getProperty();

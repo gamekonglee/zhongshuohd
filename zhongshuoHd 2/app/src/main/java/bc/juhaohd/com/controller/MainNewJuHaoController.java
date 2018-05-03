@@ -1,8 +1,10 @@
 package bc.juhaohd.com.controller;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,6 +18,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anonymous.greendao.DaoMaster;
+import com.example.anonymous.greendao.DaoSession;
+import com.example.anonymous.greendao.GdAttrBeanDao;
+import com.example.anonymous.greendao.GdAttrBeanListDao;
+import com.example.anonymous.greendao.GdGoodsBeanDao;
 import com.google.gson.Gson;
 import com.lib.common.hxp.view.PullToRefreshLayout;
 import com.lib.common.hxp.view.PullableGridView;
@@ -29,15 +36,20 @@ import bc.juhaohd.com.adapter.QuickAdapter;
 import bc.juhaohd.com.bean.AttrBean;
 import bc.juhaohd.com.bean.Attr_list;
 import bc.juhaohd.com.bean.Default_photo;
+import bc.juhaohd.com.bean.GdGoodsBean;
 import bc.juhaohd.com.bean.GoodsBean;
 import bc.juhaohd.com.bean.GroupBuy;
+import bc.juhaohd.com.bean.ScAttrs;
+import bc.juhaohd.com.bean.ScProperties;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.cons.NetWorkConst;
 import bc.juhaohd.com.listener.INetworkCallBack;
+import bc.juhaohd.com.ui.activity.IssueApplication;
 import bc.juhaohd.com.ui.activity.MainNewActivity;
 import bc.juhaohd.com.ui.activity.MainNewForJuHaoActivity;
 import bc.juhaohd.com.ui.activity.product.ProductDetailHDNewActivity;
 import bc.juhaohd.com.utils.ImageLoadProxy;
+import bc.juhaohd.com.utils.MyShare;
 import bc.juhaohd.com.utils.UIUtils;
 import bocang.json.JSONArray;
 import bocang.json.JSONObject;
@@ -103,6 +115,11 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
             tv_current_select.setText(mView.filter_type);
         }
         sendAttrList();
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
+        gdGoodsBeanDao.deleteAll();
 //        selectProduct(page, "20", null, null, null);
     }
     public void sendAttrList() {
@@ -159,23 +176,40 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
                 if(null!=name){
                     helper.setText(R.id.tv_name,item.getName().toString());
                 }
-                GroupBuy group_buy= item.getGroup_buy();
-                boolean isXianGou=false;
-                if(null!=group_buy&&!"212".equals(""+group_buy)){
-                    int isFinish=group_buy.getIs_finished();
-                    if(isFinish==0){
-                        isXianGou=true;
+                String Token= MyShare.get(mView).getString(Constance.TOKEN);
+                helper.setText(R.id.tv_price,"¥"+item.getCurrent_price());
+                helper.setVisible(R.id.tv_old_price,false);
+                if(!TextUtils.isEmpty(Token)) {
+                    String levelid = "";
+                    bocang.json.JSONObject mUser = IssueApplication.mUserObject;
+                    if (mUser != null && mUser.length() > 0) {
+                        levelid = IssueApplication.mUserObject.getString(Constance.level_id);
                     }
-                }
-                if(isXianGou){
-                    helper.setText(R.id.tv_price," "+item.getGroup_buy().getExt_info().getPrice_ladder().get(0).getPrice());
-                }else {
-                    helper.setText(R.id.tv_price," "+item.getCurrent_price());
+                    if (!levelid.equals("104")) {
+
+
+                        int current = 0;
+                        List<ScProperties> properties = item.getProperties();
+                        for (int i = 0; i < properties.size(); i++) {
+                            if (properties.get(i).getName().equals("规格")) {
+                                current = i;
+                                break;
+                            }
+                        }
+
+                        helper.setText(R.id.tv_price, "代理价：¥" + getLevelPrice(item.getProperties(), current, 0));
+                        helper.setText(R.id.tv_old_price, "原价：¥" + item.getCurrent_price());
+                        TextView textView = helper.getView(R.id.tv_old_price);
+                        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        helper.setVisible(R.id.tv_old_price, true);
+
+                    }
                 }
 
                 Default_photo default_photo=item.getDefault_photo();
                 if(null!=default_photo){
-                    String imageUrl=item.getDefault_photo().getLarge();
+                    String imageUrl=item.getDefault_photo().getThumb();
+                    Log.e("imageUrl",imageUrl);
                     ImageLoadProxy.displayImage(imageUrl, (ImageView) helper.getView(R.id.iv_photo));
                 }
             }
@@ -341,7 +375,7 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
      * @param shop
      */
     public void selectProduct(int page, String per_page, String brand, String category, String shop) {
-        pd.setVisibility(View.VISIBLE);
+//        pd.setVisibility(View.VISIBLE);
         isScrollToTop=true;
         mNetWork.sendGoodsList(page, per_page, brand, mView.category, mView.filter_attr, shop, mView.keyword, mSortKey, mSortValue, this);
     }
@@ -451,7 +485,7 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
                 goodsBean.setCurrent_price(array.getJSONObject(i).getString(Constance.current_price));
                 goodsBean.setDefault_photo(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.default_photo)), Default_photo.class));
                 goodsBean.setId(Integer.parseInt(array.getJSONObject(i).getString(Constance.id)));
-                goodsBean.setGroup_buy(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.group_buy)),GroupBuy.class));
+//                goodsBean.setGroup_buy(new Gson().fromJson(String.valueOf(array.getJSONObject(i).getJSONObject(Constance.group_buy)),GroupBuy.class));
                 temp.add(goodsBean);
             }
         }
@@ -569,6 +603,33 @@ public class MainNewJuHaoController extends BaseController implements INetworkCa
                 break;
         }
     }
+    private double getLevelPrice(List<ScProperties> list,int x,int y) {
+
+        String levelid="";
+        bocang.json.JSONObject mUser=IssueApplication.mUserObject;
+        if(mUser!=null&&mUser.length()>0){
+            levelid=IssueApplication.mUserObject.getString(Constance.level_id);
+        }
+        List<ScAttrs> attrsArray=list.get(x).getScAttrs();
+        double  price;
+        if(levelid.equals("104"))
+        {
+            price=attrsArray.get(y).getAttr_price_5();
+        }else if(levelid.equals("103")){
+            price=attrsArray.get(y).getAttr_price_4();
+        }else if(levelid.equals("102")){
+            price=attrsArray.get(y).getAttr_price_3();
+        }else if(levelid.equals("101")){
+            price=attrsArray.get(y).getAttr_price_2();
+        }else if(levelid.equals("100")){
+            price=attrsArray.get(y).getAttr_price_1();
+        }else {
+            price=attrsArray.get(y).getAttr_price_5();
+        }
+        return price;
+    }
+
+
 
 
 }

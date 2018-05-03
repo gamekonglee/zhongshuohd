@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pgyersdk.crash.PgyCrashManager;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -60,6 +62,24 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
     private Bitmap icon_zs_hxd;
     private Bitmap icon_zs_style_qb;
     private Bitmap icon_zs_ty;
+    private TextView tv_qs;
+    private TextView tv_bofe;
+    private TextView tv_lcd;
+    private TextView tv_cw;
+    private TextView tv_gdd;
+    private TextView tv_sz;
+    private ImageView iv_qs;
+    private ImageView iv_bofg;
+    private ImageView iv_lcd;
+    private ImageView iv_cw;
+    private ImageView iv_gdd;
+    private ImageView iv_sz;
+    private Bitmap icon_zs_qingshe;
+    private Bitmap icon_zs_beou;
+    private Bitmap icon_zs_lcd;
+    private Bitmap icon_zs_cw;
+    private Bitmap icon_guodao;
+    private Bitmap icon_shangzhao;
 
     @Nullable
     @Override
@@ -89,6 +109,12 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
         tv_houxiandai = (TextView) getView().findViewById(R.id.tv_houxiandai);
         tv_tianyuan = (TextView) getView().findViewById(R.id.tv_tianyuan);
         tv_server = getView().findViewById(R.id.tv_server);
+        tv_qs = getView().findViewById(R.id.tv_qs);
+        tv_bofe = getView().findViewById(R.id.tv_bofg);
+        tv_lcd = getView().findViewById(R.id.tv_lcd);
+        tv_cw = getView().findViewById(R.id.tv_cw);
+        tv_gdd = getView().findViewById(R.id.tv_gdd);
+        tv_sz = getView().findViewById(R.id.tv_sz);
 
         iv_xdjy = getView().findViewById(R.id.iv_xdjy);
         iv_zs = getView().findViewById(R.id.iv_zs);
@@ -99,16 +125,30 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
         iv_yj = getView().findViewById(R.id.iv_yj);
         iv_ty = getView().findViewById(R.id.iv_ty);
         iv_qb = getView().findViewById(R.id.iv_qb);
+        iv_qs = getView().findViewById(R.id.iv_qs);
+        iv_bofg = getView().findViewById(R.id.iv_bofg);
+        iv_lcd = getView().findViewById(R.id.iv_lcd);
+        iv_cw = getView().findViewById(R.id.iv_cw);
+        iv_gdd = getView().findViewById(R.id.iv_gdd);
+        iv_sz = getView().findViewById(R.id.iv_sz);
 
-        icon_zs_xdjy = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_xdjy);
-        icon_zs_os = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_os);
-        icon_zs_zs = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_zs);
-        icon_zs_xzs = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_xzs);
-        icon_zs_ms = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_ms);
+
+        icon_zs_xdjy = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_xiandaijianyue);
+        icon_zs_os = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_oushi);
+        icon_zs_zs = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_yakeli);
+        icon_zs_xzs = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_xinzhongshi);
+        icon_zs_ms = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_teyi);
         icon_zs_yj = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_yj);
-        icon_zs_hxd = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_hxd);
-        icon_zs_style_qb = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_style_qb);
+        icon_zs_hxd = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_zhongshi);
+        icon_zs_style_qb = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_fengshan);
         icon_zs_ty = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_ty);
+        icon_zs_qingshe = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_qingshe);
+        icon_zs_beou = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_beiou);
+        icon_zs_lcd = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_lvcaiddeng);
+        icon_zs_cw = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_chuwei);
+        icon_guodao = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_guodaodeng);
+        icon_shangzhao = UIUtils.readBitMap(getActivity(), R.mipmap.icon_zs_shangzhao);
+
 
         iv_xdjy.setImageBitmap(icon_zs_xdjy);
         iv_zs.setImageBitmap(icon_zs_zs);
@@ -119,6 +159,12 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
         iv_hxd.setImageBitmap(icon_zs_hxd);
         iv_qb.setImageBitmap(icon_zs_style_qb);
         iv_ty.setImageBitmap(icon_zs_ty);
+        iv_qs.setImageBitmap(icon_zs_qingshe);
+        iv_bofg.setImageBitmap(icon_zs_beou);
+        iv_lcd.setImageBitmap(icon_zs_lcd);
+        iv_cw.setImageBitmap(icon_zs_cw);
+        iv_gdd.setImageBitmap(icon_guodao);
+        iv_sz.setImageBitmap(icon_shangzhao);
 
         tv_xiandaijianyue.setOnClickListener(this);
         tv_oushi.setOnClickListener(this);
@@ -129,7 +175,12 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
         tv_yijia.setOnClickListener(this);
         tv_houxiandai.setOnClickListener(this);
         tv_tianyuan.setOnClickListener(this);
-
+        tv_qs.setOnClickListener(this);
+        tv_bofe.setOnClickListener(this);
+        tv_lcd.setOnClickListener(this);
+        tv_cw.setOnClickListener(this);
+        tv_gdd.setOnClickListener(this);
+        tv_sz.setOnClickListener(this);
     }
 
     @Override
@@ -152,6 +203,18 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
         icon_zs_style_qb=null;
         if(icon_zs_ty!=null)icon_zs_ty.recycle();
         icon_zs_ty=null;
+        if(icon_zs_qingshe!=null)icon_zs_qingshe.recycle();
+        icon_zs_qingshe=null;
+        if(icon_zs_beou!=null)icon_zs_beou.recycle();
+        icon_zs_beou=null;
+        if(icon_zs_lcd!=null)icon_zs_lcd.recycle();
+        icon_zs_lcd=null;
+        if(icon_zs_cw!=null)icon_zs_cw.recycle();
+        icon_zs_cw=null;
+        if(icon_guodao!=null)icon_guodao.recycle();
+        icon_guodao=null;
+        if(icon_shangzhao!=null)icon_shangzhao.recycle();
+        icon_shangzhao=null;
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
@@ -159,7 +222,12 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EventBus.getDefault().register(this);
+        try {
+            EventBus.getDefault().register(this);
+        }catch (Exception e){
+            e=new Exception("styleFrag");
+            PgyCrashManager.reportCaughtException(getActivity(),e);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
@@ -237,6 +305,24 @@ public class StyleFragment extends BaseFragment implements View.OnClickListener 
                 break;
             case R.id.tv_tianyuan:
                 filterType="餐吊";
+                break;
+            case R.id.tv_qs:
+                filterType="轻奢";
+                break;
+            case R.id.tv_bofg:
+                filterType="北欧风格";
+                break;
+            case R.id.tv_lcd:
+                filterType="铝材灯";
+                break;
+            case R.id.tv_cw:
+                filterType="厨卫";
+                break;
+            case R.id.tv_gdd:
+                filterType="过道灯";
+                break;
+            case R.id.tv_sz:
+                filterType="商照";
                 break;
         }
         intent.putExtra(Constance.filter_attr_name,filterType);

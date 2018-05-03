@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.baiiu.filter.util.UIUtil;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -27,6 +28,7 @@ import bc.juhaohd.com.ui.activity.HomeShowNewActivity;
 import bc.juhaohd.com.ui.activity.IssueApplication;
 import bc.juhaohd.com.ui.activity.MainNewActivity;
 import bc.juhaohd.com.ui.activity.MainNewForJuHaoActivity;
+import bc.juhaohd.com.ui.activity.TemaiActivity;
 import bc.juhaohd.com.ui.activity.TimeBuyActivity;
 import bc.juhaohd.com.ui.activity.programme.DiyActivity;
 import bc.juhaohd.com.ui.activity.programme.MatchHomeActivity;
@@ -104,7 +106,16 @@ public class HomeIndexFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        EventBus.getDefault().register(this);
+        try {
+//            EventBus.builder().
+            if(!MyShare.get(getActivity()).getBoolean(Constance.has_register_eventBus)){
+            EventBus.getDefault().register(this);
+            MyShare.get(getActivity()).putBoolean(Constance.has_register_eventBus,true);
+            }
+        }catch (Exception e){
+            e=new Exception("homeFrag");
+            PgyCrashManager.reportCaughtException(getActivity(),e);
+        }
     }
 
     @Override
@@ -154,16 +165,11 @@ public class HomeIndexFragment extends BaseFragment implements View.OnClickListe
         tv_audio.setOnClickListener(this);
         tv_screen.setOnClickListener(this);
         iv_temai.setOnClickListener(this);
-
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
+        iv_screen.setOnClickListener(this);
 
 
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onEventA(bc.juhaohd.com.bean.Message msg) {
@@ -229,6 +235,9 @@ public class HomeIndexFragment extends BaseFragment implements View.OnClickListe
             startActivity(new Intent(getActivity(), TimeBuyActivity.class));
             break;
         case R.id.tv_match:
+            if(isToken()){
+                return;
+            }
             startActivity(new Intent(getActivity(), DiyActivity.class));
             break;
         case R.id.tv_360:
@@ -250,10 +259,11 @@ public class HomeIndexFragment extends BaseFragment implements View.OnClickListe
             getActivity().startActivity(mIntent);
             break;
             case R.id.tv_screen:
+            case R.id.iv_screen:
                 startActivity(new Intent(getActivity(), ScreenActivity.class));
                 break;
             case R.id.iv_temai:
-                startActivity(new Intent(getActivity(), MainNewActivity.class));
+                startActivity(new Intent(getActivity(), TemaiActivity.class));
                 break;
 
     }
@@ -280,6 +290,7 @@ public class HomeIndexFragment extends BaseFragment implements View.OnClickListe
         bitmap_cart=null;
         bitmap_audio=null;
         EventBus.getDefault().unregister(this);
+        MyShare.get(getActivity()).putBoolean(Constance.has_register_eventBus,false);
         super.onDestroy();
 
     }

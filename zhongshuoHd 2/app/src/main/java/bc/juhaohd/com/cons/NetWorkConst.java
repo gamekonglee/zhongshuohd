@@ -18,7 +18,7 @@ public class NetWorkConst {
     //图片主地址
 //    public static final String SCENE_HOST = "http://www.juhao.com/";
     public static final String SCENE_HOST = "http://zs.bocang.cc/";
-
+//    public static final String SCENE_HOST = "http://bocang.oss-cn-shenzhen.aliyuncs.com/zs/";
     //分享APP
     public static final String APK_URL ="http://app.bocang.cc/Ewm/index/url/aokete.bocang.cc";
 

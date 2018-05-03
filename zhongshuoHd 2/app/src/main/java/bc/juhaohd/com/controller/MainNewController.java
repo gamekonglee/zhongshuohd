@@ -2,7 +2,10 @@ package bc.juhaohd.com.controller;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -43,6 +46,7 @@ import bc.juhaohd.com.bean.GdGoodsBean;
 import bc.juhaohd.com.bean.GoodsBean;
 import bc.juhaohd.com.bean.GoodsDetailZsBean;
 import bc.juhaohd.com.bean.GroupBuy;
+import bc.juhaohd.com.bean.Properties;
 import bc.juhaohd.com.bean.ScAttrs;
 import bc.juhaohd.com.bean.ScProperties;
 import bc.juhaohd.com.cons.Constance;
@@ -52,7 +56,11 @@ import bc.juhaohd.com.net.ApiClient;
 import bc.juhaohd.com.ui.activity.IssueApplication;
 import bc.juhaohd.com.ui.activity.MainNewActivity;
 import bc.juhaohd.com.ui.activity.product.ProductDetailHDNewActivity;
+import bc.juhaohd.com.ui.view.EndOfGridView;
+import bc.juhaohd.com.ui.view.EndOfListView;
+import bc.juhaohd.com.ui.view.PMSwipeRefreshLayout;
 import bc.juhaohd.com.utils.ImageLoadProxy;
+import bc.juhaohd.com.utils.MyShare;
 import bc.juhaohd.com.utils.UIUtils;
 import bocang.json.JSONArray;
 import bocang.json.JSONObject;
@@ -65,7 +73,7 @@ import bocang.utils.MyToast;
  * @date : 2017/3/17 10:24
  * @description :
  */
-public class MainNewController extends BaseController implements INetworkCallBack, PullToRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class MainNewController extends BaseController implements INetworkCallBack, PullToRefreshLayout.OnRefreshListener, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, EndOfListView.OnEndOfListListener {
     private TextView unMessageReadTv;
     private MainNewActivity mView;
     private String mAppVersion;
@@ -75,16 +83,16 @@ public class MainNewController extends BaseController implements INetworkCallBac
     private TextView tv_none_sort;
     private RelativeLayout rl_search;
     private TextView et_search;
-    private PullToRefreshLayout mFilterContentView;
-    private PullableGridView gridView;
+    private PMSwipeRefreshLayout mFilterContentView;
+    private EndOfGridView gridView;
     private QuickAdapter<Attr_list> typeAdapter;
     private QuickAdapter<GoodsBean> goodsAdapter;
     private List<Attr_list> attrBeen;
     private List<GoodsBean> goodsBeen;
     public int page;
     private ProgressBar pd;
-    public String mSortKey;
-    public String mSortValue;
+    public String mSortKey="";
+    public String mSortValue="";
     private boolean isScrollToTop;
     private int index;
     private int currentPosition=0;
@@ -97,7 +105,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
     private LinearLayout ll_filter;
     private boolean[][] filterArray;
     private String current_three_filter;
-    private ProgressDialog progressDialog;
+//    private ProgressDialog progressDialog;
     private boolean request;
 
     public MainNewController(MainNewActivity v) {
@@ -121,17 +129,20 @@ public class MainNewController extends BaseController implements INetworkCallBac
         if(!TextUtils.isEmpty(mView.filter_type)){
             tv_current_select.setText(mView.filter_type);
         }
+        sendAttrList();
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
         GdAttrBeanDao attrBeanDao=daoSession.getGdAttrBeanDao();
         GdAttrBeanListDao beanListDao=daoSession.getGdAttrBeanListDao();
         GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
-        List<GdAttrBean> attrBeans=attrBeanDao.loadAll();
-        List<GdAttrBeanList> gdAttrBeanListList=beanListDao.loadAll();
+        gdGoodsBeanDao.deleteAll();
 
-        List<GdGoodsBean> gdGoodsBeans;
-
+//        List<GdAttrBean> attrBeans=attrBeanDao.loadAll();
+//        List<GdAttrBeanList> gdAttrBeanListList=beanListDao.loadAll();
+//
+//        List<GdGoodsBean> gdGoodsBeans;
+/*
         if(attrBeans==null||attrBeans.size()==0||gdAttrBeanListList==null||gdAttrBeanListList.size()==0){
             request=false;
                 sendAttrList();
@@ -270,11 +281,11 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 }
 
             }
-        }
+        }*/
 //        selectProduct(page, "20", null, null, null);
     }
     public void sendAttrList() {
-        if(UIUtils.isValidContext(mView))progressDialog = ProgressDialog.show(mView,"","加载中");
+//        if(UIUtils.isValidContext(mView))progressDialog = ProgressDialog.show(mView,"","加载中");
         mNetWork.sendAttrList("yes", this);
 
     }
@@ -285,9 +296,11 @@ public class MainNewController extends BaseController implements INetworkCallBac
         tv_none_sort = (TextView) mView.findViewById(R.id.tv_none_sort);
         rl_search = (RelativeLayout) mView.findViewById(R.id.rl_search);
         mView.et_search.setText(mView.keyword);
-        mFilterContentView = (PullToRefreshLayout) mView.findViewById(R.id.mFilterContentView);
+        mFilterContentView = (PMSwipeRefreshLayout) mView.findViewById(R.id.mFilterContentView);
+        mFilterContentView.setColorSchemeColors(Color.BLUE,Color.YELLOW,Color.GREEN,Color.RED);
         mFilterContentView.setOnRefreshListener(this);
-        gridView = (PullableGridView) mView.findViewById(R.id.gridView);
+        gridView = (EndOfGridView) mView.findViewById(R.id.gridView);
+        gridView.setOnEndOfListListener(this);
         pd = (ProgressBar) mView.findViewById(R.id.pd);
         ll_filter = (LinearLayout) mView.findViewById(R.id.ll_filter);
         View view1=mView.findViewById(R.id.view_diss);
@@ -330,17 +343,46 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 if(null!=name){
                     helper.setText(R.id.tv_name,item.getName().toString());
                 }
+                String Token= MyShare.get(mView).getString(Constance.TOKEN);
+                helper.setText(R.id.tv_price,"¥"+item.getCurrent_price());
+                helper.setVisible(R.id.tv_old_price,false);
+                if(!TextUtils.isEmpty(Token)) {
+                    String levelid = "";
+                    bocang.json.JSONObject mUser = IssueApplication.mUserObject;
+                    if (mUser != null && mUser.length() > 0) {
+                        levelid = IssueApplication.mUserObject.getString(Constance.level_id);
+                    }
+                    if (!levelid.equals("104")) {
 
+
+                        int current = 0;
+                        List<ScProperties> properties = item.getProperties();
+                        for (int i = 0; i < properties.size(); i++) {
+                            if (properties.get(i).getName().equals("规格")) {
+                                current = i;
+                                break;
+                            }
+                        }
+
+                        helper.setText(R.id.tv_price, "代理价：¥" + getLevelPrice(item.getProperties(), current, UIUtils.getMiniPricePostion(item.getProperties().get(current).getScAttrs())));
+                        helper.setText(R.id.tv_old_price, "原价：¥" + item.getCurrent_price());
+                        TextView textView = helper.getView(R.id.tv_old_price);
+                        textView.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                        helper.setVisible(R.id.tv_old_price, true);
+
+                    }
+                }
 //                if(item.getProperties()!=null&&item.getProperties().size()>0&&item.getProperties().get(0)!=null&&item.getProperties().get(0).getScAttrs()!=null&&item.getProperties().get(0).getScAttrs().size()>0){
 //                    helper.setText(R.id.tv_price," "+getLevelPrice(helper.getPosition(),0,0));
 //                }else {
 //                }
-                helper.setText(R.id.tv_price," "+item.getCurrent_price());
+
                 Default_photo default_photo=item.getDefault_photo();
 //                String url=item.getOriginal_img();
                 if(null!=default_photo){
                     String imageUrl=item.getDefault_photo().getThumb();
 //                    Log.e("imageUrl",NetWorkConst.SCENE_HOST+imageUrl);
+//                    Log.e("imageUrl",imageUrl);
                     ImageLoader.getInstance().displayImage(imageUrl, (ImageView) helper.getView(R.id.iv_photo),IssueApplication.getImageloaderOption());
                 }else {
 //                    Log.e("image","ddefault==null");
@@ -439,33 +481,33 @@ public class MainNewController extends BaseController implements INetworkCallBac
         });
     }
 
-    private double getLevelPrice(int x,int y,int z) {
-        int levelid=0;
-        bocang.json.JSONObject mUser= IssueApplication.mUserObject;
-        if(mUser!=null&&mUser.length()>0){
-            levelid=IssueApplication.mUserObject.getInt(Constance.level_id);
-        }
-        if(x>=goodsBeen.size()||y>=goodsBeen.get(x).getProperties().size())
-        {
-            return 0.0;
-        }
-        List<ScAttrs> attrsArray=goodsBeen.get(x).getProperties().get(y).getScAttrs();
-        double price;
-        if(levelid==104)
-        {
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_5());
-        }else if(levelid==103){
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_4());
-        }else if(levelid==102){
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_3());
-        }else if(levelid==101){
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_2());
-        }else{
-            price= Double.parseDouble(attrsArray.get(z).getAttr_price_1());
-        }
-        price= Double.parseDouble(attrsArray.get(z).getAttr_price_5());
-        return price;
-    }
+//    private double getLevelPrice(int x,int y,int z) {
+//        int levelid=0;
+//        bocang.json.JSONObject mUser= IssueApplication.mUserObject;
+//        if(mUser!=null&&mUser.length()>0){
+//            levelid=IssueApplication.mUserObject.getInt(Constance.level_id);
+//        }
+//        if(x>=goodsBeen.size()||y>=goodsBeen.get(x).getProperties().size())
+//        {
+//            return 0.0;
+//        }
+//        List<ScAttrs> attrsArray=goodsBeen.get(x).getProperties().get(y).getScAttrs();
+//        double price;
+//        if(levelid==104)
+//        {
+//            price= attrsArray.get(z).getAttr_price_5();
+//        }else if(levelid==103){
+//            price= attrsArray.get(z).getAttr_price_4(;
+//        }else if(levelid==102){
+//            price= attrsArray.get(z).getAttr_price_3();
+//        }else if(levelid==101){
+//            price= attrsArray.get(z).getAttr_price_2();
+//        }else{
+//            price= attrsArray.get(z).getAttr_price_1();
+//        }
+//        price= attrsArray.get(z).getAttr_price_5();
+//        return price;
+//    }
 
     private void editFilter(int index, int itemPosition) {
 
@@ -535,6 +577,9 @@ public class MainNewController extends BaseController implements INetworkCallBac
      */
     public void selectProduct(int page, String per_page, String brand, String category, String shop) {
 //        pd.setVisibility(View.VISIBLE);
+        mFilterContentView.setRefreshing(true);
+        mNetWork.sendGoodsList(page, per_page, brand, mView.category, mView.filter_attr, shop, mView.keyword, mSortKey, mSortValue, this);
+        if(true)return;
         if(!request){
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
@@ -645,7 +690,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
         switch (requestCode) {
             case NetWorkConst.PRODUCT:
 
-                if(UIUtils.isValidContext(mView)&&progressDialog!=null&&progressDialog.isShowing())progressDialog.dismiss();
+//                if(UIUtils.isValidContext(mView)&&progressDialog!=null&&progressDialog.isShowing())progressDialog.dismiss();
                 pd.setVisibility(View.GONE);
                 //                if (null == mView || mView.getActivity().isFinishing())
                 //                    return;
@@ -671,6 +716,9 @@ public class MainNewController extends BaseController implements INetworkCallBac
                     return;
                 }
                 getDataSuccess(goodsList);
+                if(true){
+                    return;
+                }
                 DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
                 DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
                 DaoSession daoSession = daoMaster.newSession();
@@ -704,7 +752,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 gdGoodsBean.setCurrentPrice(bean.getCurrent_price());
                 gdGoodsBean.setName((String) bean.getName());
                 gdGoodsBean.setOrignalImg(bean.getDefault_photo().getThumb());
-                Log.e("insert_filter",mView.filter_attr+"");
+//                Log.e("insert_filter",mView.filter_attr+"");
                 gdGoodsBean.setFilter(mView.filter_attr);
                 gdGoodsBean.setSortKey(mSortKey);
                 gdGoodsBean.setSortValue(mSortValue);
@@ -735,7 +783,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
 
                             attrBeen.add(new Gson().fromJson(String.valueOf(jsonArray.getJSONObject(j)),Attr_list.class));
                             if(!TextUtils.isEmpty(mView.filter_type)&&currentTitlePosition==i
-                                    &&attrBeen.get(attrBeen.size()-1).getAttr_value().contains(mView.filter_type)){
+                                    &&attrBeen.get(attrBeen.size()-1).getAttr_value().equals(mView.filter_type)){
                                     currentPosition=j;
                                     hasFilterType=true;
                             }
@@ -743,7 +791,6 @@ public class MainNewController extends BaseController implements INetworkCallBac
                     }
                     attrAllBean.add(new Gson().fromJson(String.valueOf(sceneAllAttrs.getJSONObject(i)),AttrBean.class));
                 }
-
                 if(hasFilterType){
                     String filter = "";
                     for (int x = 0; x < index + 1; x++) {
@@ -812,15 +859,15 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 MyToast.show(mView, "没有更多内容了");
         }
 //        mProAdapter.notifyDataSetChanged();
-        for(int i=0;i<goodsBeen.size();i++){
-            for(int j=0;j<goodsBeen.size();j++){
-                if(j==goodsBeen.size())j--;
-                if(i==goodsBeen.size())i--;
-                if(goodsBeen.get(j).getId()==goodsBeen.get(i).getId()&&j!=i){
-                    goodsBeen.remove(j);
-                }
-            }
-        }
+//        for(int i=0;i<goodsBeen.size();i++){
+//            for(int j=0;j<goodsBeen.size();j++){
+//                if(j==goodsBeen.size())j--;
+//                if(i==goodsBeen.size())i--;
+//                if(goodsBeen.get(j).getId()==goodsBeen.get(i).getId()&&j!=i){
+//                    goodsBeen.remove(j);
+//                }
+//            }
+//        }
         goodsAdapter.replaceAll(goodsBeen);
         if(isScrollToTop)
         {
@@ -831,7 +878,7 @@ public class MainNewController extends BaseController implements INetworkCallBac
     }
     @Override
     public void onFailureListener(String requestCode, JSONObject ans) {
-        if(UIUtils.isValidContext(mView)&&progressDialog!=null&&progressDialog.isShowing())progressDialog.dismiss();
+//        if(UIUtils.isValidContext(mView)&&progressDialog!=null&&progressDialog.isShowing())progressDialog.dismiss();
         pd.setVisibility(View.GONE);
         if (null == mView || mView.isFinishing())
             return;
@@ -845,23 +892,27 @@ public class MainNewController extends BaseController implements INetworkCallBac
         }
     }
     private void dismissRefesh() {
-        mFilterContentView.refreshFinish(PullToRefreshLayout.SUCCEED);
-        mFilterContentView.loadmoreFinish(PullToRefreshLayout.SUCCEED);
+        mFilterContentView.post(new Runnable() {
+            @Override
+            public void run() {
+                mFilterContentView.setRefreshing(false);
+            }
+        });
     }
     public void selectSortType(int type) {
 
         switch (type) {
             case R.id.competitive_tv:
                 mSortKey = "3";//精品
-                mSortValue = "1";//排序
+                mSortValue = "2";//排序
                 break;
             case R.id.new_tv:
                 mSortKey = "5";//新品
-                mSortValue = "1";//排序
+                mSortValue = "2";//排序
                 break;
             case R.id.hot_tv:
                 mSortKey = "4";//热销
-                mSortValue = "1";//排序
+                mSortValue = "2";//排序
                 break;
             case R.id.tv_none_sort:
                 mSortKey="";//综合
@@ -876,6 +927,11 @@ public class MainNewController extends BaseController implements INetworkCallBac
     public void onRefresh(PullToRefreshLayout pullToRefreshLayout) {
         page = 1;
         request = true;
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
+        gdGoodsBeanDao.deleteAll();
 //        initFilterDropDownView = false;
         selectProduct(page, "20", null, null, null);
     }
@@ -938,6 +994,8 @@ public class MainNewController extends BaseController implements INetworkCallBac
     }
 
     private void selectProductByFilter(int page, String s, Object o, Object o1, Object o2) {
+        mNetWork.sendGoodsList(page, "20", null, mView.category, mView.filter_attr, null, mView.keyword, mSortKey, mSortValue, this);
+        if(true)return;
         DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
         DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
         DaoSession daoSession = daoMaster.newSession();
@@ -1002,5 +1060,60 @@ public class MainNewController extends BaseController implements INetworkCallBac
                 selectProductByKey(key);
             }
     }
+    private double getLevelPrice(List<ScProperties> list,int x,int y) {
 
+        String levelid="";
+        bocang.json.JSONObject mUser=IssueApplication.mUserObject;
+        if(mUser!=null&&mUser.length()>0){
+            levelid=IssueApplication.mUserObject.getString(Constance.level_id);
+        }
+        List<ScAttrs> attrsArray=list.get(x).getScAttrs();
+        double  price;
+        if(levelid.equals("104"))
+        {
+            price=attrsArray.get(y).getAttr_price_5();
+        }else if(levelid.equals("103")){
+            price=attrsArray.get(y).getAttr_price_4();
+        }else if(levelid.equals("102")){
+            price=attrsArray.get(y).getAttr_price_3();
+        }else if(levelid.equals("101")){
+            price=attrsArray.get(y).getAttr_price_2();
+        }else if(levelid.equals("100")){
+            price=attrsArray.get(y).getAttr_price_1();
+        }else {
+            price=attrsArray.get(y).getAttr_price_5();
+        }
+        return price;
+    }
+
+
+    @Override
+    public void onRefresh() {
+        page = 1;
+        request = true;
+        DaoMaster.DevOpenHelper devOpenHelper = new DaoMaster.DevOpenHelper(mView, Constance.db_mydb, null);
+        DaoMaster daoMaster = new DaoMaster(devOpenHelper.getWritableDatabase());
+        DaoSession daoSession = daoMaster.newSession();
+        GdGoodsBeanDao gdGoodsBeanDao=daoSession.getGdGoodsBeanDao();
+        gdGoodsBeanDao.deleteAll();
+//        initFilterDropDownView = false;
+        selectProduct(page, "20", null, null, null);
+    }
+
+    @Override
+    public void onEndOfList(Object lastItem) {
+        if(goodsBeen==null||goodsBeen.size()==0){
+           return;
+        }else {
+            int pageRow;
+            if(goodsBeen.size()%20==0){
+                pageRow=goodsBeen.size()/20;
+            }else {
+                pageRow=goodsBeen.size()/20+1;
+            }
+            page = pageRow + 1;
+        }
+        request=true;
+        selectProduct(page, "20", null, null, null);
+    }
 }

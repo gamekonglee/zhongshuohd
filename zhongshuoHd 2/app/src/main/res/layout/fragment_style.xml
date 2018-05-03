@@ -3,187 +3,299 @@
     android:orientation="vertical"
     android:background="@android:color/transparent"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent">
     <include layout="@layout/head"/>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-        android:layout_width="@dimen/xx365"
-        android:layout_height="@dimen/xx588">
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_xdjy"
-            android:layout_width="@dimen/xx365"
-            android:layout_height="@dimen/xx588"/>
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/xx600">
+    <LinearLayout
+        android:layout_width="@dimen/xx362"
+        android:layout_height="@dimen/xx600"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx279" >
+            <ImageView
 
-        <TextView
-            android:id="@+id/tv_xiandaijianyue"
-            style="@style/tv_home_text2"
-            android:text="现代简约"
-            />
-    </RelativeLayout>
+                android:scaleType="fitXY"
+                android:id="@+id/iv_zs"
+                android:layout_width="@dimen/xx362"
+                android:layout_height="@dimen/xx279"/>
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <RelativeLayout
+            <TextView
+                android:id="@+id/tv_zhongshi"
+                android:text="亚克力吸顶灯"
+                style="@style/tv_home_text2"
+                />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx279" >
+            <ImageView
+                android:id="@+id/iv_ms"
+                android:layout_width="@dimen/xx362"
+                android:layout_height="@dimen/xx279"/>
+
+            <TextView
+                android:id="@+id/tv_meishi"
+                style="@style/tv_home_text2"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                android:text="铁艺吸顶灯" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_marginLeft="@dimen/xx30"
         android:layout_width="@dimen/xx362"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_zs"
+        android:layout_height="@dimen/xx600"
+        android:orientation="vertical">
+        <RelativeLayout
+
             android:layout_width="@dimen/xx362"
-            android:layout_height="@dimen/xx279"/>
+            android:layout_height="@dimen/xx176" >
+            <ImageView
+                android:id="@+id/iv_os"
+                android:layout_width="@dimen/xx362"
+                android:layout_height="@dimen/xx176"/>
 
-        <TextView
-            android:id="@+id/tv_zhongshi"
-            android:text="亚克力吸顶灯"
-            style="@style/tv_home_text2"
-            />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_oushi"
+                android:text="欧式"
+                style="@style/tv_home_text2"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx176" >
+            <ImageView
+                android:id="@+id/iv_qs"
+                android:layout_width="@dimen/xx362"
+                android:layout_height="@dimen/xx176"/>
 
-    <RelativeLayout
+            <TextView
+                android:id="@+id/tv_qs"
+                android:text="轻奢"
+                style="@style/tv_home_text2"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx176">
+            <ImageView
+                android:id="@+id/iv_xdjy"
+                android:layout_width="@dimen/xx362"
+                android:layout_height="@dimen/xx176"/>
+
+            <TextView
+                android:id="@+id/tv_xiandaijianyue"
+                style="@style/tv_home_text2"
+                android:text="现代简约"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_marginLeft="@dimen/xx30"
         android:layout_width="@dimen/xx362"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_xzs"
+        android:layout_height="@dimen/xx600"
+        android:orientation="vertical">
+
+        <RelativeLayout
             android:layout_width="@dimen/xx362"
-            android:layout_height="@dimen/xx279"/>
+            android:layout_height="@dimen/xx176" >
+            <ImageView
+                android:id="@+id/iv_xzs"
+                android:layout_width="@dimen/xx362"
+                android:layout_height="@dimen/xx176"/>
 
-        <TextView
-            android:id="@+id/tv_xinzhongshi"
-            android:text="新中式"
-            style="@style/tv_home_text2"
-            />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_xinzhongshi"
+                android:text="新中式"
+                style="@style/tv_home_text2"
+                />
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_marginLeft="@dimen/xx30"
-        android:layout_width="@dimen/xx362"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_os"
-            android:layout_width="@dimen/xx362"
-            android:layout_height="@dimen/xx279"/>
-
-        <TextView
-            android:id="@+id/tv_oushi"
-            android:text="欧式"
-            style="@style/tv_home_text2"
-            />
-    </RelativeLayout>
-
-
-</LinearLayout>
-<LinearLayout
-    android:layout_marginLeft="@dimen/xx30"
-    android:layout_marginTop="@dimen/xx30"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <RelativeLayout
-        android:layout_width="@dimen/xx362"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_ms"
-            android:layout_width="@dimen/xx362"
-            android:layout_height="@dimen/xx279"/>
-
-        <TextView
-            android:id="@+id/tv_meishi"
-            style="@style/tv_home_text2"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginEnd="18dp"
-            android:layout_marginRight="18dp"
-            android:text="铁艺吸顶灯" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_marginLeft="@dimen/xx30"
-        android:layout_width="@dimen/xx166"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_hxd"
-            android:layout_width="@dimen/xx166"
-            android:layout_height="@dimen/xx279"/>
-
-        <TextView
-            android:id="@+id/tv_houxiandai"
-            android:text="中式"
-            style="@style/tv_home_text2"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_marginLeft="@dimen/xx30"
-        android:layout_width="@dimen/xx166"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_yj"
-            android:layout_width="@dimen/xx166"
-            android:layout_height="@dimen/xx279"/>
-
-        <TextView
-            android:id="@+id/tv_yijia"
-            android:text="美式"
-            style="@style/tv_home_text2"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_marginLeft="@dimen/xx30"
-        android:layout_width="@dimen/xx166"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_ty"
-            android:layout_width="@dimen/xx166"
-            android:layout_height="@dimen/xx279"/>
-
-        <TextView
-            android:id="@+id/tv_tianyuan"
-            android:text="餐厅"
-            style="@style/tv_home_text2"
-            />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_marginLeft="@dimen/xx30"
-        android:layout_width="@dimen/xx166"
-        android:layout_height="@dimen/xx279" >
-        <bc.juhaohd.com.ui.view.CircleImageView
-            android:id="@+id/iv_qb"
-            android:layout_width="@dimen/xx166"
-            android:layout_height="@dimen/xx279"/>
-        <TextView
-            android:text="风扇灯"
-            android:id="@+id/tv_quanbu"
-            style="@style/tv_home_text2"
-            />
-        <!--<TextView
-
-            android:paddingBottom="@dimen/xx10"
-            android:orientation="vertical"
-            android:layout_gravity="bottom"
-            android:gravity="bottom|center"
-            android:textColor="#ffffff"
-            android:textSize="24sp"
-            android:background="@drawable/bg_corner_trans_bottom"
-            android:layout_alignParentBottom="true"
+        <LinearLayout
+            android:layout_marginTop="@dimen/xx30"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/xx56"/>-->
-    </RelativeLayout>
+            android:layout_height="@dimen/xx176"
+            android:orientation="horizontal">
+            <RelativeLayout
+                android:layout_width="@dimen/xx165"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:id="@+id/iv_qb"
+                    android:layout_width="@dimen/xx165"
+                    android:layout_height="@dimen/xx176"/>
+                <TextView
+                    android:text="风扇灯"
+                    android:id="@+id/tv_quanbu"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/xx30"
+                android:layout_width="@dimen/xx165"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:id="@+id/iv_hxd"
+                    android:layout_width="@dimen/xx165"
+                    android:layout_height="@dimen/xx176"/>
 
-</LinearLayout>
-</LinearLayout>
+                <TextView
+                    android:id="@+id/tv_houxiandai"
+                    android:text="中式"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx176">
+            <ImageView
+                android:id="@+id/iv_bofg"
+                android:layout_width="@dimen/xx362"
+                android:layout_height="@dimen/xx176"/>
+
+            <TextView
+                android:id="@+id/tv_bofg"
+                style="@style/tv_home_text2"
+                android:text="北欧风格"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="@dimen/xx30"
+        android:layout_width="@dimen/xx362"
+        android:layout_height="@dimen/xx600"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx176"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+
+                android:layout_width="@dimen/xx166"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:id="@+id/iv_yj"
+                    android:layout_width="@dimen/xx166"
+                    android:layout_height="@dimen/xx176"/>
+
+                <TextView
+                    android:id="@+id/tv_yijia"
+                    android:text="美式"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/xx30"
+                android:layout_width="@dimen/xx166"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:scaleType="fitXY"
+                    android:id="@+id/iv_ty"
+                    android:layout_width="@dimen/xx166"
+                    android:layout_height="@dimen/xx176"/>
+
+                <TextView
+                    android:id="@+id/tv_tianyuan"
+                    android:text="餐吊灯"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx176"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/xx166"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:id="@+id/iv_lcd"
+                    android:layout_width="@dimen/xx166"
+                    android:layout_height="@dimen/xx176"/>
+
+                <TextView
+                    android:id="@+id/tv_lcd"
+                    android:text="铝材灯"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/xx30"
+                android:layout_width="@dimen/xx166"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:id="@+id/iv_cw"
+                    android:layout_width="@dimen/xx166"
+                    android:layout_height="@dimen/xx176"/>
+
+                <TextView
+                    android:id="@+id/tv_cw"
+                    android:text="厨卫"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="@dimen/xx30"
+            android:layout_width="@dimen/xx362"
+            android:layout_height="@dimen/xx176"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="@dimen/xx166"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:id="@+id/iv_gdd"
+                    android:layout_width="@dimen/xx166"
+                    android:layout_height="@dimen/xx176"/>
+
+                <TextView
+                    android:id="@+id/tv_gdd"
+                    android:text="过道灯"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_marginLeft="@dimen/xx30"
+                android:layout_width="@dimen/xx166"
+                android:layout_height="@dimen/xx176" >
+                <ImageView
+                    android:id="@+id/iv_sz"
+                    android:layout_width="@dimen/xx166"
+                    android:layout_height="@dimen/xx176"/>
+
+                <TextView
+                    android:id="@+id/tv_sz"
+                    android:text="商照"
+                    style="@style/tv_home_text2"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

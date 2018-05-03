@@ -6,8 +6,13 @@
     android:background="@drawable/bg_corner_trans"
     android:layout_height="match_parent">
 <RelativeLayout
+    android:background="@drawable/bg_corner_full_b6a797"
     android:layout_width="@dimen/xx400"
     android:layout_height="@dimen/xx400">
+    <ImageView
+        android:background="@drawable/bg_corner_full_b6a797"
+        android:layout_width="@dimen/xx400"
+        android:layout_height="@dimen/xx400" />
     <bc.juhaohd.com.ui.view.CircleImageView
         android:id="@+id/iv_photo"
         android:scaleType="fitXY"
@@ -60,7 +65,8 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
     <TextView
-        android:text="¥"
+        android:text="代理价：¥"
+        android:visibility="gone"
         android:textSize="@dimen/ss24"
         android:textColor="@color/orange_theme"
         android:layout_width="wrap_content"
@@ -69,9 +75,20 @@
             android:id="@+id/tv_price"
             android:text="00.00"
             android:textColor="@color/orange_theme"
-            android:textSize="@dimen/ss36"
+            android:textSize="@dimen/ss27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
+        <TextView
+            android:id="@+id/tv_old_price"
+            android:text="原价：¥00.00"
+            android:layout_marginLeft="@dimen/xx24"
+            android:textColor="#666666"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/ss24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

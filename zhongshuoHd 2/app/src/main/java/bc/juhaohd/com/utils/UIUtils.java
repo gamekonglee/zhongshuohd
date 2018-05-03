@@ -34,9 +34,16 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
+import java.util.List;
 
 import bc.juhaohd.com.R;
+import bc.juhaohd.com.bean.Attrs;
+import bc.juhaohd.com.bean.Properties;
+import bc.juhaohd.com.bean.ScAttrs;
+import bc.juhaohd.com.bean.ScProperties;
+import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.ui.activity.IssueApplication;
+import bocang.json.JSONArray;
 
 import static bc.juhaohd.com.utils.ImageUtil.Bitmap2InputStream;
 import static bc.juhaohd.com.utils.ImageUtil.drawable2Bitmap;
@@ -275,7 +282,7 @@ public class UIUtils {
         int w = width;
         int h =height;
 //        System.out.println("Drawable转Bitmap");
-        Bitmap.Config config = Bitmap.Config.RGB_565;
+        Bitmap.Config config = Bitmap.Config.ARGB_8888;
 
         Bitmap bitmap = Bitmap.createBitmap(w, h, config);
         //注意，下面三行代码要用到，否则在View或者SurfaceView里的canvas.drawBitmap会看不到图
@@ -325,5 +332,256 @@ public class UIUtils {
             return true;
         }
     }
+    public static int getMiniPricePostion(com.alibaba.fastjson.JSONArray attrs) {
+        String attrprice = Constance.attr_price_5;
+//        switch (levelId) {
+//            case 104:
+//                attrprice = Constance.attr_price_5;
+//                break;
+//            case 103:
+//                attrprice = Constance.attr_price_4;
+//                break;
+//            case 102:
+//                attrprice = Constance.attr_price_3;
+//                break;
+//            case 101:
+//                attrprice = Constance.attr_price_2;
+//                break;
+//            case 100:
+//                attrprice = Constance.attr_price_1;
+//                break;
+//        }
+        double temp = Double.parseDouble(attrs.getJSONObject(0).getString(attrprice));
+        int position=0;
+        try {
+            for (int i = 1; i < attrs.size(); i++) {
+                if (Double.parseDouble(attrs.getJSONObject(i).getString(attrprice)) < temp) {
+                    temp = Double.parseDouble(attrs.getJSONObject(i).getString(attrprice));
+                    position=i;
+                }
+            }
+        }catch (Exception e){
+            return 0;
+        }
+        return position;
+    }
+    public static int getMiniPricePostion(JSONArray attrs) {
+        String attrprice = Constance.attr_price_5;
+//        switch (levelId) {
+//            case 104:
+//                attrprice = Constance.attr_price_5;
+//                break;
+//            case 103:
+//                attrprice = Constance.attr_price_4;
+//                break;
+//            case 102:
+//                attrprice = Constance.attr_price_3;
+//                break;
+//            case 101:
+//                attrprice = Constance.attr_price_2;
+//                break;
+//            case 100:
+//                attrprice = Constance.attr_price_1;
+//                break;
+//        }
+        double temp = Double.parseDouble(attrs.getJSONObject(0).getString(attrprice));
+        int position=0;
+        try {
+            for (int i = 1; i < attrs.length(); i++) {
+                if (Double.parseDouble(attrs.getJSONObject(i).getString(attrprice)) < temp) {
+                    temp = Double.parseDouble(attrs.getJSONObject(i).getString(attrprice));
+                    position=i;
+                }
+            }
+        }catch (Exception e){
+            return 0;
+        }
+        return position;
+    }
+    public static int getMiniPricePostion( List<ScAttrs> attrs) {
+//        String attrprice = Constance.attr_price_5;
+//        switch (levelId) {
+//            case 104:
+//                attrprice = Constance.attr_price_5;
+//                break;
+//            case 103:
+//                attrprice = Constance.attr_price_4;
+//                break;
+//            case 102:
+//                attrprice = Constance.attr_price_3;
+//                break;
+//            case 101:
+//                attrprice = Constance.attr_price_2;
+//                break;
+//            case 100:
+//                attrprice = Constance.attr_price_1;
+//                break;
+//        }
+        double temp =attrs.get(0).getAttr_price_1();
+        int position=0;
+        try {
+            for (int i = 1; i < attrs.size(); i++) {
+                if(attrs.get(i).getAttr_price_1()<temp){
+                    temp = attrs.get(i).getAttr_price_1();
+                    position=i;
+                }
+            }
+        }catch (Exception e){
+            return 0;
+        }
+        return position;
+    }
+    public static String getMiniPrice(int levelId, List<ScAttrs> attrs) {
+        String attrprice = Constance.attr_price_5;
+        switch (levelId) {
+            case 104:
+                attrprice = Constance.attr_price_5;
+                break;
+            case 103:
+                attrprice = Constance.attr_price_4;
+                break;
+            case 102:
+                attrprice = Constance.attr_price_3;
+                break;
+            case 101:
+                attrprice = Constance.attr_price_2;
+                break;
+            case 100:
+                attrprice = Constance.attr_price_1;
+                break;
+        }
+        double temp = attrs.get(0).getAttr_price_1();
+        int position=0;
+        try {
+            for (int i = 1; i < attrs.size(); i++) {
+                if(attrs.get(i).getAttr_price_1()<temp){
+                    temp =attrs.get(i).getAttr_price_1();
+                    position=i;
+                }
+            }
+        }catch (Exception e){
+            return "0";
+        }
+        return temp+"";
+    }
+    public static String getMiniPrice(int levelId, JSONArray attrs) {
+        String attrprice = Constance.attr_price_5;
+        switch (levelId) {
+            case 104:
+                attrprice = Constance.attr_price_5;
+                break;
+            case 103:
+                attrprice = Constance.attr_price_4;
+                break;
+            case 102:
+                attrprice = Constance.attr_price_3;
+                break;
+            case 101:
+                attrprice = Constance.attr_price_2;
+                break;
+            case 100:
+                attrprice = Constance.attr_price_1;
+                break;
+        }
+        double temp = Double.parseDouble(attrs.getJSONObject(0).getString(attrprice));
+        int position=0;
+        try {
+            for (int i = 1; i < attrs.length(); i++) {
+                if (Double.parseDouble(attrs.getJSONObject(i).getString(attrprice)) < temp) {
+                    temp = Double.parseDouble(attrs.getJSONObject(i).getString(attrprice));
+                    position=i;
+                }
+            }
+        }catch (Exception e){
+            return "0";
+        }
+        return temp+"";
+    }
+    public static double getLevelPrice(List<ScProperties> list, int x, int y) {
 
+        String levelid="";
+        bocang.json.JSONObject mUser=IssueApplication.mUserObject;
+        if(mUser!=null&&mUser.length()>0){
+            levelid=IssueApplication.mUserObject.getString(Constance.level_id);
+        }
+        List<ScAttrs> attrsArray=list.get(x).getScAttrs();
+        double  price;
+        if(levelid.equals("104"))
+        {
+            price=attrsArray.get(y).getAttr_price_5();
+        }else if(levelid.equals("103")){
+            price=attrsArray.get(y).getAttr_price_4();
+        }else if(levelid.equals("102")){
+            price=attrsArray.get(y).getAttr_price_3();
+        }else if(levelid.equals("101")){
+            price=attrsArray.get(y).getAttr_price_2();
+        }else if(levelid.equals("100")){
+            price=attrsArray.get(y).getAttr_price_1();
+        }else {
+            price=attrsArray.get(y).getAttr_price_5();
+        }
+        return price;
+    }
+
+    public static  int getCurrentProperties(List<ScProperties> list){
+        int p=0;
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getName().equals("规格")){
+                p=i;
+                break;
+
+            }
+        }
+        return p;
+    }
+
+    public static double getScCurrentPrice(String property, List<ScProperties > properties) {
+        for(int x=0;x<properties.size();x++){
+            if(properties.get(x).getName().equals("规格")){
+                for(int y=0;y<properties.get(x).getScAttrs().size();y++){
+                    if((properties.get(x).getScAttrs().get(y).getId()+"").equals(property)){
+                        return getlevePrice(properties.get(x).getScAttrs().get(y));
+                    }
+                }
+            }
+        }
+        return 0;
+    }
+    public static double getlevePrice(ScAttrs attrs){
+        int levelid=104;
+        if(IssueApplication.mUserObject!=null){
+            levelid=IssueApplication.mUserObject.getInt(Constance.level_id);
+        }
+        double attrprice = attrs.getAttr_price_5();
+        switch (levelid) {
+            case 104:
+                attrprice =attrs.getAttr_price_5();
+                break;
+            case 103:
+                attrprice = attrs.getAttr_price_4();
+                break;
+            case 102:
+                attrprice =attrs.getAttr_price_3();
+                break;
+            case 101:
+                attrprice = attrs.getAttr_price_2();
+                break;
+            case 100:
+                attrprice =attrs.getAttr_price_1();
+                break;
+        }
+        return attrprice;
+    }
+    public static String getScCurrentImg(String attrs, List<ScProperties> properties) {
+        for(int x=0;x<properties.size();x++){
+            if(properties.get(x).getName().equals("规格")){
+                for(int y=0;y<properties.get(x).getScAttrs().size();y++){
+                    if((properties.get(x).getScAttrs().get(y).getId()+"").equals(attrs)){
+                        return properties.get(x).getScAttrs().get(y).getImg();
+                    }
+                }
+            }
+        }
+        return null;
+    }
     }

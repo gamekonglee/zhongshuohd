@@ -1,6 +1,7 @@
 package bc.juhaohd.com.net;
 
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -56,6 +57,7 @@ public class ApiClient  {
         }
         return true;
     }
+
     public static void sendPayment(String order, final Callback callback) {
         if(!hashkNewwork()){
             return;
@@ -137,17 +139,17 @@ public class ApiClient  {
 
     }
 
-    public static void sendUser(String profile, final Callback<String> callback) {
+    public static void sendUser( final Callback<String> callback) {
         if(!hashkNewwork()){
             return;
         }
 
 //        responseListener.onStarted();
 //        Map<String ,String> map=new HashMap<>();
-        String url= profile;
         String token= MyShare.get(UIUtils.getContext()).getString(Constance.TOKEN);
+        if(TextUtils.isEmpty(token))return;
         OkHttpUtils.post()
-                .url(url)
+                .url(NetWorkConst.PROFILE)
                 .addHeader("X-bocang-Authorization",token)
 //                .addParams("order", order)
                 .build()
@@ -175,6 +177,43 @@ public class ApiClient  {
                 });
     }
 
+    public static void sendAddress(int userId, final Callback<String> callback) {
+        if(!hashkNewwork()){
+            return;
+        }
+
+//        responseListener.onStarted();
+//        Map<String ,String> map=new HashMap<>();
+        String token= MyShare.get(UIUtils.getContext()).getString(Constance.TOKEN);
+        if(TextUtils.isEmpty(token))return;
+        OkHttpUtils.post()
+                .url( NetWorkConst.USER_SHOP_ADDRESS + userId)
+                .addHeader("X-bocang-Authorization",token)
+//                .addParams("order", order)
+                .build()
+                .execute(new Callback() {
+                    @Override
+                    public Object parseNetworkResponse(okhttp3.Response response, int i1) throws Exception {
+                        String jsonRes=response.body().string();
+//                        LogUtils.logE("okhttp3:",jsonRes);
+
+//                        callback.onResponse(advertBeanList,i1);
+                        return jsonRes;
+                    }
+
+                    @Override
+                    public void onError(okhttp3.Call call, Exception e, int i) {
+                        callback.onError(call,e,i);
+                    }
+
+                    @Override
+                    public String onResponse(Object o, int i) {
+                        callback.onResponse((String) o,i);
+
+                        return null;
+                    }
+                });
+    }
     public static void upLoadFile(File file, String url, Map<String, String> paramsMap, String imageName, final Callback<String> callback) {
         if(!hashkNewwork()){
             return;
@@ -250,148 +289,9 @@ public class ApiClient  {
        }catch (Exception e){
            PgyCrashManager.reportCaughtException(IssueApplication.getContext(), e);
        }
-//        responseListener.onStarted();
-//        Map<String ,String> map=new HashMap<>();
-//        StringBuffer sb = new StringBuffer();
-//        LINE_END = "\r\n";
-//                String params = "";
-//                if (paramsMap != null && paramsMap.size() > 0) {
-//                    Iterator<String> it = paramsMap.keySet().iterator();
-//                    while (it.hasNext()) {
-//                        sb = null;
-//                        sb = new StringBuffer();
-//                        String key = it.next();
-//                        String value = paramsMap.get(key);
-////                        sb.append(PREFIX).append(BOUNDARY).append(LINE_END);
-//                        sb.append("Content-Disposition: form-data; name=\"").append(key).append("\"").append(LINE_END).append(LINE_END);
-//                        sb.append(value).append(LINE_END);
-//                        params = sb.toString();
-////                        dos.write(params.getBytes());
-//                    }
-//                }
-
-     /*   String token= MyShare.get(UIUtils.getContext()).getString(Constance.TOKEN);
-        OkHttpUtils.post().params(paramsMap)
-//                .file(filet)
-                .url(url)
-                .headers(paramsMap)
-                .addHeader("form-data; name=", String.valueOf(paramsMap.get("name")))
-//
-                .addHeader("Content-Disposition"," form-data; name="+paramsMap.get("name"))
-                .addHeader("X-bocang-Authorization",token)
-                .addHeader("Charset","utf-8")
-                .addHeader("connection","keep-alive")
-                .addHeader("Content-Type", "multipart/form-data" + ";boundary=" + UUID.randomUUID().toString())
-//                .addHeader()
-                .build()
-                .execute(new Callback() {
-                    @Override
-                    public Object parseNetworkResponse(Response response, int id) throws Exception {
-                        LogUtils.logE("parse:",response.body().string());
-                        return response.body().toString();
-                    }
-
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public String onResponse(Object response, int id) {
-                        return callback.onResponse((String) response,id);
-                    }
-                });*/
-/*
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-//        //设置类型
-//        builder.setType(MultipartBody.FORM);
-        //追加参数
-
-        paramsMap.put("filename",filet);
-        for (String key : paramsMap.keySet()) {
-            Object object = paramsMap.get(key);
-            if (!(object instanceof File)) {
-                builder.addFormDataPart(key, object.toString());
-            } else {
-                File file = (File) object;
-                builder.addFormDataPart(key, file.getName(), RequestBody.create(null, file));
-            }
-        }
-        OkHttpClient mOkHttpClient=new OkHttpClient();
-        //创建RequestBody
-        RequestBody body = builder.build();
-        //创建Request
-        final Request request = new Request.Builder().url(url).post(body)
-                .addHeader("X-bocang-Authorization",token)
-                .addHeader("filename",filet.getName())
-                .build();
-        //单独设置参数 比如读取超时时间
-
-
-        final Call call = mOkHttpClient.newBuilder().writeTimeout(50, TimeUnit.SECONDS).build().newCall(request);
-        call.enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                callback.onError(call,e,0);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                callback.onResponse(response.body().string(),0);
-            }
-        });*/
-
-//        RequestBody fileBody = RequestBody.create(MediaType.parse("application/octet-stream"), filet);
-//        RequestBody requestBody = new MultipartBody.Builder().addFormDataPart("filename", filet.getName(), fileBody).build();
-//
-//        Request requestPostFile = new Request.Builder()
-//                .url(url)
-//                .addHeader("X-bocang-Authorization",token)
-//                .addHeader("filename",filet.getName())
-//                .addHeader("name",filet.getName())
-//                .post(requestBody)
-//                .build();
-//        mOkHttpClient.newCall(requestPostFile).enqueue(new okhttp3.Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                callback.onError(call,e,0);
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                callback.onResponse(response.body().string(),0);
-//            }
-//        });
-
-
-//        OkHttpUtils.post()
-//                .url(url)
-//                .addHeader("X-bocang-Authorization",token)
-//                .addParams("order", order)
-//                .build()
-//                .execute(new Callback() {
-//                    @Override
-//                    public Object parseNetworkResponse(okhttp3.Response response, int i1) throws Exception {
-//                        String jsonRes=response.body().string();
-//                        LogUtils.logE("okhttp3:",jsonRes);
-//
-////                        callback.onResponse(advertBeanList,i1);
-//                        return jsonRes;
-//                    }
-//
-//                    @Override
-//                    public void onError(okhttp3.Call call, Exception e, int i) {
-//                        callback.onError(call,e,i);
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Object o, int i) {
-//                        callback.onResponse((String) o,i);
-//
-//                    }
-//                });
 
     }
+
 //    public static void SendRequest(String url, final Callback callback){
 //        if(!hashkNewwork()){
 //            return;

@@ -21,8 +21,8 @@ android {
         applicationId 'bc.zhongshuohd.com'
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 14
-        versionName '1.17'
+        versionCode 22
+        versionName '1.25'
         multiDexEnabled true
 
         ndk {
@@ -115,4 +115,5 @@ dependencies {
 
     compile'org.greenrobot:greendao:3.0.1'
     compile'org.greenrobot:greendao-generator:3.0.0'
+    compile 'com.github.zkbutt:XFrag:v1.0.1'
 }

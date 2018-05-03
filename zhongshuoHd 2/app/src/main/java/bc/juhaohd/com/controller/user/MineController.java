@@ -5,14 +5,21 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.zhy.http.okhttp.callback.Callback;
+
 import bc.juhaohd.com.R;
+import bc.juhaohd.com.bean.UserInfo;
 import bc.juhaohd.com.cons.Constance;
 import bc.juhaohd.com.cons.NetWorkConst;
 import bc.juhaohd.com.controller.BaseController;
 import bc.juhaohd.com.listener.INetworkCallBack;
+import bc.juhaohd.com.net.ApiClient;
 import bc.juhaohd.com.ui.activity.IssueApplication;
 import bc.juhaohd.com.ui.activity.SettingActivity;
 import bc.juhaohd.com.ui.activity.SettingNewActivity;
@@ -26,6 +33,7 @@ import bc.juhaohd.com.ui.activity.user.UserLogNewActivity;
 import bc.juhaohd.com.ui.fragment.MineFragment;
 import bc.juhaohd.com.ui.fragment.Home.MineNewFragment;
 import bc.juhaohd.com.utils.ImageLoadProxy;
+import bc.juhaohd.com.utils.MyShare;
 import bc.juhaohd.com.utils.ShareUtil;
 import bc.juhaohd.com.utils.UIUtils;
 import bocang.json.JSONArray;
@@ -36,6 +44,8 @@ import bocang.utils.CommonUtil;
 import bocang.utils.DataCleanUtil;
 import bocang.utils.IntentUtil;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * @author: Jun
@@ -225,7 +235,133 @@ public class MineController extends BaseController implements INetworkCallBack {
      * 获取用户信息
      */
     public void sendUser() {
-        mNetWork.sendUser(this);
+//        mNetWork.sendUser(this);
+        if (IssueApplication.mUserObject != null && IssueApplication.mCount != null && IssueApplication.mCount.length() > 0) {
+            fillUserData();
+        } else {
+
+            ApiClient.sendUser(new Callback<String>() {
+                private int userId;
+                private UserInfo userInfo;
+
+                @Override
+                public String parseNetworkResponse(Response response, int id) throws Exception {
+                    return null;
+                }
+
+                @Override
+                public void onError(Call call, Exception e, int id) {
+
+                }
+
+                @Override
+                public String onResponse(String response, int id) {
+                    JSONObject jsonObject = new JSONObject(response);
+                    if(jsonObject!=null&&jsonObject.getBoolean(Constance.error)){
+                        MyShare.get(mView.getActivity()).putString(Constance.TOKEN,"");
+//                    MyToast.show(mView,""+jsonObject.getString(Constance.error_desc));
+                        return "";
+                    }
+                    IssueApplication.mUserObject = jsonObject.getJSONObject(Constance.user);
+                    IssueApplication.mCount = jsonObject.getJSONArray(Constance.count);
+                    try {
+                        userInfo = new Gson().fromJson(response, UserInfo.class);
+                    } catch (Exception e) {
+                        e = new Exception("mineFragment_userinfo_parse_error:" + response);
+                        PgyCrashManager.reportCaughtException(mView.getActivity(), e);
+                    }
+                    mUserObject=IssueApplication.mUserObject;
+                    String avatar = NetWorkConst.SCENE_HOST + mUserObject.getString(Constance.avatar);
+                    if (!AppUtils.isEmpty(avatar))
+                        ImageLoadProxy.displayHeadIcon(avatar, head_cv);
+
+                    String username = IssueApplication.mUserObject.getString(Constance.username);
+                    String nickName = IssueApplication.mUserObject.getString(Constance.nickname);
+                    String level = IssueApplication.mUserObject.getString(Constance.level);
+                    level_tv.setText(level);
+                    if (AppUtils.isEmpty(nickName)) {
+                        nickname_tv.setText(username);
+                        return null;
+                    } else {
+                        nickname_tv.setText(nickName);
+                    }
+                    JSONArray countArray = jsonObject.getJSONArray("count");
+                    if (countArray == null || countArray.length() == 0) {
+                        return null;
+                    }
+                    String count01 = countArray.get(0).toString();
+                    String count02 = countArray.get(1).toString();
+                    String count03 = countArray.get(2).toString();
+                    nickname_tv.setText(nickName);
+                    unMessageReadTv.setText(countArray.get(0).toString());
+                    unMessageRead02Tv.setText(countArray.get(1).toString());
+                    unMessageRead03Tv.setText(countArray.get(2).toString());
+                    unMessageReadTv.setVisibility(Integer.parseInt(count01) > 0 ? View.VISIBLE : View.GONE);
+                    unMessageRead02Tv.setVisibility(Integer.parseInt(count02) > 0 ? View.VISIBLE : View.GONE);
+                    unMessageRead03Tv.setVisibility(Integer.parseInt(count03) > 0 ? View.VISIBLE : View.GONE);
+
+                    int userId = 0;
+                    if (userInfo != null) {
+                        if (!TextUtils.isEmpty(userInfo.getUser().getParent_id() + "")) {
+
+                            if (userInfo.getUser().getParent_id() == 0) {
+                                userId = userInfo.getUser().getId();
+                                MyShare.get(mView.getActivity()).putInt(Constance.USERCODEID, userId);
+                            } else {
+                                userId = userInfo.getUser().getParent_id();
+                                MyShare.get(mView.getActivity()).putInt(Constance.USERCODEID, userId);
+                            }
+                        }
+                    }
+                    return null;
+                }
+            });
+        }
+    }
+
+    private void fillUserData() {
+        mUserObject=IssueApplication.mUserObject;
+        String avatar = NetWorkConst.SCENE_HOST + mUserObject.getString(Constance.avatar);
+        if (!AppUtils.isEmpty(avatar))
+            ImageLoadProxy.displayHeadIcon(avatar, head_cv);
+
+        String username = IssueApplication.mUserObject.getString(Constance.username);
+        String nickName = IssueApplication.mUserObject.getString(Constance.nickname);
+        String level = IssueApplication.mUserObject.getString(Constance.level);
+//                String levelValue = "";
+//                if (level == 0) {
+//                    levelValue = "一级";
+//                } else if (level == 1) {
+//                    levelValue = "二级";
+//                } else if (level == 2) {
+//                    levelValue = "三级";
+//                } else {
+//                    levelValue = "消费者";
+//                }
+        level_tv.setText(level);
+
+        if (AppUtils.isEmpty(nickName)) {
+            nickname_tv.setText(username);
+//                    IntentUtil.startActivity(mView.getActivity(), PerfectMydataActivity.class, false);
+            return;
+        } else {
+            nickname_tv.setText(nickName);
+        }
+        JSONArray countArray = IssueApplication.mCount;
+        if (countArray == null || countArray.length() == 0) {
+            return;
+        }
+        String count01 = countArray.get(0).toString();
+        String count02 = countArray.get(1).toString();
+        String count03 = countArray.get(2).toString();
+        nickname_tv.setText(nickName);
+        unMessageReadTv.setText(countArray.get(0).toString());
+        unMessageRead02Tv.setText(countArray.get(1).toString());
+        unMessageRead03Tv.setText(countArray.get(2).toString());
+        unMessageReadTv.setVisibility(Integer.parseInt(count01) > 0 ? View.VISIBLE : View.GONE);
+        unMessageRead02Tv.setVisibility(Integer.parseInt(count02) > 0 ? View.VISIBLE : View.GONE);
+        unMessageRead03Tv.setVisibility(Integer.parseInt(count03) > 0 ? View.VISIBLE : View.GONE);
+
     }
 
     /**

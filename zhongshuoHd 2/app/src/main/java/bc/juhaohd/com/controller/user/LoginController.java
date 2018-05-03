@@ -98,9 +98,7 @@ public class LoginController extends BaseController implements INetworkCallBack 
                             IntentUtil.startActivity(mView, HomeShowNewActivity.class, true);
 //                            SendTokenAdd();
                         }
-
                     }
-
                     @Override
                     public void onFailureListener(String requestCode, com.alibaba.fastjson.JSONObject ans) {
                         if(ans==null)return;

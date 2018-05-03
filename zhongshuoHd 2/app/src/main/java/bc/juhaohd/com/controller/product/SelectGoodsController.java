@@ -366,22 +366,29 @@ public class SelectGoodsController extends BaseController implements INetworkCal
                 String name=goodses.getJSONObject(position).getString(Constance.name);
                 holder.textView.setText(name);
 //                holder.imageView.setImageResource(R.drawable.bg_default);
-                ImageLoader.getInstance().displayImage(goodses.getJSONObject(position).getJSONObject(Constance.default_photo).getString(Constance.large)
+                ImageLoader.getInstance().displayImage(goodses.getJSONObject(position).getJSONObject(Constance.default_photo).getString(Constance.thumb)
                         , holder.imageView);
 
                 JSONArray propertieArray = goodses.getJSONObject(position).getJSONArray(Constance.properties);
+                int currentP=0;
+                for(int i=0;i<propertieArray.length();i++){
+                    if(propertieArray.getJSONObject(i).getString(Constance.name).equals("规格")){
+                        currentP=i;
+                        break;
+                    }
+                }
                 if(!AppUtils.isEmpty(propertieArray)){
-                    JSONArray attrsArray = propertieArray.getJSONObject(0).getJSONArray(Constance.attrs);
-                    int price = attrsArray.getJSONObject(0).getInt(Constance.attr_price);
-                    double oldPrice=Double.parseDouble(goodses.getJSONObject(position).getString(Constance.price))+price;
-                    double currentPrice=Double.parseDouble(goodses.getJSONObject(position).getString(Constance.current_price))+price;
-                    holder.old_price_tv.setText("￥" + oldPrice);
+                    JSONArray attrsArray = propertieArray.getJSONObject(currentP).getJSONArray(Constance.attrs);
+//                    int price = attrsArray.getJSONObject(0).getInt(Constance.attr_price);
+                    String oldPrice=goodses.getJSONObject(position).getString(Constance.price);
+                    String currentPrice=getLevelPrice(attrsArray,0);
+                    holder.old_price_tv.setText("原价：￥" + oldPrice);
                     holder.old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                    holder.price_tv.setText("￥" + currentPrice);
+                    holder.price_tv.setText("代理价：￥" + currentPrice);
                 }else{
-                    holder.old_price_tv.setText("￥" + goodses.getJSONObject(position).getString(Constance.price));
+                    holder.old_price_tv.setText("原价：￥" + goodses.getJSONObject(position).getString(Constance.price));
                     holder.old_price_tv.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                    holder.price_tv.setText("￥" + goodses.getJSONObject(position).getString(Constance.current_price));
+                    holder.price_tv.setText("代理价：￥" + goodses.getJSONObject(position).getString(Constance.current_price));
                 }
                 holder.check_iv.setVisibility(View.GONE);
                 if(mView.isSelectGoods==true){
@@ -409,6 +416,31 @@ public class SelectGoodsController extends BaseController implements INetworkCal
             TextView price_tv;
 
         }
+    }
+
+    private String getLevelPrice(JSONArray attrsArray, int y) {
+        String levelid="";
+
+        bocang.json.JSONObject mUser=IssueApplication.mUserObject;
+        if(mUser!=null&&mUser.length()>0){
+            levelid=IssueApplication.mUserObject.getString(Constance.level_id);
+        }
+        String price;
+        if(levelid.equals("104"))
+        {
+            price=attrsArray.getJSONObject(y).getString(Constance.attr_price_5);
+        }else if(levelid.equals("103")){
+            price=attrsArray.getJSONObject(y).getString(Constance.attr_price_4);
+        }else if(levelid.equals("102")){
+            price=attrsArray.getJSONObject(y).getString(Constance.attr_price_3);
+        }else if(levelid.equals("101")){
+            price=attrsArray.getJSONObject(y).getString(Constance.attr_price_2);
+        }else if(levelid.equals("100")){
+            price=attrsArray.getJSONObject(y).getString(Constance.attr_price_1);
+        }else {
+            price=attrsArray.getJSONObject(y).getString(Constance.attr_price_5);
+        }
+        return price;
     }
     public void showSkuDialo(final int position) {
 //    }
@@ -465,7 +497,10 @@ public class SelectGoodsController extends BaseController implements INetworkCal
 //            propertyArray[x]=propertiesList.get(x).getName();
 //        }
 //        tv_dialog_no.setText("商品编号：" + goodsDetail.getProductInfo().getPid());
-        String imgUrl=NetWorkConst.SCENE_HOST+propertiesList.getJSONObject(0).getJSONArray(Constance.attrs).getJSONObject(currentAttr[0]).getString(Constance.img);
+//        if(currentAttr[0]>=propertiesList.getJSONObject(0).getJSONArray(Constance.attrs).length()){
+//            currentAttr[0]=propertiesList.getJSONObject(0).getJSONArray(Constance.attrs).length()-1;
+//        }
+        String imgUrl=NetWorkConst.SCENE_HOST+propertiesList.getJSONObject(currentProperty).getJSONArray(Constance.attrs).getJSONObject(currentAttr[0]).getString(Constance.img);
 
         ImageLoader.getInstance().displayImage(imgUrl, iv_dialog_goods);
         btn_dialog_add_to_sc.setOnClickListener(new View.OnClickListener() {
@@ -486,8 +521,11 @@ public class SelectGoodsController extends BaseController implements INetworkCal
                 }
             }
                 goodses.getJSONObject(position).add(Constance.c_property,mProperty[0]);
-                String url=NetWorkConst.SCENE_HOST+propertiesList.getJSONObject(currentProperty).getJSONArray(Constance.attrs).getJSONObject(currentAttr[0]).getString(Constance.img);
-                if(url==null)url=goodses.getJSONObject(position).getJSONObject(Constance.app_img).getString(Constance.img);
+                String url=propertiesList.getJSONObject(currentProperty).getJSONArray(Constance.attrs).getJSONObject(currentAttr[0]).getString(Constance.img);
+                if("".equals(url)){url=goodses.getJSONObject(position).getJSONObject(Constance.app_img).getString(Constance.img);
+                }else {
+                    url=NetWorkConst.SCENE_HOST+url;
+                }
                 goodses.getJSONObject(position).add(Constance.c_url,url);
                 goodses.getJSONObject(position).add(Constance.c_position,currentAttr[0]);
             IssueApplication.mSelectProducts.add(goodses.getJSONObject(position));
@@ -680,6 +718,7 @@ public class SelectGoodsController extends BaseController implements INetworkCal
             ll_skulist.addView(linearLayouts.get(finalI), llps);
         }
         tvListList.get(0).get(currentAttr[0]).performClick();
+//        btn_dialog_add_to_sc.performClick();
 //            sendGoShoppingCart(goodsDetailZsBean.getId()+"",mView.mProperty, Integer.parseInt(et_num.getText().toString()));
     }
 

@@ -13,6 +13,6 @@
     android:gravity="center"
     android:lines="1"
     android:layout_margin="@dimen/xx25"
-    android:layout_width="@dimen/xx200"
+    android:layout_width="@dimen/xx250"
     android:layout_height="@dimen/xx56" />
 </LinearLayout>

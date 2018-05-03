@@ -48,6 +48,7 @@ public class IssueApplication extends BaseApplication {
     public static List<BaseActivity> baseActivities;
     public static boolean noAd=false;
     private static DisplayImageOptions options;
+    public static JSONArray mCount;
 
 
     @Override
@@ -65,10 +66,12 @@ public class IssueApplication extends BaseApplication {
         noAd=false;
 //        CrashHandler.getInstance().init(this,this);
         JAnalyticsInterface.init(mContext);
-        JAnalyticsInterface.initCrashHandler(mContext);
-        SdkRunningClient.getInstance().initAndLoginSdk(getApplicationContext(),"196417",
-                "168e5ed4-d961-4230-a72c-696343615e17",initUiCustomOptions());
-        initOption();
+//        JAnalyticsInterface.initCrashHandler(mContext);
+//        try{SdkRunningClient.getInstance().initAndLoginSdk(getApplicationContext(),"196417",
+//                "168e5ed4-d961-4230-a72c-696343615e17",initUiCustomOptions());
+//        initOption();}catch (Exception e){
+//
+//        }
 
     }
 
@@ -208,7 +211,7 @@ public class IssueApplication extends BaseApplication {
         }
     }
 
-    public void restartApp(){
+    public static void restartApp(){
         Intent intent = new Intent(mContext,HomeShowNewActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);

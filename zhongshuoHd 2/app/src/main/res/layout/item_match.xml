@@ -50,7 +50,7 @@
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/xx350"
+        android:layout_height="@dimen/xx450"
         android:gravity="center">
         <ImageView
             android:id="@+id/match_iv"
@@ -89,7 +89,7 @@
             />
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/xx30"
+            android:layout_height="wrap_content"
             android:gravity="center_vertical"
             >
             <TextView

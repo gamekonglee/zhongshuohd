@@ -126,6 +126,7 @@
             android:layout_height="1dp"/>
         <ScrollView
             android:background="#ffffff"
+            android:layout_marginBottom="@dimen/xx80"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -215,6 +216,7 @@
         android:textSize="@dimen/ss36"
         android:textColor="#fff"
         android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/xx80"
         android:gravity="center"
         android:background="@color/orange_theme"
         android:layout_width="match_parent"
